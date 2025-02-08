@@ -1,0 +1,155 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model IdGenerator {
+  collectionName String @id @map("_id")
+  id             Int
+}
+
+model User {
+  mid     String   @id @default(auto()) @map("_id") @db.ObjectId
+  id      Int?     @unique
+  email   String   @unique
+  name    String
+  pass    String?  @default("mudar123")
+  phone   String?
+  login   String?
+  role    Role?
+  storeId String?
+  active  Boolean? @default(true)
+
+  architects    Architect[]
+  managerStores Store[]
+}
+
+model Store {
+  mid       String  @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int?    @unique
+  name      String
+  email     String? @unique
+  cep       String?
+  address   String?
+  district  String?
+  city      String?
+  region    String?
+  phone1    String?
+  phone2    String?
+  obs       String?
+  managerId String? @db.ObjectId
+
+  manager User? @relation(fields: [managerId], references: [mid])
+}
+
+model Architect {
+  mid         String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          Int?      @unique
+  name        String
+  nameFilter String?
+  cpf         String?
+  nasc        DateTime?
+  email       String?   @unique
+  cep         String?
+  address     String?
+  district    String?
+  city        String?
+  region      String?
+  phone1      String?
+  phone2      String?
+  obs         String?
+  active      Boolean?  @default(true)
+  sellerId    String?   @db.ObjectId
+
+  seller  User?    @relation(fields: [sellerId], references: [mid])
+  clients Client[]
+}
+
+model Client {
+  mid              String             @id @default(auto()) @map("_id") @db.ObjectId
+  id               Int?               @unique
+  name             String
+  nameFilter       String?
+  cpf              String?
+  rg               String?
+  nasc             DateTime?
+  occupation       String?
+  email            String?
+  cep              String?
+  address          String?
+  district         String?
+  city             String?
+  region           String?
+  phone1           String?
+  phone2           String?
+  obs              String?
+  active           Boolean?           @default(true)
+  interestProducts InterestProducts[]
+  origins          Origins[]
+  createdAt        DateTime           @default(now())
+  architectID      String?            @db.ObjectId
+
+  architect Architect? @relation(fields: [architectID], references: [mid])
+}
+
+model Supplier {
+  mid        String         @id @default(auto()) @map("_id") @db.ObjectId
+  id         Int?           @unique
+  name       String
+  nameFilter String?
+  cpnj       String?        @unique
+  im         String?
+  ie         String?
+  email      String?
+  cep        String?
+  address    String?
+  district   String?
+  city       String?
+  region     String?
+  phone1     String?
+  phone2     String?
+  obs        String?
+  active     Boolean?       @default(true)
+  type       SuppliersTypes
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  SALES
+  OPERATIONAL
+  FINANCE
+}
+
+enum Origins {
+  friends
+  architect
+  internet
+  relatives
+  radio
+  socialNetwork
+  tv
+}
+
+enum InterestProducts {
+  cushion
+  carpet
+  curtain
+  mirror
+  others
+  wallpaper
+  blind
+  floor
+  mat
+  awning
+}
+
+enum SuppliersTypes {
+  PRODUCT
+  SERVICE
+}

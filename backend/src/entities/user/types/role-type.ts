@@ -1,0 +1,15 @@
+export enum RoleType {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  SALES = 'SALES',
+  OPERATIONAL = 'OPERATIONAL',
+  FINANCE = 'FINANCE',
+}
+
+export const RoleTypeTranslated = {
+  ADMIN: 'ADMININSTRADOR',
+  MANAGER: 'GERENTE',
+  SALES: 'VENDAS',
+  OPERATIONAL: 'OPERACIONAL',
+  FINANCE: 'FINANCEIRO',
+};
