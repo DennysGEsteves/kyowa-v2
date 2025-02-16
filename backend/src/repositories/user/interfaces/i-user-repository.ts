@@ -4,7 +4,7 @@ import { UserDB } from '../types/';
 export abstract class IUserRepository {
   abstract create(user: UserEntity): Promise<UserDB>;
   abstract update(user: UserEntity): Promise<UserDB>;
-  abstract delete(userId: string): Promise<void>;
+  abstract changeActiveValue(userId: number, active: boolean): Promise<void>;
   abstract findAll(): Promise<UserDB[]>;
   abstract findByEmail(email: string): Promise<UserDB>;
 }

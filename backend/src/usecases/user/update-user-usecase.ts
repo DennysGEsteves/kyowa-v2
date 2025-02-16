@@ -8,8 +8,8 @@ import { IUserRepository } from 'src/repositories/user/interfaces/i-user-reposit
 export class UpdateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  async execute(dto: UpsertUserDTO, userId: number): Promise<UserEntity> {
-    const user = UserMapper.fromUpsertUserDTO(dto, userId);
+  async execute(dto: UpsertUserDTO): Promise<UserEntity> {
+    const user = UserMapper.fromUpsertUserDTO(dto);
     await this.userRepository.update(user);
     return user;
   }

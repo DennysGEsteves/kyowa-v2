@@ -2,7 +2,9 @@
 
 import { FormModal } from "@/components";
 import {
+  FormBtnAction,
   FormBtnCancel,
+  FormBtnDanger,
   FormBtnSubmit,
   FormInput,
   FormSelect,
@@ -20,6 +22,9 @@ export type UpsertUserModalType = {
 
 export const UpsertUserModal = (props: UpsertUserModalType) => {
   const { data, methods } = useLogic(props);
+
+  const ChangeActiveValueBtn = data.isActive ? FormBtnDanger : FormBtnAction;
+
   return (
     <FormModal
       isOpen={props.openModal}
@@ -35,7 +40,9 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               name="name"
               control={data.control}
               rules={{ required: true }}
-              render={({ field }) => <FormInput label="Nome" {...field} />}
+              render={({ field }) => (
+                <FormInput label="Nome" error={data.errors.name} {...field} />
+              )}
             />
           </div>
           <div className="md:flex md:items-center">
@@ -43,7 +50,9 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               name="email"
               control={data.control}
               rules={{ required: true }}
-              render={({ field }) => <FormInput label="Email" {...field} />}
+              render={({ field }) => (
+                <FormInput error={data.errors.email} label="Email" {...field} />
+              )}
             />
           </div>
           <div className="md:flex md:items-center">
@@ -51,7 +60,13 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               name="phone"
               control={data.control}
               rules={{ required: true }}
-              render={({ field }) => <FormInput label="Telefone" {...field} />}
+              render={({ field }) => (
+                <FormInput
+                  label="Telefone"
+                  error={data.errors.phone}
+                  {...field}
+                />
+              )}
             />
           </div>
           <div className="md:flex md:items-center">
@@ -59,7 +74,9 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               name="login"
               control={data.control}
               rules={{ required: true }}
-              render={({ field }) => <FormInput label="Login" {...field} />}
+              render={({ field }) => (
+                <FormInput label="Login" error={data.errors.login} {...field} />
+              )}
             />
           </div>
           <div className="md:flex md:items-center">
@@ -70,13 +87,14 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               render={({ field }) => (
                 <FormSelect
                   label="Nível"
+                  error={data.errors.role}
                   options={[
                     {
-                      value: "admin",
+                      value: "ADMIN",
                       label: "Admin",
                     },
                     {
-                      value: "user",
+                      value: "USER",
                       label: "Usuário",
                     },
                   ]}
@@ -93,6 +111,7 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               render={({ field }) => (
                 <FormSelect
                   label="Loja"
+                  error={data.errors.storeId}
                   options={[
                     {
                       value: "f0ewevvsdjvsjdv",
@@ -108,11 +127,23 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               )}
             />
           </div>
+          <div className="mt-8 flex justify-center">
+            <div className="md:w-52">
+              <ChangeActiveValueBtn
+                label={`${data.isActive ? "Inativar" : "Ativar"} usuário`}
+                onClick={() => {
+                  methods.handleChangeUserActiveStatus(
+                    props.user?.id as number,
+                  );
+                }}
+              />
+            </div>
+          </div>
         </FormModal.Body>
         <FormModal.Footer>
           <div className="w-full gap-4 md:flex md:items-center">
             <div className="md:w-1/2">
-              <FormBtnCancel onClose={() => props.setOpenModal(false)} />
+              <FormBtnCancel onClick={() => props.setOpenModal(false)} />
             </div>
             <div className="md:w-1/2">
               <FormBtnSubmit

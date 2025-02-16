@@ -1,5 +1,9 @@
+import type { FieldError } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+
 export type FormInputProps = {
   label: string;
+  error?: FieldError | undefined;
   options: {
     value: string;
     label: string;
@@ -17,12 +21,16 @@ const FormSelect = ({ label, options, ...props }: FormInputProps) => {
           {label}
         </label>
       </div>
-      <div className="w-full">
+      <div className="w-80">
         <select
-          className="w-full appearance-none rounded border-2 border-gray-200  px-4 py-2 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+          className={twMerge(
+            "w-full appearance-none rounded border-2 border-gray-200  px-4 py-2 leading-tight text-gray-700 focus:bg-white focus:outline-none",
+            props.error ? "border border-red-500 bg-red-50" : "",
+          )}
           id={label}
           {...props}
         >
+          <option value=""></option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -30,6 +38,11 @@ const FormSelect = ({ label, options, ...props }: FormInputProps) => {
           ))}
         </select>
       </div>
+      {props.error && (
+        <div className="md:w-28">
+          <p className="ml-5 text-sm text-red-400">* obrigatório</p>
+        </div>
+      )}
     </div>
   );
 };

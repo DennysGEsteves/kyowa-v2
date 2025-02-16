@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from 'src/entities';
 import { UserMapper } from 'src/adapters/mappers/user';
-import { UpsertUserDTO } from 'src/controllers/user/dtos';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
+import { UpsertUserDTO } from 'src/graphql/user/dto';
 // import { REQUEST } from '@nestjs/core';
 
 @Injectable()

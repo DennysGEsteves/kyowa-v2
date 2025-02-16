@@ -13,7 +13,7 @@ import {
   GetUsersUseCase,
   CreateUserUseCase,
   UpdateUserUseCase,
-  DeleteUserUseCase,
+  InactiveUserUseCase,
 } from 'src/usecases/user';
 import { AuthGuard } from 'src/http/middlewares/auth/auth-guard';
 import { RoleType } from 'src/entities/user/types';
@@ -27,7 +27,7 @@ export class UserController {
     private readonly getUsersUseCase: GetUsersUseCase,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
-    private readonly deleteUserUseCase: DeleteUserUseCase,
+    private readonly deleteUserUseCase: InactiveUserUseCase,
   ) {}
 
   @Get()
@@ -42,11 +42,11 @@ export class UserController {
 
   @Put('/:userId')
   updateUser(@Param() params: { userId: string }, @Body() dto: UpsertUserDTO) {
-    return this.updateUserUseCase.execute(dto, Number(params.userId));
+    return this.updateUserUseCase.execute(dto);
   }
 
   @Delete('/:userId')
-  deleteUser(@Param() params: { userId: string }) {
+  deleteUser(@Param() params: { userId: number }) {
     return this.deleteUserUseCase.execute(params.userId);
   }
 }

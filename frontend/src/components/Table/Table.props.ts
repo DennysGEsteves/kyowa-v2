@@ -11,4 +11,5 @@ export type TableComponentType = {
   columns: TableColumnsType[];
   data: Record<string, any>;
   search: true;
+  pagination?: boolean;
 };

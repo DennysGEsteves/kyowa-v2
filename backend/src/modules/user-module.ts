@@ -3,7 +3,7 @@ import {
   CreateUserUseCase,
   GetUsersUseCase,
   UpdateUserUseCase,
-  DeleteUserUseCase,
+  InactiveUserUseCase,
 } from 'src/usecases/user';
 import { UserController } from 'src/controllers/user/user-controller';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
@@ -16,7 +16,7 @@ import { UserRepository } from 'src/repositories/user/user-repository';
     CreateUserUseCase,
     GetUsersUseCase,
     UpdateUserUseCase,
-    DeleteUserUseCase,
+    InactiveUserUseCase,
     { provide: IUserRepository, useClass: UserRepository },
   ],
   exports: [IUserRepository],

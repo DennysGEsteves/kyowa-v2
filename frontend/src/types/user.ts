@@ -6,11 +6,11 @@ export type User = {
   role: Role;
   token: string;
   status?: string;
-  id?: 99999999;
-  phone?: null;
-  login?: null;
-  storeId?: null;
-  active?: true;
-  architects?: [];
-  managerStores?: [];
+  id?: number;
+  phone?: string;
+  login?: string;
+  storeId?: string;
+  active?: boolean;
+  // architects?: a;
+  // managerStores?: [];
 };

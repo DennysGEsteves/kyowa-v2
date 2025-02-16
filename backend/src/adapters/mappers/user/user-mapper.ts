@@ -7,9 +7,9 @@ import { StoreDB } from 'src/repositories/store/type';
 import { ArchitectDB } from 'src/repositories/architect/types';
 
 export class UserMapper {
-  static fromUpsertUserDTO(dto: UpsertUserDTO, userId?: number): UserEntity {
+  static fromUpsertUserDTO(dto: UpsertUserDTO): UserEntity {
     return new UserEntity({
-      ...(userId ? { id: userId } : {}),
+      ...(dto.id ? { id: dto.id } : {}),
       name: dto.name,
       email: dto.email,
       phone: dto.phone,

@@ -1,9 +1,9 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class GetUsersDTO {
-  @Field(() => ID)
-  id: number;
+  @Field(() => Int)
+  public readonly id: number;
 
   @Field()
   public readonly email: string;

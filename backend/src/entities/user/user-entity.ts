@@ -1,4 +1,4 @@
-import { Field, HideField, ID, ObjectType } from '@nestjs/graphql';
+import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
 import { ArchitectEntity } from '../architect';
 import { StoreEntity } from '../store';
 import { RoleType } from './types';
@@ -20,7 +20,7 @@ interface IConstructorParams {
 
 @ObjectType()
 export class UserEntity {
-  @Field(() => ID)
+  @Field(() => Int)
   public readonly id?: number;
 
   @Field()

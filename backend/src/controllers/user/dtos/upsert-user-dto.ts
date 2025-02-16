@@ -1,8 +1,18 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { RoleType } from 'src/entities/user/types';
 import { IsValidEnum } from 'src/util/is-valid-enum/is-valid-enum';
 
 export class UpsertUserDTO {
+  @IsNotEmpty()
+  @IsNumber()
+  readonly id?: number;
+
   @IsNotEmpty()
   @IsString()
   readonly name: string;

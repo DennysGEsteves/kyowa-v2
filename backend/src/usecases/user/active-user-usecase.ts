@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
 
 @Injectable()
-export class DeleteUserUseCase {
+export class ActiveUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  async execute(userId: string): Promise<void> {
-    return this.userRepository.delete(userId);
+  async execute(userId: number): Promise<void> {
+    return this.userRepository.changeActiveValue(userId, true);
   }
 }

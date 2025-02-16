@@ -1,32 +1,64 @@
-import { useRepository } from "@/repositories/repositories.hook";
-import { useQueryClient } from "@tanstack/react-query";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GET_USERS_REVALIDATE_TAG } from "../Users.props";
-import type { IForm } from "./UpsertUserModal.scheme";
+import UserResolvers from "../Users.gql";
+import type { IForm } from "./UpsertUserModal.schema";
 import type { UpsertUserModalType } from "./UpsertUserModal.view";
 
 export const useLogic = (props: UpsertUserModalType) => {
   const {
     control,
     handleSubmit,
-    formState: { isLoading, errors },
+    formState: { errors },
     reset,
+    clearErrors,
   } = useForm<IForm>({
     defaultValues: {},
   });
 
-  const { usersRepository } = useRepository();
-  const queryClient = useQueryClient();
+  const isActive = props.user && props.user.active;
+
+  const [upsertUser, { loading, client }] = useMutation(
+    props.user?.id ? UserResolvers.UPDATE_USER : UserResolvers.CREATE_USER,
+  );
+
+  const [changeUserActiveValue] = useMutation(
+    isActive ? UserResolvers.INACTIVE_USER : UserResolvers.ACTIVE_USER,
+  );
+
+  const handleChangeUserActiveStatus = (userId: number) => {
+    changeUserActiveValue({
+      variables: {
+        userId,
+      },
+    }).then(() => {
+      client.refetchQueries({
+        include: ["GetUsers"],
+      });
+      props.setOpenModal(false);
+    });
+  };
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    console.log(data);
-    usersRepository
-      .upsertUser(data)
+    upsertUser({
+      variables: {
+        input: {
+          ...(props.user?.id ? { id: props.user.id } : {}),
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          storeId: data.storeId,
+          role: data.role,
+          login: data.login,
+        },
+      },
+    })
       .then(() => {
-        queryClient.invalidateQueries({ queryKey: [GET_USERS_REVALIDATE_TAG] });
-        reset();
+        client.refetchQueries({
+          include: ["GetUsers"],
+        });
         props.setOpenModal(false);
       })
       .catch((e) => {
@@ -35,19 +67,24 @@ export const useLogic = (props: UpsertUserModalType) => {
   };
 
   useEffect(() => {
-    //
-  }, []);
+    clearErrors();
 
-  console.log(errors);
+    if (props.user) {
+      reset({ ...props.user });
+    }
+  }, [props.openModal]);
 
   return {
     data: {
       control,
-      isLoading,
+      isLoading: loading,
+      errors,
+      isActive,
     },
     methods: {
       handleSubmit,
       onSubmit,
+      handleChangeUserActiveStatus,
     },
   };
 };

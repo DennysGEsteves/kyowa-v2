@@ -63,13 +63,13 @@ export class UserRepository implements IUserRepository {
     });
   }
 
-  async delete(userId: string): Promise<void> {
+  async changeActiveValue(userId: number, isActive: boolean): Promise<void> {
     await this.db.update({
       where: {
         id: userId,
       },
       data: {
-        active: false,
+        active: isActive,
       },
     });
   }
