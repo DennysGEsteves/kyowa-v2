@@ -129,18 +129,20 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
               )}
             />
           </div>
-          <div className="mt-8 flex justify-center">
-            <div className="md:w-52">
-              <ChangeActiveValueBtn
-                label={`${data.isUserActive ? "Inativar" : "Ativar"} usuário`}
-                onClick={() => {
-                  methods.handleChangeUserActiveStatus(
-                    props.user?.id as number,
-                  );
-                }}
-              />
+          {props.user && (
+            <div className="mt-8 flex justify-center">
+              <div className="md:w-52">
+                <ChangeActiveValueBtn
+                  label={`${data.isUserActive ? "Inativar" : "Ativar"} usuário`}
+                  onClick={() => {
+                    methods.handleChangeUserActiveStatus(
+                      props.user?.id as number,
+                    );
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </FormModal.Body>
         <FormModal.Footer>
           <div className="w-full gap-4 md:flex md:items-center">
