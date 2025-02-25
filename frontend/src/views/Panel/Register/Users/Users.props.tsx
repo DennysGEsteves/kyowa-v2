@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { EditIcon } from "@/components/Icons";
-import type { User } from "@/types/user";
+import { RoleTypeTranslated, type User } from "@/types/user";
 import type { Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -9,6 +9,8 @@ type TableColumnsType = {
   setModalUser: Dispatch<SetStateAction<User | undefined>>;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
 };
+
+export const GET_USERS_REFETCH_TAG = "GET_USERS";
 
 export const tableColumns = (props: TableColumnsType) => {
   return [
@@ -23,6 +25,9 @@ export const tableColumns = (props: TableColumnsType) => {
     {
       accessorKey: "role",
       title: "Nível",
+      render: (user: User) => {
+        return <span className="">{RoleTypeTranslated[user.role]}</span>;
+      },
     },
     {
       accessorKey: "store",
@@ -42,7 +47,7 @@ export const tableColumns = (props: TableColumnsType) => {
                   : "bg-red-500/20 text-red-900",
               )}
             >
-              <span className="">{user.status}</span>
+              <span className="">{user.active ? "ATIVO" : "INATIVO"}</span>
             </div>
           </div>
         );

@@ -1,16 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import { useUserContext } from "@/context/UserContext";
+import { useAuthContext } from "@/context/Auth.context";
+import type { NormalizedCacheObject } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { useCallback } from "react";
-import AuthRepository from "./Auth/Auth.repository";
+import UsersRepository from "./Users/users.repository";
 
-export interface IRepositoryRequirements {
-  baseUrl: string;
-  headers?: Record<string, string>;
-}
+export type IApolloClient = ApolloClient<NormalizedCacheObject>;
+
+const httpLink = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_API_BASE_URL,
+});
 
 export function useRepository() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL as string;
+  const token = useAuthContext();
+
+  const client = useCallback(() => {
+    const authLink = setContext(async (_, { headers }) => {
+      return {
+        headers: {
+          ...headers,
+          authorization: token ? `Bearer ${token}` : "",
+        },
+      };
+    });
+
+    return new ApolloClient({
+      link: authLink.concat(httpLink),
+      cache: new InMemoryCache(),
+    });
+  }, [token]);
 
   return {
-    authRepository: useCallback(() => AuthRepository({ baseUrl }), [baseUrl])(),
+    usersRepository: useCallback(() => UsersRepository(client()), [token])(),
   };
 }

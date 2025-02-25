@@ -4,6 +4,7 @@ import { useLogic } from "./Login.logic";
 
 export default function LoginView() {
   const { methods } = useLogic();
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
@@ -26,7 +27,7 @@ export default function LoginView() {
             </h1>
             <form
               className="space-y-4 md:space-y-6"
-              action={methods.loginAction}
+              action={methods.useLoginAction}
             >
               <div>
                 <label

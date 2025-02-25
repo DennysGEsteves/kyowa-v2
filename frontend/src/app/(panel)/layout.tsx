@@ -1,17 +1,23 @@
+import { AuthProvider } from "@/context/Auth.context";
 import { SidebarProvider } from "@/context/Sidebar.context";
-import UserProviderWrapper from "@/context/User.wrapper";
+import { UserProvider } from "@/context/User.context";
 import LayoutContent from "@/layout/Layout";
+import { getUser } from "@/services/Session/Session";
 
 export default async function PanelLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getUser();
+
   return (
     <SidebarProvider>
-      <UserProviderWrapper>
-        <LayoutContent>{children}</LayoutContent>
-      </UserProviderWrapper>
+      <UserProvider user={user}>
+        <LayoutContent>
+          <AuthProvider token={user?.token}>{children}</AuthProvider>
+        </LayoutContent>
+      </UserProvider>
     </SidebarProvider>
   );
 }

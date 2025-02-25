@@ -1,25 +1,21 @@
+import AuthRepository from "@/repositories/Auth/Auth.repository";
 import { saveSession } from "@/services/Session/Session";
 import { redirect } from "next/navigation";
 
 export function useLogic() {
-  async function loginAction(formData: FormData) {
+  async function useLoginAction(formData: FormData) {
     "use server";
 
     const { email, password } = Object.fromEntries(formData);
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      },
-    );
+    const { signin } = AuthRepository();
 
-    if (response.ok) {
-      const { access_token } = await response.json();
+    const access_token = await signin({
+      email: email as string,
+      password: password as string,
+    });
+
+    if (access_token) {
       await saveSession(access_token);
       redirect("/");
     }
@@ -27,7 +23,7 @@ export function useLogic() {
 
   return {
     methods: {
-      loginAction,
+      useLoginAction,
     },
   };
 }

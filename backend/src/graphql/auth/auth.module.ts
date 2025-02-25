@@ -1,14 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserResolver } from './user.resolver';
-import {
-  CreateUserUseCase,
-  InactiveUserUseCase,
-  GetUsersUseCase,
-  UpdateUserUseCase,
-  ActiveUserUseCase,
-} from 'src/usecases/user';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
 import { UserRepository } from 'src/repositories/user/user-repository';
+import { SignInUseCase } from 'src/usecases/auth/signin-usecase';
+import { AuthResolver } from './auth.resolver';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -19,13 +13,9 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   providers: [
-    UserResolver,
-    CreateUserUseCase,
-    GetUsersUseCase,
-    UpdateUserUseCase,
-    InactiveUserUseCase,
-    ActiveUserUseCase,
+    AuthResolver,
+    SignInUseCase,
     { provide: IUserRepository, useClass: UserRepository },
   ],
 })
-export class UserModule {}
+export class AuthModule {}

@@ -5,11 +5,3 @@ export enum RoleType {
   OPERATIONAL = 'OPERATIONAL',
   FINANCE = 'FINANCE',
 }
-
-export const RoleTypeTranslated = {
-  ADMIN: 'ADMININSTRADOR',
-  MANAGER: 'GERENTE',
-  SALES: 'VENDAS',
-  OPERATIONAL: 'OPERACIONAL',
-  FINANCE: 'FINANCEIRO',
-};

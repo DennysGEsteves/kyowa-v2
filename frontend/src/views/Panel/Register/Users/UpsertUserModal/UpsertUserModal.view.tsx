@@ -23,7 +23,9 @@ export type UpsertUserModalType = {
 export const UpsertUserModal = (props: UpsertUserModalType) => {
   const { data, methods } = useLogic(props);
 
-  const ChangeActiveValueBtn = data.isActive ? FormBtnDanger : FormBtnAction;
+  const ChangeActiveValueBtn = data.isUserActive
+    ? FormBtnDanger
+    : FormBtnAction;
 
   return (
     <FormModal
@@ -94,8 +96,8 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
                       label: "Admin",
                     },
                     {
-                      value: "USER",
-                      label: "Usuário",
+                      value: "MANAGER",
+                      label: "Gerente",
                     },
                   ]}
                   {...field}
@@ -130,7 +132,7 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
           <div className="mt-8 flex justify-center">
             <div className="md:w-52">
               <ChangeActiveValueBtn
-                label={`${data.isActive ? "Inativar" : "Ativar"} usuário`}
+                label={`${data.isUserActive ? "Inativar" : "Ativar"} usuário`}
                 onClick={() => {
                   methods.handleChangeUserActiveStatus(
                     props.user?.id as number,

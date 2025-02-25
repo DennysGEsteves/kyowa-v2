@@ -1,4 +1,3 @@
-import { ApolloWrapper } from "@/context/GraphQL.wrapper";
 import { Flowbite, ThemeModeScript } from "flowbite-react";
 import { Inter } from "next/font/google";
 import { type FC, type PropsWithChildren } from "react";
@@ -16,7 +15,7 @@ const RootLayout: FC<PropsWithChildren> = function ({ children }) {
       </head>
       <body className={twMerge("bg-gray-50 dark:bg-gray-100", inter.className)}>
         <Flowbite theme={{ theme: flowbiteTheme, mode: "dark" }}>
-          <ApolloWrapper>{children}</ApolloWrapper>
+          {children}
         </Flowbite>
       </body>
     </html>

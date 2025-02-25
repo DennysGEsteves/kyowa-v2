@@ -1,15 +1,9 @@
 "use client";
 
-import { Role } from "@/types/roles";
 import type { User } from "@/types/user";
 import { createContext, useContext, type ReactNode } from "react";
 
-const UserContext = createContext<User | null>({
-  name: "Dennys",
-  email: "dennys@teste",
-  role: Role.ADMIN,
-  token: "123",
-});
+const UserContext = createContext<User | null>(null);
 
 export const UserProvider = ({
   children,
@@ -18,16 +12,7 @@ export const UserProvider = ({
   children: ReactNode;
   user: User | null;
 }) => {
-  const userData = {
-    name: "Dennys",
-    email: "dennys@teste",
-    role: Role.ADMIN,
-    token: "123",
-  };
-
-  return (
-    <UserContext.Provider value={userData}>{children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 export const useUserContext = () => {

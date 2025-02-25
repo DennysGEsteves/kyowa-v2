@@ -9,7 +9,7 @@ import { UserPresenter } from 'src/adapters/presenters/user';
 export class SignInUseCase {
   constructor(
     private readonly userRepository: IUserRepository,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async execute(dto: SigninDTO): Promise<{ access_token: string }> {
@@ -20,10 +20,11 @@ export class SignInUseCase {
 
     const user = UserMapper.fromDB(userDB);
     const payload = { sub: userDB.id, user: UserPresenter.toSignIn(user) };
-    const token = await this.jwtService.signAsync(payload);
+
+    const access_token = this.jwtService.sign(payload);
 
     return {
-      access_token: token,
+      access_token,
     };
   }
 }

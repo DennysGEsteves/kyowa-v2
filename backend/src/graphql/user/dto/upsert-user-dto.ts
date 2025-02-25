@@ -3,7 +3,7 @@ import { RoleType } from 'src/entities/user/types';
 
 @InputType()
 export class UpsertUserDTO {
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   id?: number;
 
   @Field()

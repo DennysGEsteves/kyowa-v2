@@ -1,24 +1,14 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GlobalModule } from 'src/modules/global/global-module';
-import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from 'src/http/interceptors/response-interceptor';
 import { ExceptionHandler } from '../http/exceptions/exception-handler';
 import { RequestContextMiddleware } from 'src/http/middlewares/request-context/request-context-middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: true,
-      driver: ApolloDriver,
-    }),
-    GlobalModule,
-    ConfigModule.forRoot({ isGlobal: true }),
-    UserModule,
-  ],
+  imports: [GlobalModule, AuthModule, UserModule],
   providers: [
     {
       provide: APP_INTERCEPTOR,

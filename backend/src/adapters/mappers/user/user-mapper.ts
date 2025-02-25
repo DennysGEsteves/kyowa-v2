@@ -32,7 +32,7 @@ export class UserMapper {
       pass: user.pass,
 
       // architects: ArchitectMapper.fromUserDB(user),
-      managerStores: user.managerStores,
+      // managerStores: user.managerStores,
     });
   }
 

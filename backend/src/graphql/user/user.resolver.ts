@@ -8,9 +8,15 @@ import {
   UpdateUserUseCase,
   ActiveUserUseCase,
 } from 'src/usecases/user';
-import { UpsertUserDTO } from './dto/upsert-user-dto';
+import { UpsertUserDTO } from './dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/http/middlewares/auth/auth-guard';
+import { Roles } from 'src/http/middlewares/auth/roles-decorator';
+import { RoleType } from 'src/entities/user/types';
 
-@Resolver(() => UserEntity)
+@UseGuards(AuthGuard)
+@Roles(RoleType.ADMIN)
+@Resolver()
 export class UserResolver {
   constructor(
     private readonly getUsersUseCase: GetUsersUseCase,

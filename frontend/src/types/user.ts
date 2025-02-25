@@ -5,7 +5,6 @@ export type User = {
   email: string;
   role: Role;
   token: string;
-  status?: string;
   id?: number;
   phone?: string;
   login?: string;
@@ -13,4 +12,12 @@ export type User = {
   active?: boolean;
   // architects?: a;
   // managerStores?: [];
+};
+
+export const RoleTypeTranslated = {
+  ADMIN: "ADMINISTRADOR",
+  MANAGER: "GERENTE",
+  SALES: "VENDAS",
+  OPERATIONAL: "OPERACIONAL",
+  FINANCE: "FINANCEIRO",
 };

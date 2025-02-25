@@ -1,5 +1,5 @@
 import { UserEntity } from 'src/entities';
-import { RoleType, RoleTypeTranslated } from 'src/entities/user/types';
+import { RoleType } from 'src/entities/user/types';
 import { GetUsersDTO } from './dtos/get-users-dto';
 
 export class UserPresenter {
@@ -24,9 +24,9 @@ export class UserPresenter {
       email: user.email,
       phone: user.phone,
       login: user.login,
-      role: RoleTypeTranslated[user.role],
-      status: user.active ? 'ATIVO' : 'INATIVO',
+      role: user.role,
       active: user.active,
+      storeId: user.storeId,
     }));
   }
 }

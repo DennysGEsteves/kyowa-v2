@@ -1,7 +1,7 @@
 "use client";
 
+import { Table } from "@/components";
 import { AddUserIcon } from "@/components/Icons";
-import { Table } from "@/components/Table";
 import UpsertUserModal from "./UpsertUserModal/UpsertUserModal.view";
 import { useLogic } from "./Users.logic";
 
@@ -22,7 +22,10 @@ const RegisterUsersView = () => {
               <button
                 className="flex select-none items-center gap-3 rounded-lg bg-amber-600 px-4 py-2 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:bg-amber-800 hover:shadow-lg focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
-                onClick={() => methods.setOpenModal(true)}
+                onClick={() => {
+                  methods.setModalUser(undefined);
+                  methods.setOpenModal(true);
+                }}
               >
                 <AddUserIcon />
                 Adicionar usuário
