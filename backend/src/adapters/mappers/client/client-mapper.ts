@@ -1,14 +1,11 @@
 import { ClientEntity as ClientEntity } from 'src/entities';
-import { UpsertClientDTO } from 'src/controllers/client/dtos';
+// import { UpsertClientDTO } from 'src/controllers/client/dtos';
 import { ClientDB } from 'src/repositories/client/types';
 import { ArchitectMapper } from '../architect';
 import { InterestProduct, Origin } from 'src/entities/client/types';
 
 export class ClientMapper {
-  static fromUpsertClientDTO(
-    dto: UpsertClientDTO,
-    clientId?: number,
-  ): ClientEntity {
+  static fromUpsertClientDTO(dto: any, clientId?: number): ClientEntity {
     return new ClientEntity({
       ...(clientId ? { id: clientId } : {}),
       name: dto.name,
@@ -18,13 +15,8 @@ export class ClientMapper {
       nasc: dto.nasc,
       occupation: dto.occupation,
       email: dto.email,
-      cep: dto.cep,
       address: dto.address,
-      district: dto.district,
-      city: dto.city,
-      region: dto.region,
-      phone1: dto.phone1,
-      phone2: dto.phone2,
+      phone: dto.phone,
       obs: dto.obs,
       active: dto.active,
       interestProducts: dto.interestProducts,
@@ -43,13 +35,8 @@ export class ClientMapper {
       nasc: client.nasc,
       occupation: client.occupation,
       email: client.email,
-      cep: client.cep,
       address: client.address,
-      district: client.district,
-      city: client.city,
-      region: client.region,
-      phone1: client.phone1,
-      phone2: client.phone2,
+      phone: client.phone,
       obs: client.obs,
       active: client.active,
       interestProducts: client.interestProducts as InterestProduct[],

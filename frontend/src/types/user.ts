@@ -1,4 +1,12 @@
-import type { Role } from "./roles";
+export type Role = "ADMIN" | "MANAGER" | "SALES" | "OPERATIONAL" | "FINANCE";
+
+export const RoleTranslated: Record<Role, string> = {
+  ADMIN: "Administrador",
+  MANAGER: "Gerente",
+  SALES: "Vendas",
+  OPERATIONAL: "Operacional",
+  FINANCE: "Financeiro",
+};
 
 export type User = {
   name: string;
@@ -12,12 +20,4 @@ export type User = {
   active?: boolean;
   // architects?: a;
   // managerStores?: [];
-};
-
-export const RoleTypeTranslated = {
-  ADMIN: "ADMINISTRADOR",
-  MANAGER: "GERENTE",
-  SALES: "VENDAS",
-  OPERATIONAL: "OPERACIONAL",
-  FINANCE: "FINANCEIRO",
 };

@@ -1,8 +1,8 @@
 import { Injectable, Scope } from '@nestjs/common';
 import { UserEntity } from 'src/entities';
 import { UserMapper } from 'src/adapters/mappers/user';
-import { UpsertUserDTO } from 'src/controllers/user/dtos';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
+import { UpsertUserDTO } from 'src/controllers/user/dto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UpdateUserUseCase {

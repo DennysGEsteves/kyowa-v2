@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { EditIcon } from "@/components/Icons";
-import { RoleTypeTranslated, type User } from "@/types/user";
+import { RoleTranslated, type User } from "@/types";
 import type { Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -26,7 +26,7 @@ export const tableColumns = (props: TableColumnsType) => {
       accessorKey: "role",
       title: "Nível",
       render: (user: User) => {
-        return <span className="">{RoleTypeTranslated[user.role]}</span>;
+        return <span className="">{RoleTranslated[user.role]}</span>;
       },
     },
     {

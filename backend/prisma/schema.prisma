@@ -33,14 +33,9 @@ model Store {
   mid       String  @id @default(auto()) @map("_id") @db.ObjectId
   id        Int?    @unique
   name      String
-  email     String? @unique
-  cep       String?
+  email     String  @unique
   address   String?
-  district  String?
-  city      String?
-  region    String?
-  phone1    String?
-  phone2    String?
+  phone     String?
   obs       String?
   managerId String? @db.ObjectId
 
@@ -48,23 +43,18 @@ model Store {
 }
 
 model Architect {
-  mid         String    @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int?      @unique
-  name        String
+  mid        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         Int?      @unique
+  name       String
   nameFilter String?
-  cpf         String?
-  nasc        DateTime?
-  email       String?   @unique
-  cep         String?
-  address     String?
-  district    String?
-  city        String?
-  region      String?
-  phone1      String?
-  phone2      String?
-  obs         String?
-  active      Boolean?  @default(true)
-  sellerId    String?   @db.ObjectId
+  cpf        String?
+  nasc       DateTime?
+  email      String?   @unique
+  address    String?
+  phone      String?
+  obs        String?
+  active     Boolean?  @default(true)
+  sellerId   String?   @db.ObjectId
 
   seller  User?    @relation(fields: [sellerId], references: [mid])
   clients Client[]
@@ -80,13 +70,8 @@ model Client {
   nasc             DateTime?
   occupation       String?
   email            String?
-  cep              String?
   address          String?
-  district         String?
-  city             String?
-  region           String?
-  phone1           String?
-  phone2           String?
+  phone            String?
   obs              String?
   active           Boolean?           @default(true)
   interestProducts InterestProducts[]
@@ -106,13 +91,8 @@ model Supplier {
   im         String?
   ie         String?
   email      String?
-  cep        String?
   address    String?
-  district   String?
-  city       String?
-  region     String?
-  phone1     String?
-  phone2     String?
+  phone      String?
   obs        String?
   active     Boolean?       @default(true)
   type       SuppliersTypes

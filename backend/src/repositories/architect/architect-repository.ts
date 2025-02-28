@@ -14,7 +14,7 @@ export class ArchitectRepository implements IArchitectRepository {
 
   async findAll(): Promise<ArchitectDB[]> {
     return await this.db.findMany({
-      includes: {
+      include: {
         seller: true,
         clients: true,
       },
@@ -26,7 +26,7 @@ export class ArchitectRepository implements IArchitectRepository {
       where: {
         email,
       },
-      includes: {
+      include: {
         seller: true,
         clients: true,
       },
@@ -44,13 +44,8 @@ export class ArchitectRepository implements IArchitectRepository {
         cpf: architect.cpf,
         nasc: architect.nasc,
         email: architect.email,
-        cep: architect.cep,
         address: architect.address,
-        district: architect.district,
-        city: architect.city,
-        region: architect.region,
-        phone1: architect.phone1,
-        phone2: architect.phone2,
+        phone: architect.phone,
         obs: architect.obs,
         active: architect.active,
         sellerId: architect.sellerId,
@@ -66,13 +61,8 @@ export class ArchitectRepository implements IArchitectRepository {
         cpf: architect.cpf,
         nasc: architect.nasc,
         email: architect.email,
-        cep: architect.cep,
         address: architect.address,
-        district: architect.district,
-        city: architect.city,
-        region: architect.region,
-        phone1: architect.phone1,
-        phone2: architect.phone2,
+        phone: architect.phone,
         obs: architect.obs,
         active: architect.active,
         sellerId: architect.sellerId,

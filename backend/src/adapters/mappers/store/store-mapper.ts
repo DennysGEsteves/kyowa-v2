@@ -1,25 +1,17 @@
-import { UpsertStoreDTO } from 'src/controllers/store/dto/upsert-store-dto';
+import { UpsertStoreDTO } from 'src/controllers/store/dto';
 import { StoreEntity } from 'src/entities/store/store-entity';
 import { StoreDB } from 'src/repositories/store/type';
 import { UserMapper } from '../user';
 import { UserDB } from 'src/repositories/user/types';
 
 export class StoreMapper {
-  public static fromUpsertStoreDTO(
-    dto: UpsertStoreDTO,
-    storeId?: number,
-  ): StoreEntity {
+  public static fromUpsertStoreDTO(dto: UpsertStoreDTO): StoreEntity {
     return new StoreEntity({
-      ...(storeId ? { id: storeId } : {}),
+      ...(dto.id ? { id: dto.id } : {}),
       name: dto.name,
       email: dto.email,
-      cep: dto.cep,
       address: dto.address,
-      district: dto.district,
-      city: dto.city,
-      region: dto.region,
-      phone1: dto.phone1,
-      phone2: dto.phone2,
+      phone: dto.phone,
       obs: dto.obs,
       managerId: dto.managerId,
     });
@@ -30,17 +22,12 @@ export class StoreMapper {
       id: store.id,
       name: store.name,
       email: store.email,
-      cep: store.cep,
       address: store.address,
-      district: store.district,
-      city: store.city,
-      region: store.region,
-      phone1: store.phone1,
-      phone2: store.phone2,
+      phone: store.phone,
       obs: store.obs,
       managerId: store.managerId,
 
-      manager: UserMapper.fromStoreDB(store),
+      manager: store.manager ? UserMapper.fromStoreDB(store) : null,
     });
   }
 
@@ -54,13 +41,8 @@ export class StoreMapper {
         id: store.id,
         name: store.name,
         email: store.email,
-        cep: store.cep,
         address: store.address,
-        district: store.district,
-        city: store.city,
-        region: store.region,
-        phone1: store.phone1,
-        phone2: store.phone2,
+        phone: store.phone,
         obs: store.obs,
         managerId: store.managerId,
 

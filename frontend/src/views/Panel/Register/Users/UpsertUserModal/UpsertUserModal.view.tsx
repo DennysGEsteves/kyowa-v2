@@ -13,6 +13,7 @@ import type { User } from "@/types/user";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller } from "react-hook-form";
 import { useLogic } from "./UpsertUserModal.logic";
+import { roleOptions } from "./UpsertUserModal.props";
 
 export type UpsertUserModalType = {
   openModal: boolean;
@@ -90,16 +91,7 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
                 <FormSelect
                   label="Nível"
                   error={data.errors.role}
-                  options={[
-                    {
-                      value: "ADMIN",
-                      label: "Admin",
-                    },
-                    {
-                      value: "MANAGER",
-                      label: "Gerente",
-                    },
-                  ]}
+                  options={roleOptions}
                   {...field}
                 />
               )}

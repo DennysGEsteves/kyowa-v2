@@ -1,9 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserMapper } from 'src/adapters/mappers/user';
-import { SigninDTO } from 'src/controllers/auth/dtos';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
 import { JwtService } from '@nestjs/jwt';
 import { UserPresenter } from 'src/adapters/presenters/user';
+import { SigninDTO } from 'src/controllers/auth/dto';
+import { AuthPresenter } from 'src/adapters/presenters/auth/auth.presenter';
 
 @Injectable()
 export class SignInUseCase {
@@ -23,8 +24,6 @@ export class SignInUseCase {
 
     const access_token = this.jwtService.sign(payload);
 
-    return {
-      access_token,
-    };
+    return AuthPresenter.toSignInDTO(access_token);
   }
 }

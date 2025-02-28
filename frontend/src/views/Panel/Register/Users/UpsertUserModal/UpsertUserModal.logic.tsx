@@ -20,11 +20,10 @@ export const useLogic = (props: UpsertUserModalType) => {
     defaultValues: {},
   });
 
-  const isUserActive = props.user && props.user.active;
-
   const { usersRepository } = useRepository();
-
   const queryClient = useQueryClient();
+
+  const isUserActive = props.user && props.user.active;
 
   const handleChangeUserActiveStatus = (userId: number) => {
     usersRepository[isUserActive ? "inactive" : "active"](userId).then(() => {

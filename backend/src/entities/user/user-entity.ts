@@ -50,7 +50,7 @@ export class UserEntity {
   // @Field(() => [ArchitectEntity], { nullable: true })
   public readonly architects?: ArchitectEntity[];
 
-  // @Field(() => [StoreEntity], { nullable: true })
+  @Field(() => [StoreEntity], { nullable: true })
   public readonly managerStores?: StoreEntity[];
 
   constructor(params: IConstructorParams) {

@@ -5,7 +5,7 @@ import type { NormalizedCacheObject } from "@apollo/client";
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useCallback } from "react";
-import UsersRepository from "./Users/users.repository";
+import { StoresRepository, UsersRepository } from "./api";
 
 export type IApolloClient = ApolloClient<NormalizedCacheObject>;
 
@@ -34,5 +34,6 @@ export function useRepository() {
 
   return {
     usersRepository: useCallback(() => UsersRepository(client()), [token])(),
+    storesRepository: useCallback(() => StoresRepository(client()), [token])(),
   };
 }

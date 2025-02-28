@@ -1,10 +1,10 @@
 import { UserEntity } from 'src/entities';
-import { UpsertUserDTO } from 'src/controllers/user/dtos';
 import { RoleType } from 'src/entities/user/types';
 import { UserDB } from 'src/repositories/user/types/';
 import { StoreDB } from 'src/repositories/store/type';
 // import { ArchitectMapper } from '../architect';
 import { ArchitectDB } from 'src/repositories/architect/types';
+import { UpsertUserDTO } from 'src/controllers/user/dto';
 
 export class UserMapper {
   static fromUpsertUserDTO(dto: UpsertUserDTO): UserEntity {
@@ -50,7 +50,6 @@ export class UserMapper {
       role: manager.role as RoleType,
       active: manager.active,
       storeId: manager.storeId,
-      pass: manager.pass,
     });
   }
 

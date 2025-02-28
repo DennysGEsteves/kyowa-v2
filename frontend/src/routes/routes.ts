@@ -46,8 +46,8 @@ export const Routes: RoutesType = {
         pathname: "/usuarios",
       },
       {
-        title: "Fornecedores",
-        pathname: "/forncedores",
+        title: "Lojas",
+        pathname: "/lojas",
       },
     ],
   },

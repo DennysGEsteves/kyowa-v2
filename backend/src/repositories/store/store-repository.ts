@@ -14,7 +14,7 @@ export class StoreRepository implements IStoreRepository {
 
   public findAll(): Promise<StoreDB[]> {
     return this.db.findMany({
-      includes: {
+      include: {
         manager: true,
       },
     });
@@ -25,7 +25,7 @@ export class StoreRepository implements IStoreRepository {
       where: {
         id,
       },
-      includes: {
+      include: {
         manager: true,
       },
     });
@@ -36,13 +36,8 @@ export class StoreRepository implements IStoreRepository {
       data: {
         name: store.name,
         email: store.email,
-        cep: store.cep,
         address: store.address,
-        district: store.district,
-        city: store.city,
-        region: store.region,
-        phone1: store.phone1,
-        phone2: store.phone2,
+        phone: store.phone,
         obs: store.obs,
         managerId: store.managerId,
       },
@@ -57,13 +52,8 @@ export class StoreRepository implements IStoreRepository {
       data: {
         name: store.name,
         email: store.email,
-        cep: store.cep,
         address: store.address,
-        district: store.district,
-        city: store.city,
-        region: store.region,
-        phone1: store.phone1,
-        phone2: store.phone2,
+        phone: store.phone,
         obs: store.obs,
         managerId: store.managerId,
       },

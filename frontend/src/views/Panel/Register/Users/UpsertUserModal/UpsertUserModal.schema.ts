@@ -1,4 +1,4 @@
-import type { Role } from "@/types/roles";
+import type { Role } from "@/types";
 
 export interface IForm {
   name: string;

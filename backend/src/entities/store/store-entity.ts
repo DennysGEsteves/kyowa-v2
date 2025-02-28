@@ -1,36 +1,42 @@
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { UserEntity } from '../user';
 
 type IConstructorParams = {
   readonly id?: number;
   readonly name: string;
-  readonly email?: string;
-  readonly cep?: string;
+  readonly email: string;
   readonly address?: string;
-  readonly district?: string;
-  readonly city?: string;
-  readonly region?: string;
-  readonly phone1?: string;
-  readonly phone2?: string;
+  readonly phone?: string;
   readonly obs?: string;
   readonly managerId?: string;
 
   readonly manager?: UserEntity;
 };
 
+@ObjectType()
 export class StoreEntity {
+  @Field(() => Int)
   public readonly id?: number;
+
+  @Field()
   public readonly name: string;
-  public readonly email?: string;
-  public readonly cep?: string;
+
+  @Field()
+  public readonly email: string;
+
+  @Field({ nullable: true })
   public readonly address?: string;
-  public readonly district?: string;
-  public readonly city?: string;
-  public readonly region?: string;
-  public readonly phone1?: string;
-  public readonly phone2?: string;
+
+  @Field({ nullable: true })
+  public readonly phone?: string;
+
+  @Field({ nullable: true })
   public readonly obs?: string;
+
+  @Field({ nullable: true })
   public readonly managerId?: string;
 
+  // @Field(() => [UserEntity], { nullable: true })
   public readonly manager?: UserEntity;
 
   constructor(params: IConstructorParams) {
@@ -38,12 +44,7 @@ export class StoreEntity {
     this.address = params.address;
     this.name = params.name;
     this.email = params.email;
-    this.cep = params.cep;
-    this.district = params.district;
-    this.city = params.city;
-    this.region = params.region;
-    this.phone1 = params.phone1;
-    this.phone2 = params.phone2;
+    this.phone = params.phone;
     this.obs = params.obs;
     this.managerId = params.managerId;
 

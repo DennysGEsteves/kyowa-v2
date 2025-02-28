@@ -1,4 +1,4 @@
-import type { Role } from "@/types/roles";
+import type { Role } from "@/types";
 import { Routes } from "./routes";
 
 export type Modules =

@@ -1,4 +1,4 @@
-import AuthRepository from "@/repositories/Auth/Auth.repository";
+import { AuthRepository } from "@/repositories/api";
 import { saveSession } from "@/services/Session/Session";
 import { redirect } from "next/navigation";
 

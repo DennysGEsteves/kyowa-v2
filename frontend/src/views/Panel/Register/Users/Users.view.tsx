@@ -1,7 +1,7 @@
 "use client";
 
 import { Table } from "@/components";
-import { AddUserIcon } from "@/components/Icons";
+import { PlusIcon } from "@/components/Icons";
 import UpsertUserModal from "./UpsertUserModal/UpsertUserModal.view";
 import { useLogic } from "./Users.logic";
 
@@ -27,7 +27,7 @@ const RegisterUsersView = () => {
                   methods.setOpenModal(true);
                 }}
               >
-                <AddUserIcon />
+                <PlusIcon />
                 Adicionar usuário
               </button>
             </div>
