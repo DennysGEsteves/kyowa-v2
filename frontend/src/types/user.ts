@@ -9,11 +9,12 @@ export const RoleTranslated: Record<Role, string> = {
 };
 
 export type User = {
+  mid: string;
+  id: number;
   name: string;
   email: string;
   role: Role;
   token: string;
-  id?: number;
   phone?: string;
   login?: string;
   storeId?: string;

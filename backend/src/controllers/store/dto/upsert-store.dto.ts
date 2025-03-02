@@ -1,10 +1,9 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
-import { RoleType } from 'src/entities/user/types';
+import { InputType, Field, ID } from '@nestjs/graphql';
 
 @InputType()
 export class UpsertStoreDTO {
-  @Field(() => Int, { nullable: true })
-  id?: number;
+  @Field(() => ID, { nullable: true })
+  mid?: string;
 
   @Field()
   name: string;

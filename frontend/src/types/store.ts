@@ -1,7 +1,8 @@
 import type { User } from "./user";
 
 export type Store = {
-  id?: number;
+  mid: string;
+  id: number;
   name: string;
   email?: string;
   cep?: string;

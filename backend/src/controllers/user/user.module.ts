@@ -6,9 +6,9 @@ import {
   GetUsersUseCase,
   UpdateUserUseCase,
   ActiveUserUseCase,
+  GetUsersManagerUseCase,
 } from 'src/usecases/user';
-import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
-import { UserRepository } from 'src/repositories/user/user-repository';
+import { IUserRepository, UserRepository } from 'src/repositories/user';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -22,6 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
     UserResolver,
     CreateUserUseCase,
     GetUsersUseCase,
+    GetUsersManagerUseCase,
     UpdateUserUseCase,
     InactiveUserUseCase,
     ActiveUserUseCase,

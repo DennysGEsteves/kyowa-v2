@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useEntitiesContext } from "@/context/Entities.context";
 import { useRepository } from "@/repositories/repositories.hook";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -22,10 +23,11 @@ export const useLogic = (props: UpsertUserModalType) => {
 
   const { usersRepository } = useRepository();
   const queryClient = useQueryClient();
+  const { stores } = useEntitiesContext();
 
   const isUserActive = props.user && props.user.active;
 
-  const handleChangeUserActiveStatus = (userId: number) => {
+  const handleChangeUserActiveStatus = (userId: string) => {
     usersRepository[isUserActive ? "inactive" : "active"](userId).then(() => {
       queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
       props.setOpenModal(false);
@@ -33,8 +35,8 @@ export const useLogic = (props: UpsertUserModalType) => {
   };
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    const payload = Transform.toUpsertUserDTO(data, props.user?.id);
-    usersRepository[props.user?.id ? "update" : "create"](payload)
+    const payload = Transform.toUpsertUserDTO(data, props.user?.mid);
+    usersRepository[props.user?.mid ? "update" : "create"](payload)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
         props.setOpenModal(false);
@@ -62,6 +64,7 @@ export const useLogic = (props: UpsertUserModalType) => {
       isLoading,
       errors,
       isUserActive,
+      stores,
     },
     methods: {
       handleSubmit,

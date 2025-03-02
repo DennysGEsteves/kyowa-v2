@@ -1,7 +1,7 @@
 import type { Role } from "@/types";
 
 export type UpsertUserDTO = {
-  id?: number;
+  mid?: string;
   name: string;
   email: string;
   phone: string;

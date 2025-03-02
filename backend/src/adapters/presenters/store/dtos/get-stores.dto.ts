@@ -1,9 +1,12 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { UserEntity } from 'src/entities';
 
 @ObjectType()
 export class GetStoresDTOPresenter {
-  @Field(() => Int)
+  @Field(() => ID)
+  public readonly mid: string;
+
+  @Field(() => Int, { nullable: true })
   public readonly id: number;
 
   @Field()

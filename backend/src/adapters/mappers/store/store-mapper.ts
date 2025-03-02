@@ -7,7 +7,7 @@ import { UserDB } from 'src/repositories/user/types';
 export class StoreMapper {
   public static fromUpsertStoreDTO(dto: UpsertStoreDTO): StoreEntity {
     return new StoreEntity({
-      ...(dto.id ? { id: dto.id } : {}),
+      ...(dto.mid ? { mid: dto.mid } : {}),
       name: dto.name,
       email: dto.email,
       address: dto.address,
@@ -19,6 +19,7 @@ export class StoreMapper {
 
   public static fromDB(store: StoreDB): StoreEntity {
     return new StoreEntity({
+      mid: store.mid,
       id: store.id,
       name: store.name,
       email: store.email,
@@ -38,6 +39,7 @@ export class StoreMapper {
   public static fromUserDB({ managerStores }: UserDB): StoreEntity[] {
     return managerStores.map((store) => {
       return new StoreEntity({
+        mid: store.mid,
         id: store.id,
         name: store.name,
         email: store.email,

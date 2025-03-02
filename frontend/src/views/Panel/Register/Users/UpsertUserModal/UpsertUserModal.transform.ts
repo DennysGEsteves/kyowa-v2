@@ -3,9 +3,9 @@ import type { UpsertUserDTO } from "@/repositories/api/Users/Users.dto";
 import type { IForm } from "./UpsertUserModal.schema";
 
 export default class Transform {
-  static toUpsertUserDTO(data: IForm, id?: number): UpsertUserDTO {
+  static toUpsertUserDTO(data: IForm, mid?: string): UpsertUserDTO {
     return {
-      ...(id ? { id } : {}),
+      ...(mid ? { mid } : {}),
       email: data.email,
       login: data.login,
       name: data.name,

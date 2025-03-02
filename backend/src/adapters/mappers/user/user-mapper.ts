@@ -9,7 +9,7 @@ import { UpsertUserDTO } from 'src/controllers/user/dto';
 export class UserMapper {
   static fromUpsertUserDTO(dto: UpsertUserDTO): UserEntity {
     return new UserEntity({
-      ...(dto.id ? { id: dto.id } : {}),
+      ...(dto.mid ? { mid: dto.mid } : {}),
       name: dto.name,
       email: dto.email,
       phone: dto.phone,
@@ -21,6 +21,7 @@ export class UserMapper {
 
   static fromDB(user: UserDB): UserEntity {
     return new UserEntity({
+      mid: user.mid,
       id: user.id,
       name: user.name,
       email: user.email,
@@ -42,6 +43,7 @@ export class UserMapper {
 
   static fromStoreDB({ manager }: StoreDB): UserEntity {
     return new UserEntity({
+      mid: manager.mid,
       id: manager.id,
       name: manager.name,
       email: manager.email,
@@ -55,6 +57,7 @@ export class UserMapper {
 
   static fromArchitectDB({ seller }: ArchitectDB): UserEntity {
     return new UserEntity({
+      mid: seller.mid,
       id: seller.id,
       name: seller.name,
       email: seller.email,

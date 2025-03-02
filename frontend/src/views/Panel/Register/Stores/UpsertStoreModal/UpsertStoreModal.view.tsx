@@ -1,7 +1,13 @@
 "use client";
 
 import { FormModal } from "@/components";
-import { FormBtnCancel, FormBtnSubmit, FormInput } from "@/components/Form";
+import {
+  FormBtnCancel,
+  FormBtnSubmit,
+  FormInput,
+  FormSelect,
+} from "@/components/Form";
+import type { User } from "@/types";
 import type { Store } from "@/types/store";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller } from "react-hook-form";
@@ -74,6 +80,23 @@ export const UpsertStoreModal = (props: UpsertStoreModalType) => {
           </div>
           <div className="md:flex md:items-center">
             <Controller
+              name="managerId"
+              control={data.control}
+              render={({ field }) => (
+                <FormSelect
+                  label="Gerente"
+                  error={data.errors.managerId}
+                  options={data.managers.map((manager: User) => ({
+                    value: manager.mid,
+                    label: manager.name,
+                  }))}
+                  {...field}
+                />
+              )}
+            />
+          </div>
+          <div className="md:flex md:items-center">
+            <Controller
               name="obs"
               control={data.control}
               render={({ field }) => (
@@ -81,21 +104,6 @@ export const UpsertStoreModal = (props: UpsertStoreModalType) => {
               )}
             />
           </div>
-          {/* <div className="md:flex md:items-center">
-            <Controller
-              name="role"
-              control={data.control}
-              
-              render={({ field }) => (
-                <FormSelect
-                  label="Nível"
-                  error={data.errors.role}
-                  options={roleOptions}
-                  {...field}
-                />
-              )}
-            />
-          </div> */}
         </FormModal.Body>
         <FormModal.Footer>
           <div className="w-full gap-4 md:flex md:items-center">

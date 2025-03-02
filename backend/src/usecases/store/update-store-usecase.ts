@@ -9,8 +9,12 @@ export class UpdateStoreUseCase {
   constructor(private readonly storeRepository: IStoreRepository) {}
 
   public async execute(dto: UpsertStoreDTO): Promise<StoreEntity> {
-    const newStore = StoreMapper.fromUpsertStoreDTO(dto);
-    const storeDB = await this.storeRepository.update(newStore);
-    return StoreMapper.fromDB(storeDB);
+    try {
+      const newStore = StoreMapper.fromUpsertStoreDTO(dto);
+      const storeDB = await this.storeRepository.update(newStore);
+      return StoreMapper.fromDB(storeDB);
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

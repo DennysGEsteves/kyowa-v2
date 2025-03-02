@@ -9,13 +9,8 @@ export class GetStoresUseCase {
   constructor(private readonly storeRepository: IStoreRepository) {}
 
   public async execute(): Promise<GetStoresDTOPresenter[]> {
-    try {
-      const storesDB = await this.storeRepository.findAll();
-      console.log(storesDB);
-      const stores = StoreMapper.fromDBList(storesDB);
-      return StorePresenter.toGetStoresDTO(stores);
-    } catch (e) {
-      console.log(e);
-    }
+    const storesDB = await this.storeRepository.findAll();
+    const stores = StoreMapper.fromDBList(storesDB);
+    return StorePresenter.toGetStoresDTO(stores);
   }
 }

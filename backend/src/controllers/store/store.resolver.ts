@@ -24,16 +24,13 @@ export class StoreResolver {
 
   @Query(() => [GetStoresDTOPresenter])
   async getStores(): Promise<GetStoresDTOPresenter[]> {
-    const stores = await this.getStoresUseCase.execute();
-    // console.log(stores);
-    return stores;
+    return this.getStoresUseCase.execute();
   }
 
   @Mutation(() => StoreEntity)
   async createStore(
     @Args('input') input: UpsertStoreDTO,
   ): Promise<StoreEntity> {
-    console.log(input);
     return this.createStoreUseCase.execute(input);
   }
 

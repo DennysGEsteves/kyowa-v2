@@ -3,6 +3,7 @@ import { IUserRepository } from './interfaces/i-user-repository';
 import { UserEntity } from '../../entities/user';
 import { PrismaService } from 'src/services/prisma/prisma-service';
 import { UserDB } from './types/';
+import { RoleType } from 'src/entities/user/types';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -14,6 +15,18 @@ export class UserRepository implements IUserRepository {
 
   async findAll(): Promise<UserDB[]> {
     return await this.db.findMany({
+      include: {
+        architects: true,
+        managerStores: true,
+      },
+    });
+  }
+
+  async findAllByRole(role: RoleType): Promise<UserDB[]> {
+    return await this.db.findMany({
+      where: {
+        role,
+      },
       include: {
         architects: true,
         managerStores: true,
@@ -36,7 +49,7 @@ export class UserRepository implements IUserRepository {
   async update(user: UserEntity): Promise<UserDB> {
     return await this.db.update({
       where: {
-        id: user.id,
+        mid: user.mid,
       },
       data: {
         name: user.name,
@@ -66,7 +79,7 @@ export class UserRepository implements IUserRepository {
   async changeActiveValue(userId: number, isActive: boolean): Promise<void> {
     await this.db.update({
       where: {
-        id: userId,
+        mid: userId,
       },
       data: {
         active: isActive,

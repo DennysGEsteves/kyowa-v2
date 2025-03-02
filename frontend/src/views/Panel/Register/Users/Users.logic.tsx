@@ -1,3 +1,4 @@
+import { useEntitiesContext } from "@/context/Entities.context";
 import { useRepository } from "@/repositories/repositories.hook";
 import type { User } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +9,7 @@ export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalUser, setModalUser] = useState<User | undefined>(undefined);
 
+  const { stores } = useEntitiesContext();
   const { usersRepository } = useRepository();
 
   const { data: users } = useQuery({
@@ -15,7 +17,7 @@ export const useLogic = () => {
     queryFn: usersRepository.getAll,
   });
 
-  const tableColumnsData = tableColumns({ setModalUser, setOpenModal });
+  const tableColumnsData = tableColumns({ setModalUser, setOpenModal, stores });
 
   return {
     data: {

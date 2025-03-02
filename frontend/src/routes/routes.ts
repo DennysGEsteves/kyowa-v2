@@ -5,20 +5,18 @@ import {
   HiPencilAlt,
   HiShoppingBag,
 } from "react-icons/hi";
-import type { Modules } from "./definitions";
+import type { Module } from "./definitions";
 
 export type RoutesType = {
-  [Module in Modules]: {
-    session: string;
-    icon: IconType;
-    pages: {
-      title: string;
-      pathname: string;
-    }[];
-  };
+  session: string;
+  icon: IconType;
+  pages: {
+    title: string;
+    pathname: string;
+  }[];
 };
 
-export const Routes: RoutesType = {
+export const Routes: Record<Module, RoutesType> = {
   GERAL: {
     session: "Geral",
     icon: HiChartPie,

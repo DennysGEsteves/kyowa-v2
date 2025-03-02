@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { EditIcon } from "@/components/Icons";
+import type { Store } from "@/types";
 import { RoleTranslated, type User } from "@/types";
 import type { Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
@@ -8,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 type TableColumnsType = {
   setModalUser: Dispatch<SetStateAction<User | undefined>>;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
+  stores: Store[];
 };
 
 export const GET_USERS_REFETCH_TAG = "GET_USERS";
@@ -15,12 +17,20 @@ export const GET_USERS_REFETCH_TAG = "GET_USERS";
 export const tableColumns = (props: TableColumnsType) => {
   return [
     {
+      accessorKey: "id",
+      title: "#",
+    },
+    {
       accessorKey: "name",
       title: "Name",
     },
     {
       accessorKey: "email",
       title: "Email",
+    },
+    {
+      accessorKey: "phone",
+      title: "Telefone",
     },
     {
       accessorKey: "role",
@@ -32,6 +42,10 @@ export const tableColumns = (props: TableColumnsType) => {
     {
       accessorKey: "store",
       title: "Loja",
+      render: (user: User) => {
+        const store = props.stores.find((item) => user.storeId === item.mid);
+        return <span className="">{store?.name}</span>;
+      },
     },
     {
       accessorKey: "active",

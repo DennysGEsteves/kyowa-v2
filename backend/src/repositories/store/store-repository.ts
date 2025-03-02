@@ -20,10 +20,10 @@ export class StoreRepository implements IStoreRepository {
     });
   }
 
-  public findById(id: string): Promise<StoreDB> {
+  public findById(mid: string): Promise<StoreDB> {
     return this.db.findFirst({
       where: {
-        id,
+        mid,
       },
       include: {
         manager: true,
@@ -47,7 +47,7 @@ export class StoreRepository implements IStoreRepository {
   public update(store: StoreEntity): Promise<StoreDB> {
     return this.db.update({
       where: {
-        id: store.id,
+        mid: store.mid,
       },
       data: {
         name: store.name,

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useEntitiesContext } from "@/context/Entities.context";
 import { useRepository } from "@/repositories/repositories.hook";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -22,10 +23,11 @@ export const useLogic = (props: UpsertStoreModalType) => {
 
   const { storesRepository } = useRepository();
   const queryClient = useQueryClient();
+  const { managers } = useEntitiesContext();
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    const payload = Transform.toUpsertStoreDTO(data, props.store?.id);
-    storesRepository[props.store?.id ? "update" : "create"](payload)
+    const payload = Transform.toUpsertStoreDTO(data, props.store?.mid);
+    storesRepository[props.store?.mid ? "update" : "create"](payload)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
         props.setOpenModal(false);
@@ -52,6 +54,7 @@ export const useLogic = (props: UpsertStoreModalType) => {
       control,
       isLoading,
       errors,
+      managers,
     },
     methods: {
       handleSubmit,

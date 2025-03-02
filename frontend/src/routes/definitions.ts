@@ -1,7 +1,8 @@
 import type { Role } from "@/types";
+import type { RoutesType } from "./routes";
 import { Routes } from "./routes";
 
-export type Modules =
+export type Module =
   | "GERAL"
   | "CADASTROS"
   | "PRODUTOS"
@@ -10,7 +11,7 @@ export type Modules =
   | "FINANCEIRO";
 
 export const getRoutesByUserRole = (role: Role) => {
-  const permissions = {
+  const permissions: Record<Role, RoutesType[]> = {
     ADMIN: [
       Routes.GERAL,
       Routes.CADASTROS,
@@ -19,7 +20,11 @@ export const getRoutesByUserRole = (role: Role) => {
       Routes.SERVICOS,
       Routes.FINANCEIRO,
     ],
+    FINANCE: [],
+    MANAGER: [],
+    OPERATIONAL: [],
+    SALES: [],
   };
 
-  return permissions[role];
+  return permissions[role] as RoutesType[];
 };

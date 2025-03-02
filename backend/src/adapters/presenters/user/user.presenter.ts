@@ -5,6 +5,7 @@ import { GetUsersDTOPresenter } from './dtos/get-users.dto';
 export class UserPresenter {
   static toSignIn(user: UserEntity) {
     return {
+      mid: user.mid,
       id: user.id,
       name: user.name,
       email: user.email,
@@ -19,6 +20,7 @@ export class UserPresenter {
 
   static toGetUsersDTO(users: UserEntity[]): GetUsersDTOPresenter[] {
     return users.map((user) => ({
+      mid: user.mid,
       id: user.id,
       name: user.name,
       email: user.email,

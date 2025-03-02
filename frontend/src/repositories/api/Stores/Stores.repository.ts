@@ -9,6 +9,7 @@ export function StoresRepository(client: IApolloClient) {
       query: gql`
         query GetStores {
           getStores {
+            mid
             id
             name
             email
@@ -17,7 +18,7 @@ export function StoresRepository(client: IApolloClient) {
             obs
             managerId
             manager {
-              id
+              mid
               name
             }
           }
@@ -36,7 +37,7 @@ export function StoresRepository(client: IApolloClient) {
       mutation: gql`
         mutation UpdateStore($input: UpsertStoreDTO!) {
           updateStore(input: $input) {
-            id
+            mid
             name
             email
             address

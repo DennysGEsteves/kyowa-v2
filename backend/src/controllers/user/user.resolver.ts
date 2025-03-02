@@ -7,6 +7,7 @@ import {
   GetUsersUseCase,
   UpdateUserUseCase,
   ActiveUserUseCase,
+  GetUsersManagerUseCase,
 } from 'src/usecases/user';
 import { UpsertUserDTO } from './dto';
 import { UseGuards } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { RoleType } from 'src/entities/user/types';
 export class UserResolver {
   constructor(
     private readonly getUsersUseCase: GetUsersUseCase,
+    private readonly getUsersManagerUseCase: GetUsersManagerUseCase,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly inactiveUserUseCase: InactiveUserUseCase,
@@ -29,6 +31,11 @@ export class UserResolver {
   @Query(() => [GetUsersDTOPresenter])
   async getUsers(): Promise<GetUsersDTOPresenter[]> {
     return await this.getUsersUseCase.execute();
+  }
+
+  @Query(() => [GetUsersDTOPresenter])
+  async getUsersManager(): Promise<GetUsersDTOPresenter[]> {
+    return await this.getUsersManagerUseCase.execute();
   }
 
   @Mutation(() => UserEntity)

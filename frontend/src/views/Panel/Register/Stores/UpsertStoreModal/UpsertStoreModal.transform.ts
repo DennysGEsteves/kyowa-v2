@@ -3,9 +3,9 @@ import type { UpsertStoreDTO } from "@/repositories/api/Stores/Stores.dto";
 import type { IForm } from "./UpsertStoreModal.schema";
 
 export default class Transform {
-  static toUpsertStoreDTO(data: IForm, id?: number): UpsertStoreDTO {
+  static toUpsertStoreDTO(data: IForm, mid?: string): UpsertStoreDTO {
     return {
-      ...(id ? { id } : {}),
+      ...(mid ? { mid } : {}),
       name: data.name,
       email: data.email,
       address: data.address,

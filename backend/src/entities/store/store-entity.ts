@@ -1,7 +1,8 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { UserEntity } from '../user';
 
 type IConstructorParams = {
+  readonly mid?: string;
   readonly id?: number;
   readonly name: string;
   readonly email: string;
@@ -15,6 +16,9 @@ type IConstructorParams = {
 
 @ObjectType()
 export class StoreEntity {
+  @Field(() => ID)
+  public readonly mid?: string;
+
   @Field(() => Int)
   public readonly id?: number;
 
@@ -40,6 +44,7 @@ export class StoreEntity {
   public readonly manager?: UserEntity;
 
   constructor(params: IConstructorParams) {
+    this.mid = params.mid;
     this.id = params.id;
     this.address = params.address;
     this.name = params.name;

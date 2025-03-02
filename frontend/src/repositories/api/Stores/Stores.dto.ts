@@ -1,5 +1,5 @@
 export type UpsertStoreDTO = {
-  id?: number;
+  mid?: string;
   name: string;
   email: string;
   address?: string;

@@ -9,6 +9,7 @@ import {
   FormInput,
   FormSelect,
 } from "@/components/Form";
+import type { Store } from "@/types";
 import type { User } from "@/types/user";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller } from "react-hook-form";
@@ -106,16 +107,10 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
                 <FormSelect
                   label="Loja"
                   error={data.errors.storeId}
-                  options={[
-                    {
-                      value: "f0ewevvsdjvsjdv",
-                      label: "Canal 3",
-                    },
-                    {
-                      value: "m9vjs9di923r-09f",
-                      label: "Shopping",
-                    },
-                  ]}
+                  options={data.stores.map((store: Store) => ({
+                    value: store.mid,
+                    label: store.name,
+                  }))}
                   {...field}
                 />
               )}
@@ -128,7 +123,7 @@ export const UpsertUserModal = (props: UpsertUserModalType) => {
                   label={`${data.isUserActive ? "Inativar" : "Ativar"} usuário`}
                   onClick={() => {
                     methods.handleChangeUserActiveStatus(
-                      props.user?.id as number,
+                      props.user?.mid as string,
                     );
                   }}
                 />

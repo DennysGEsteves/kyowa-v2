@@ -1,9 +1,10 @@
-import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
+import { Field, HideField, ID, Int, ObjectType } from '@nestjs/graphql';
 import { ArchitectEntity } from '../architect';
 import { StoreEntity } from '../store';
 import { RoleType } from './types';
 
 interface IConstructorParams {
+  readonly mid?: string;
   readonly id?: number;
   readonly email: string;
   readonly name: string;
@@ -20,6 +21,9 @@ interface IConstructorParams {
 
 @ObjectType()
 export class UserEntity {
+  @Field(() => ID)
+  public readonly mid?: string;
+
   @Field(() => Int)
   public readonly id?: number;
 
@@ -54,6 +58,7 @@ export class UserEntity {
   public readonly managerStores?: StoreEntity[];
 
   constructor(params: IConstructorParams) {
+    this.mid = params.mid;
     this.id = params.id;
     this.email = params.email;
     this.name = params.name;

@@ -9,6 +9,7 @@ export function UsersRepository(client: IApolloClient) {
       query: gql`
         query GetUsers {
           getUsers {
+            mid
             id
             name
             email
@@ -23,6 +24,28 @@ export function UsersRepository(client: IApolloClient) {
     });
 
     return data.getUsers;
+  }
+
+  async function getAllManagers(): Promise<User[]> {
+    const { data } = await client.query({
+      query: gql`
+        query GetUsers {
+          getUsersManager {
+            mid
+            id
+            name
+            email
+            phone
+            login
+            storeId
+            role
+            active
+          }
+        }
+      `,
+    });
+
+    return data.getUsersManager;
   }
 
   async function update(dto: UpsertUserDTO): Promise<void> {
@@ -65,26 +88,26 @@ export function UsersRepository(client: IApolloClient) {
     });
   }
 
-  async function inactive(userId: number): Promise<void> {
+  async function inactive(userId: string): Promise<void> {
     await client.mutate({
       variables: {
         userId,
       },
       mutation: gql`
-        mutation InactiveUser($userId: Int!) {
+        mutation InactiveUser($userId: ID!) {
           inactiveUser(userId: $userId)
         }
       `,
     });
   }
 
-  async function active(userId: number): Promise<void> {
+  async function active(userId: string): Promise<void> {
     await client.mutate({
       variables: {
         userId,
       },
       mutation: gql`
-        mutation ActiveUser($userId: Int!) {
+        mutation ActiveUser($userId: ID!) {
           activeUser(userId: $userId)
         }
       `,
@@ -93,6 +116,7 @@ export function UsersRepository(client: IApolloClient) {
 
   return {
     getAll,
+    getAllManagers,
     update,
     create,
     inactive,
