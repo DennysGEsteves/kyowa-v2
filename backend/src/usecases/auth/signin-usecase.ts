@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserMapper } from 'src/adapters/mappers/user';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
 import { JwtService } from '@nestjs/jwt';
@@ -16,7 +16,7 @@ export class SignInUseCase {
   async execute(dto: SigninDTO): Promise<{ access_token: string }> {
     const userDB = await this.userRepository.findByEmail(dto.email);
     if (userDB?.pass !== dto.password) {
-      throw new UnauthorizedException();
+      throw new BadRequestException('INVALID_CREDENTIALS');
     }
 
     const user = UserMapper.fromDB(userDB);

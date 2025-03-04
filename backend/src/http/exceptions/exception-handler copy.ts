@@ -42,14 +42,9 @@ export class GraphQLExceptionHandler implements GqlExceptionFilter {
       status = prismaExceptionInfo.status;
       message = [prismaExceptionInfo.message];
     } else if (exception instanceof HttpException) {
-      const responseBody = exception.getResponse() as
-        | string
-        | { message: string[] };
+      const responseBody = exception.getResponse();
       status = exception.getStatus();
-      message =
-        typeof responseBody === 'string'
-          ? [responseBody]
-          : responseBody.message;
+      message = [responseBody as string];
     } else {
       showStackTrace = true;
     }
@@ -68,7 +63,7 @@ export class GraphQLExceptionHandler implements GqlExceptionFilter {
     );
 
     return new GraphQLError(
-      JSON.stringify(errorResponse),
+      message.join(', '),
       null,
       null,
       null,

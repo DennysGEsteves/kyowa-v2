@@ -1,29 +1,28 @@
-import { AuthRepository } from "@/repositories/api";
 import { saveSession } from "@/services/Session/Session";
 import { redirect } from "next/navigation";
+import { useLoginAction } from "./actions/login-action";
 
 export function useLogic() {
-  async function useLoginAction(formData: FormData) {
+  async function useSubmitCredentials(formData: FormData) {
     "use server";
 
-    const { email, password } = Object.fromEntries(formData);
+    const result = await useLoginAction(formData);
 
-    const { signin } = AuthRepository();
+    console.log(result);
 
-    const access_token = await signin({
-      email: email as string,
-      password: password as string,
-    });
-
-    if (access_token) {
-      await saveSession(access_token);
+    if (result.success) {
+      await saveSession(result.token);
+      // Redireciona apenas em caso de sucesso
       redirect("/");
     }
+
+    // Em caso de falha, recarrega a página com a mensagem de erro
+    redirect(`/login?error=${encodeURIComponent(result.message)}`);
   }
 
   return {
     methods: {
-      useLoginAction,
+      useSubmitCredentials,
     },
   };
 }

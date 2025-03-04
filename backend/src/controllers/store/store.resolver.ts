@@ -22,6 +22,7 @@ export class StoreResolver {
     private readonly updateStoreUseCase: UpdateStoreUseCase,
   ) {}
 
+  @Roles(RoleType.LOGGED)
   @Query(() => [GetStoresDTOPresenter])
   async getStores(): Promise<GetStoresDTOPresenter[]> {
     return this.getStoresUseCase.execute();

@@ -1,3 +1,4 @@
+import { useEntitiesContext } from "@/context/Entities.context";
 import { useRepository } from "@/repositories/repositories.hook";
 import type { Store } from "@/types/store";
 import { useQuery } from "@tanstack/react-query";
@@ -10,12 +11,18 @@ export const useLogic = () => {
 
   const { storesRepository } = useRepository();
 
+  const { managers } = useEntitiesContext();
+
   const { data: stores } = useQuery({
     queryKey: [GET_USERS_REFETCH_TAG],
     queryFn: storesRepository.getAll,
   });
 
-  const tableColumnsData = tableColumns({ setModalStore, setOpenModal });
+  const tableColumnsData = tableColumns({
+    setModalStore,
+    setOpenModal,
+    managers,
+  });
 
   return {
     data: {

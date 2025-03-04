@@ -1,29 +1,21 @@
+import type { IApolloClient } from "@/repositories/repositories.hook";
+import { gql } from "@apollo/client";
 import type { SigninDTO } from "./Auth.dto";
 
-export function AuthRepository() {
+export function AuthRepository(client: IApolloClient) {
   async function signin(dto: SigninDTO) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    return client.mutate({
+      variables: {
+        input: dto,
       },
-      body: JSON.stringify({
-        query: `
-          mutation Signin($input: SigninDTO!) {
-            signin(input: $input) {
-              access_token
-            }
+      mutation: gql`
+        mutation Signin($input: SigninDTO!) {
+          signin(input: $input) {
+            access_token
           }
-        `,
-        variables: {
-          input: dto,
-        },
-      }),
+        }
+      `,
     });
-
-    const { data } = await response.json();
-
-    return data.signin.access_token;
   }
 
   return {

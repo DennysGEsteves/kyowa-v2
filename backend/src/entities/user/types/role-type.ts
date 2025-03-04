@@ -4,4 +4,5 @@ export enum RoleType {
   SALES = 'SALES',
   OPERATIONAL = 'OPERATIONAL',
   FINANCE = 'FINANCE',
+  LOGGED = 'LOGGED',
 }

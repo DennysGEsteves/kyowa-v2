@@ -38,10 +38,20 @@ export class AuthGuard implements CanActivate {
         [context.getHandler(), context.getClass()],
       );
 
-      // Verifica se o usuário tem a role necessária
-      if (requiredRoles && !requiredRoles.includes(payload.user.role)) {
-        throw new UnauthorizedException('Insufficient permissions');
+      const loggedVerifyOnly = !!(
+        requiredRoles.includes(RoleType.LOGGED) && token
+      );
+
+      if (!loggedVerifyOnly) {
+        const hasPermission =
+          requiredRoles && requiredRoles.includes(payload.user.role);
+
+        if (!hasPermission) {
+          throw new UnauthorizedException('Insufficient permissions');
+        }
       }
+
+      // Verifica se o usuário tem a role necessária
 
       // Adiciona o usuário ao contexto da requisição
       req['user'] = payload;

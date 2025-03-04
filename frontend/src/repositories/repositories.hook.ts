@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // import { useUserContext } from "@/context/UserContext";
 import { useAuthContext } from "@/context/Auth.context";
+import { useRequesErrorDialog } from "@/context/RequestErrorDialog/RequestErrorDialog.hook";
 import type { NormalizedCacheObject } from "@apollo/client";
 import {
   ApolloClient,
@@ -11,7 +12,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { useCallback } from "react";
-import { StoresRepository, UsersRepository } from "./api";
+import { AuthRepository, StoresRepository, UsersRepository } from "./api";
 
 export type IApolloClient = ApolloClient<NormalizedCacheObject>;
 
@@ -19,22 +20,33 @@ const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_BASE_URL,
 });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
-  }
-  if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
-    // Você pode adicionar lógica adicional aqui, como logout em caso de 401
-  }
-});
-
 export function useRepository() {
   const token = useAuthContext();
+  const { openDialog } = useRequesErrorDialog();
+
+  const errorLink = onError(({ response }) => {
+    if (response) {
+      try {
+        const message = response.errors?.[0]?.message;
+        const errorData = JSON.parse(message as string);
+
+        if (
+          errorData &&
+          errorData.statusCode === 401 &&
+          errorData.error === "UNAUTHORIZED"
+        ) {
+          window.location.href = "/login";
+        } else {
+          openDialog(
+            "Informe o administrador do sistema sobre este erro abaixo",
+            errorData,
+          );
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  });
 
   const client = useCallback(() => {
     const authLink = setContext(async (_, { headers }) => {
@@ -58,7 +70,7 @@ export function useRepository() {
   };
 }
 
-export function useRepositorySSR(token: string) {
+export function useRepositorySSR(token?: string) {
   const client = () => {
     const authLink = setContext(async (_, { headers }) => {
       return {
@@ -70,12 +82,14 @@ export function useRepositorySSR(token: string) {
     });
 
     return new ApolloClient({
-      link: authLink.concat(httpLink),
+      link: ApolloLink.from([authLink, httpLink]),
       cache: new InMemoryCache(),
+      ssrMode: true,
     });
   };
 
   return {
+    authRepository: AuthRepository(client()),
     usersRepository: UsersRepository(client()),
     storesRepository: StoresRepository(client()),
   };

@@ -33,6 +33,7 @@ export class UserResolver {
     return await this.getUsersUseCase.execute();
   }
 
+  @Roles(RoleType.LOGGED)
   @Query(() => [GetUsersDTOPresenter])
   async getUsersManager(): Promise<GetUsersDTOPresenter[]> {
     return await this.getUsersManagerUseCase.execute();

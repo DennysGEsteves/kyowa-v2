@@ -2,8 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLogic } from "./Login.logic";
 
-export default function LoginView() {
+export default function LoginView({
+  searchParams,
+}: {
+  searchParams: { error?: string };
+}) {
   const { methods } = useLogic();
+
+  const invalidCredentials = searchParams.error === "INVALID_CREDENTIALS";
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -25,9 +31,14 @@ export default function LoginView() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
               Faça login na sua conta
             </h1>
+            {invalidCredentials && (
+              <div className="text-center text-red-400">
+                Email ou senha inválidos!
+              </div>
+            )}
             <form
               className="space-y-4 md:space-y-6"
-              action={methods.useLoginAction}
+              action={methods.useSubmitCredentials}
             >
               <div>
                 <label

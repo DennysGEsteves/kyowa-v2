@@ -1,12 +1,14 @@
 import { AuthProvider } from "@/context/Auth.context";
 import { EntitiesProvider } from "@/context/Entities.context";
+import { RequestErrorDialogProvider } from "@/context/RequestErrorDialog/RequestErrorDialog.provider";
 import { SidebarProvider } from "@/context/Sidebar.context";
 import { UserProvider } from "@/context/User.context";
 import LayoutContent from "@/layout/Layout";
 import { useRepositorySSR } from "@/repositories/repositories.hook";
 import { getUser } from "@/services/Session/Session";
-import type { User } from "@/types";
-import { Suspense } from "react";
+import type { Store, User } from "@/types";
+import type { ApolloError } from "@apollo/client";
+import { redirect } from "next/navigation";
 
 export default async function PanelLayout({
   children,
@@ -14,11 +16,23 @@ export default async function PanelLayout({
   children: React.ReactNode;
 }) {
   const user = (await getUser()) as User;
+  let stores: Store[] = [];
+  let managers: User[] = [];
   const { storesRepository, usersRepository } = useRepositorySSR(user.token);
-  const [stores, managers] = await Promise.all([
-    storesRepository.getAll(),
-    usersRepository.getAllManagers(),
-  ]);
+
+  try {
+    [stores, managers] = await Promise.all([
+      storesRepository.getAll(),
+      usersRepository.getAllManagers(),
+    ]);
+  } catch (e) {
+    const error = e as ApolloError;
+    const message = JSON.parse(error.message);
+
+    if (message.statusCode === 401 && message.error === "UNAUTHORIZED") {
+      redirect("/login");
+    }
+  }
 
   return (
     <SidebarProvider>
@@ -26,9 +40,9 @@ export default async function PanelLayout({
         <EntitiesProvider entities={{ stores, managers }}>
           <LayoutContent>
             <AuthProvider token={user?.token}>
-              <Suspense fallback={<div>Carregando conteúdo...</div>}>
+              <RequestErrorDialogProvider>
                 {children}
-              </Suspense>
+              </RequestErrorDialogProvider>
             </AuthProvider>
           </LayoutContent>
         </EntitiesProvider>
