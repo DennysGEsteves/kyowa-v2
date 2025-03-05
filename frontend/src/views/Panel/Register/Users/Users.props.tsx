@@ -14,6 +14,8 @@ type TableColumnsType = {
 
 export const GET_USERS_REFETCH_TAG = "GET_USERS";
 
+export const searchKeys = ["name", "email"];
+
 export const tableColumns = (props: TableColumnsType) => {
   return [
     {

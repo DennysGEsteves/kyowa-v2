@@ -9,7 +9,9 @@ export type TableColumnsType = {
 
 export type TableComponentType = {
   columns: TableColumnsType[];
-  data: Record<string, any>;
-  search: true;
+  data: Record<string, any>[];
+  search?: boolean;
+  searchKeys?: string[];
   pagination?: boolean;
+  onSearch?: (text: string) => void;
 };
