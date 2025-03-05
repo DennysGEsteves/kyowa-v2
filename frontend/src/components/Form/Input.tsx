@@ -4,9 +4,10 @@ import { twMerge } from "tailwind-merge";
 export type FormInputProps = {
   label: string;
   error?: FieldError | undefined;
+  type?: string;
 };
 
-const FormInput = ({ label, ...props }: FormInputProps) => {
+const FormInput = ({ label, type, ...props }: FormInputProps) => {
   return (
     <>
       <div className="mt-6 w-full md:flex md:items-center">
@@ -25,6 +26,7 @@ const FormInput = ({ label, ...props }: FormInputProps) => {
               props.error ? "border-red-500 bg-red-50" : "",
             )}
             id={label}
+            type={type || "text"}
             {...props}
           />
         </div>

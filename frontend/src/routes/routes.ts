@@ -47,6 +47,10 @@ export const Routes: Record<Module, RoutesType> = {
         title: "Lojas",
         pathname: "/lojas",
       },
+      {
+        title: "Arquitetos",
+        pathname: "/arquitetos",
+      },
     ],
   },
   PRODUTOS: {

@@ -4,18 +4,21 @@ import { UserDB } from 'src/repositories/user/types';
 import { ArchitectDB } from 'src/repositories/architect/types';
 import { UserMapper } from '../user';
 import { ClientDB } from 'src/repositories/client/types';
+import { slugify } from 'src/util/string';
 
 export class ArchitectMapper {
-  static fromUpsertArchitectDTO(
-    dto: any,
-    architectId?: number,
-  ): ArchitectEntity {
+  static fromUpsertArchitectDTO(dto: any): ArchitectEntity {
     return new ArchitectEntity({
-      ...(architectId ? { id: architectId } : {}),
+      ...(dto.mid
+        ? {
+            mid: dto.mid,
+          }
+        : {
+            nameFilter: slugify(dto.name),
+          }),
       name: dto.name,
-      nameFilter: dto.nameFilter,
       cpf: dto.cpf,
-      nasc: dto.nasc,
+      birthday: dto.birthday,
       email: dto.email,
       address: dto.address,
       phone: dto.phone,
@@ -27,11 +30,12 @@ export class ArchitectMapper {
 
   static fromDB(architect: ArchitectDB): ArchitectEntity {
     return new ArchitectEntity({
+      mid: architect.mid,
       id: architect.id,
       name: architect.name,
       nameFilter: architect.nameFilter,
       cpf: architect.cpf,
-      nasc: architect.nasc,
+      birthday: architect.birthday,
       email: architect.email,
       address: architect.address,
       phone: architect.phone,
@@ -40,7 +44,9 @@ export class ArchitectMapper {
       sellerId: architect.sellerId,
 
       // clients: ClientMapper.fromArchitectDB(architect),
-      seller: UserMapper.fromArchitectDB(architect),
+      seller: architect.seller
+        ? UserMapper.fromArchitectDB(architect)
+        : undefined,
     });
   }
 
@@ -51,11 +57,12 @@ export class ArchitectMapper {
   static fromUserDB({ architects }: UserDB): ArchitectEntity[] {
     return architects.map((architect) => {
       return new ArchitectEntity({
+        mid: architect.mid,
         id: architect.id,
         name: architect.name,
         nameFilter: architect.nameFilter,
         cpf: architect.cpf,
-        nasc: architect.nasc,
+        birthday: architect.birthday,
         email: architect.email,
         address: architect.address,
         phone: architect.phone,
@@ -68,11 +75,12 @@ export class ArchitectMapper {
 
   static fromClientDB({ architect }: ClientDB): ArchitectEntity {
     return new ArchitectEntity({
+      mid: architect.mid,
       id: architect.id,
       name: architect.name,
       nameFilter: architect.nameFilter,
       cpf: architect.cpf,
-      nasc: architect.nasc,
+      birthday: architect.birthday,
       email: architect.email,
       address: architect.address,
       phone: architect.phone,

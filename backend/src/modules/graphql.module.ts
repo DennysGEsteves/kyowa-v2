@@ -7,9 +7,10 @@ import { GraphQLExceptionHandler } from '../http/exceptions/exception-handler';
 import { RequestContextMiddleware } from 'src/http/middlewares/request-context/request-context-middleware';
 import { AuthModule } from '../controllers/auth/auth.module';
 import { StoreModule } from 'src/controllers/store/store.module';
+import { ArchitectModule } from 'src/controllers/architect/architect.module';
 
 @Module({
-  imports: [GlobalModule, AuthModule, UserModule, StoreModule],
+  imports: [GlobalModule, AuthModule, UserModule, StoreModule, ArchitectModule],
   providers: [
     {
       provide: APP_INTERCEPTOR,

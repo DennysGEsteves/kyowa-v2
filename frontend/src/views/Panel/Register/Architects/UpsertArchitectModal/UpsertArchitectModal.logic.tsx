@@ -5,12 +5,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GET_STORES_REFETCH_TAG } from "../Stores.props";
-import type { IForm } from "./UpsertStoreModal.schema";
-import Transform from "./UpsertStoreModal.transform";
-import type { UpsertStoreModalType } from "./UpsertStoreModal.view";
+import { GET_ARCHITECTS_REFETCH_TAG } from "../Architects.props";
+import type { IForm } from "./UpsertArchitectModal.schema";
+import Transform from "./UpsertArchitectModal.transform";
+import type { UpsertArchitectModalType } from "./UpsertArchitectModal.view";
 
-export const useLogic = (props: UpsertStoreModalType) => {
+export const useLogic = (props: UpsertArchitectModalType) => {
   const {
     control,
     handleSubmit,
@@ -21,18 +21,20 @@ export const useLogic = (props: UpsertStoreModalType) => {
     defaultValues: {},
   });
 
-  const { storesRepository } = useRepository();
+  const { architectsRepository } = useRepository();
   const queryClient = useQueryClient();
   const { managers } = useEntitiesContext();
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    const payload = Transform.toUpsertStoreDTO(data, props.store?.mid);
-    storesRepository[props.store?.mid ? "update" : "create"](payload).then(
-      () => {
-        queryClient.invalidateQueries({ queryKey: [GET_STORES_REFETCH_TAG] });
-        props.setOpenModal(false);
-      },
-    );
+    const payload = Transform.toUpsertArchitectDTO(data, props.architect?.mid);
+    architectsRepository[props.architect?.mid ? "update" : "create"](
+      payload,
+    ).then(() => {
+      queryClient.invalidateQueries({
+        queryKey: [GET_ARCHITECTS_REFETCH_TAG],
+      });
+      props.setOpenModal(false);
+    });
   };
 
   useEffect(() => {
@@ -42,8 +44,8 @@ export const useLogic = (props: UpsertStoreModalType) => {
       reset({
         name: "",
       });
-    } else if (props.store) {
-      reset({ ...props.store });
+    } else if (props.architect) {
+      reset({ ...props.architect });
     }
   }, [props.openModal]);
 

@@ -1,5 +1,4 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { GetUsersDTOPresenter } from 'src/adapters/presenters/user/dtos/get-users.dto';
 import { UserEntity } from 'src/entities';
 import {
   CreateUserUseCase,
@@ -28,14 +27,14 @@ export class UserResolver {
     private readonly activeUserUseCase: ActiveUserUseCase,
   ) {}
 
-  @Query(() => [GetUsersDTOPresenter])
-  async getUsers(): Promise<GetUsersDTOPresenter[]> {
+  @Query(() => [UserEntity])
+  async getUsers(): Promise<UserEntity[]> {
     return await this.getUsersUseCase.execute();
   }
 
   @Roles(RoleType.LOGGED)
-  @Query(() => [GetUsersDTOPresenter])
-  async getUsersManager(): Promise<GetUsersDTOPresenter[]> {
+  @Query(() => [UserEntity])
+  async getUsersManager(): Promise<UserEntity[]> {
     return await this.getUsersManagerUseCase.execute();
   }
 

@@ -2,16 +2,16 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { EditIcon } from "@/components/Icons";
 import type { User } from "@/types";
-import { type Store } from "@/types";
+import { type Architect } from "@/types";
 import type { Dispatch, SetStateAction } from "react";
 
 type TableColumnsType = {
-  setModalStore: Dispatch<SetStateAction<Store | undefined>>;
+  setModalArchitect: Dispatch<SetStateAction<Architect | undefined>>;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
   managers: User[];
 };
 
-export const GET_STORES_REFETCH_TAG = "GET_STORES";
+export const GET_ARCHITECTS_REFETCH_TAG = "GET_ARCHITECTS";
 
 export const tableColumns = (props: TableColumnsType) => {
   return [
@@ -32,24 +32,25 @@ export const tableColumns = (props: TableColumnsType) => {
       title: "Telefone",
     },
     {
-      accessorKey: "managerId",
-      title: "Gerente",
-      render: (store: Store) => {
-        const user = props.managers.find(
-          (item) => store.managerId === item.mid,
-        );
-        return <span className="">{user?.name}</span>;
+      accessorKey: "cpf",
+      title: "CPF",
+    },
+    {
+      accessorKey: "seller",
+      title: "Vendedor",
+      render: (architect: Architect) => {
+        return architect.seller ? architect.seller.name : "";
       },
     },
     {
       accessorKey: "Edit",
       title: "Editar",
-      render: (store: Store) => {
+      render: (architect: Architect) => {
         return (
           <div
             className="w-max cursor-pointer opacity-40 hover:opacity-100"
             onClick={() => {
-              props.setModalStore(store);
+              props.setModalArchitect(architect);
               props.setOpenModal(true);
             }}
           >

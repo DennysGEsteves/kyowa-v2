@@ -9,7 +9,6 @@ export class GetArchitectsUseCase {
 
   async execute(): Promise<ArchitectEntity[]> {
     const architectsDB = await this.architectRepository.findAll();
-    const architects = ArchitectMapper.fromDBList(architectsDB);
-    return architects;
+    return ArchitectMapper.fromDBList(architectsDB);
   }
 }

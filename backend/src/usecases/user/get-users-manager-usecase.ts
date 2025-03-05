@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { UserMapper } from 'src/adapters/mappers/user';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
-import { UserPresenter } from 'src/adapters/presenters/user';
-import { GetUsersDTOPresenter } from 'src/adapters/presenters/user/dtos/get-users.dto';
 import { RoleType } from 'src/entities/user/types';
+import { UserEntity } from 'src/entities';
 
 @Injectable()
 export class GetUsersManagerUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  async execute(): Promise<GetUsersDTOPresenter[]> {
+  async execute(): Promise<UserEntity[]> {
     const usersDB = await this.userRepository.findAllByRole(RoleType.MANAGER);
-    const users = UserMapper.fromDBList(usersDB);
-    return UserPresenter.toGetUsersDTO(users);
+    return UserMapper.fromDBList(usersDB);
   }
 }

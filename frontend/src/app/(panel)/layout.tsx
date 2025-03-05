@@ -8,7 +8,7 @@ import { useRepositorySSR } from "@/repositories/repositories.hook";
 import { getUser } from "@/services/Session/Session";
 import type { Store, User } from "@/types";
 import type { ApolloError } from "@apollo/client";
-import { redirect } from "next/navigation";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default async function PanelLayout({
   children,
@@ -23,15 +23,16 @@ export default async function PanelLayout({
   try {
     [stores, managers] = await Promise.all([
       storesRepository.getAll(),
-      usersRepository.getAllManagers(),
+      usersRepository.getAll(),
     ]);
   } catch (e) {
     const error = e as ApolloError;
-    const message = JSON.parse(error.message);
+    console.log(error.message);
+    // const message = JSON.parse(error.message);
 
-    if (message.statusCode === 401 && message.error === "UNAUTHORIZED") {
-      redirect("/login");
-    }
+    // if (message.statusCode === 401 && message.error === "UNAUTHORIZED") {
+    //   redirect("/login");
+    // }
   }
 
   return (

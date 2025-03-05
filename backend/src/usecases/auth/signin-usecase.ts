@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserMapper } from 'src/adapters/mappers/user';
 import { IUserRepository } from 'src/repositories/user/interfaces/i-user-repository';
 import { JwtService } from '@nestjs/jwt';
-import { UserPresenter } from 'src/adapters/presenters/user';
 import { SigninDTO } from 'src/controllers/auth/dto';
 import { AuthPresenter } from 'src/adapters/presenters/auth/auth.presenter';
 
@@ -20,7 +19,7 @@ export class SignInUseCase {
     }
 
     const user = UserMapper.fromDB(userDB);
-    const payload = { sub: userDB.id, user: UserPresenter.toSignIn(user) };
+    const payload = { sub: userDB.id, user };
 
     const access_token = this.jwtService.sign(payload);
 

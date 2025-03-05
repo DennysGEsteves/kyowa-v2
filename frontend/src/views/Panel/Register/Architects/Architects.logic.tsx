@@ -1,39 +1,41 @@
 import { useEntitiesContext } from "@/context/Entities.context";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Store } from "@/types/store";
+import type { Architect } from "@/types/architect";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { GET_STORES_REFETCH_TAG, tableColumns } from "./Stores.props";
+import { GET_ARCHITECTS_REFETCH_TAG, tableColumns } from "./Architects.props";
 
 export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalStore, setModalStore] = useState<Store | undefined>(undefined);
+  const [modalArchitect, setModalArchitect] = useState<Architect | undefined>(
+    undefined,
+  );
 
-  const { storesRepository } = useRepository();
+  const { architectsRepository } = useRepository();
 
   const { managers } = useEntitiesContext();
 
-  const { data: stores } = useQuery({
-    queryKey: [GET_STORES_REFETCH_TAG],
-    queryFn: storesRepository.getAll,
+  const { data: architects } = useQuery({
+    queryKey: [GET_ARCHITECTS_REFETCH_TAG],
+    queryFn: architectsRepository.getAll,
   });
 
   const tableColumnsData = tableColumns({
-    setModalStore,
+    setModalArchitect,
     setOpenModal,
     managers,
   });
 
   return {
     data: {
-      stores: stores || [],
+      architects: architects || [],
       openModal,
-      modalStore,
+      modalArchitect,
       tableColumnsData,
     },
     methods: {
       setOpenModal,
-      setModalStore,
+      setModalArchitect,
     },
   };
 };

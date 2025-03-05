@@ -40,7 +40,7 @@ export class StoreEntity {
   @Field({ nullable: true })
   public readonly managerId?: string;
 
-  // @Field(() => [UserEntity], { nullable: true })
+  @Field(() => UserEntity, { nullable: true })
   public readonly manager?: UserEntity;
 
   constructor(params: IConstructorParams) {

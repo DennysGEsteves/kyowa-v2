@@ -28,7 +28,7 @@ export class StoreMapper {
       obs: store.obs,
       managerId: store.managerId,
 
-      manager: store.manager ? UserMapper.fromStoreDB(store) : null,
+      manager: store.manager ? UserMapper.fromStoreDB(store) : undefined,
     });
   }
 

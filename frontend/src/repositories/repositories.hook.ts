@@ -12,7 +12,12 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { useCallback } from "react";
-import { AuthRepository, StoresRepository, UsersRepository } from "./api";
+import {
+  ArchitectsRepository,
+  AuthRepository,
+  StoresRepository,
+  UsersRepository,
+} from "./api";
 
 export type IApolloClient = ApolloClient<NormalizedCacheObject>;
 
@@ -43,7 +48,12 @@ export function useRepository() {
           );
         }
       } catch (e) {
-        console.log(e);
+        openDialog(
+          "Informe o administrador do sistema sobre este erro abaixo",
+          {
+            message: response.errors?.[0],
+          },
+        );
       }
     }
   });
@@ -67,6 +77,10 @@ export function useRepository() {
   return {
     usersRepository: useCallback(() => UsersRepository(client()), [token])(),
     storesRepository: useCallback(() => StoresRepository(client()), [token])(),
+    architectsRepository: useCallback(
+      () => ArchitectsRepository(client()),
+      [token],
+    )(),
   };
 }
 

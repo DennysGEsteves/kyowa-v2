@@ -7,7 +7,7 @@ type IConstructorParams = {
   readonly nameFilter?: string;
   readonly cpf?: string;
   readonly rg?: string;
-  readonly nasc?: Date;
+  readonly birthday?: Date;
   readonly occupation?: string;
   readonly email?: string;
   readonly address?: string;
@@ -28,7 +28,7 @@ export class ClientEntity {
   public readonly nameFilter?: string;
   public readonly cpf?: string;
   public readonly rg?: string;
-  public readonly nasc?: Date;
+  public readonly birthday?: Date;
   public readonly occupation?: string;
   public readonly email?: string;
   public readonly address?: string;
@@ -49,7 +49,7 @@ export class ClientEntity {
     this.cpf = params.cpf;
     this.rg = params.rg;
     this.architectID = params.architectID;
-    this.nasc = params.nasc;
+    this.birthday = params.birthday;
     this.occupation = params.occupation;
     this.email = params.email;
     this.address = params.address;

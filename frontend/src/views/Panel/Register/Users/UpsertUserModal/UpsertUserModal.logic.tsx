@@ -36,14 +36,10 @@ export const useLogic = (props: UpsertUserModalType) => {
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
     const payload = Transform.toUpsertUserDTO(data, props.user?.mid);
-    usersRepository[props.user?.mid ? "update" : "create"](payload)
-      .then(() => {
-        queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
-        props.setOpenModal(false);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    usersRepository[props.user?.mid ? "update" : "create"](payload).then(() => {
+      queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
+      props.setOpenModal(false);
+    });
   };
 
   useEffect(() => {

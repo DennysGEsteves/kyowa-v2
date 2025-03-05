@@ -10,7 +10,6 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/http/middlewares/auth/auth-guard';
 import { Roles } from 'src/http/middlewares/auth/roles-decorator';
 import { RoleType } from 'src/entities/user/types';
-import { GetStoresDTOPresenter } from 'src/adapters/presenters/store/dtos/get-stores.dto';
 
 @UseGuards(AuthGuard)
 @Roles(RoleType.ADMIN)
@@ -23,8 +22,8 @@ export class StoreResolver {
   ) {}
 
   @Roles(RoleType.LOGGED)
-  @Query(() => [GetStoresDTOPresenter])
-  async getStores(): Promise<GetStoresDTOPresenter[]> {
+  @Query(() => [StoreEntity])
+  async getStores(): Promise<StoreEntity[]> {
     return this.getStoresUseCase.execute();
   }
 

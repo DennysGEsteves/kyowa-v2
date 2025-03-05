@@ -36,18 +36,16 @@ export class ArchitectRepository implements IArchitectRepository {
   async update(architect: ArchitectEntity): Promise<ArchitectDB> {
     return await this.db.update({
       where: {
-        id: architect.id,
+        mid: architect.mid,
       },
       data: {
         name: architect.name,
-        nameFilter: architect.nameFilter,
         cpf: architect.cpf,
-        nasc: architect.nasc,
+        birthday: architect.birthday,
         email: architect.email,
         address: architect.address,
         phone: architect.phone,
         obs: architect.obs,
-        active: architect.active,
         sellerId: architect.sellerId,
       },
     });
@@ -59,7 +57,7 @@ export class ArchitectRepository implements IArchitectRepository {
         name: architect.name,
         nameFilter: architect.nameFilter,
         cpf: architect.cpf,
-        nasc: architect.nasc,
+        birthday: architect.birthday,
         email: architect.email,
         address: architect.address,
         phone: architect.phone,
@@ -73,7 +71,7 @@ export class ArchitectRepository implements IArchitectRepository {
   async delete(architectId: string): Promise<void> {
     await this.db.update({
       where: {
-        id: architectId,
+        mid: architectId,
       },
       data: {
         active: false,

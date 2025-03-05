@@ -21,7 +21,7 @@ export const getRoutesByUserRole = (role: Role) => {
       Routes.FINANCEIRO,
     ],
     FINANCE: [],
-    MANAGER: [],
+    MANAGER: [Routes.PRODUTOS, Routes.COMERCIAL_VENDAS, Routes.SERVICOS],
     OPERATIONAL: [],
     SALES: [],
   };

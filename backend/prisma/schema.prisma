@@ -48,7 +48,7 @@ model Architect {
   name       String
   nameFilter String?
   cpf        String?
-  nasc       DateTime?
+  birthday   DateTime?
   email      String?   @unique
   address    String?
   phone      String?
@@ -67,7 +67,7 @@ model Client {
   nameFilter       String?
   cpf              String?
   rg               String?
-  nasc             DateTime?
+  birthday         DateTime?
   occupation       String?
   email            String?
   address          String?

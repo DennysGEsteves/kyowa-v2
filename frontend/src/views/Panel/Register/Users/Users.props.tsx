@@ -36,7 +36,7 @@ export const tableColumns = (props: TableColumnsType) => {
       accessorKey: "role",
       title: "Nível",
       render: (user: User) => {
-        return <span className="">{RoleTranslated[user.role]}</span>;
+        return RoleTranslated[user.role];
       },
     },
     {
@@ -44,7 +44,7 @@ export const tableColumns = (props: TableColumnsType) => {
       title: "Loja",
       render: (user: User) => {
         const store = props.stores.find((item) => user.storeId === item.mid);
-        return <span className="">{store?.name}</span>;
+        return store?.name;
       },
     },
     {
