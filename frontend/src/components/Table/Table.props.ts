@@ -9,9 +9,14 @@ export type TableColumnsType = {
 
 export type TableComponentType = {
   columns: TableColumnsType[];
-  data: Record<string, any>[];
+  items: Record<string, any>[];
   search?: boolean;
   searchKeys?: string[];
-  pagination?: boolean;
   onSearch?: (text: string) => void;
+  pagination?: {
+    total: number;
+    totalPages: number;
+    page: number;
+    onPageChange: (page: number) => void;
+  };
 };

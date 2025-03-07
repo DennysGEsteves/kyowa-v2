@@ -3,12 +3,15 @@ import { IArchitectRepository } from './interfaces/i-architect-repository';
 import { ArchitectEntity } from '../../entities/architect';
 import { PrismaService } from 'src/services/prisma/prisma-service';
 import { ArchitectDB } from './types';
+import { PaginationArgs } from 'src/controllers/pagination-args';
+import { paginationDBQueryObj } from 'src/util/pagination-db-query/pagination-db-query';
+import { IArchitectPagination } from './interfaces/i-pagination';
 
 @Injectable()
 export class ArchitectRepository implements IArchitectRepository {
   private db = undefined;
 
-  constructor(readonly prisma: PrismaService) {
+  constructor(private prisma: PrismaService) {
     this.db = prisma.architect;
   }
 
@@ -19,6 +22,26 @@ export class ArchitectRepository implements IArchitectRepository {
         clients: true,
       },
     });
+  }
+
+  async findAllByPagination(
+    paginationArgs: PaginationArgs,
+  ): Promise<IArchitectPagination> {
+    const [items, total] = await this.prisma.$transaction([
+      this.db.findMany({
+        include: {
+          seller: true,
+          clients: true,
+        },
+        ...paginationDBQueryObj(paginationArgs),
+      }),
+      this.db.count(),
+    ]);
+
+    return {
+      items,
+      total,
+    };
   }
 
   async findByEmail(email: string): Promise<ArchitectDB> {

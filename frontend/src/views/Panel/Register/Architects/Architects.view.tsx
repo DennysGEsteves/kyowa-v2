@@ -33,7 +33,7 @@ const RegisterArchitectsView = () => {
             </div>
           </div>
         </div>
-        <Table columns={data.tableColumnsData} data={data.architects} search />
+        <Table {...data.tableData} />
       </div>
       <UpsertArchitectModal
         architect={data.modalArchitect}

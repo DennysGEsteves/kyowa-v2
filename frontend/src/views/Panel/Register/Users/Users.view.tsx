@@ -4,7 +4,6 @@ import { Table } from "@/components";
 import { PlusIcon } from "@/components/Icons";
 import UpsertUserModal from "./UpsertUserModal/UpsertUserModal.view";
 import { useLogic } from "./Users.logic";
-import { searchKeys } from "./Users.props";
 
 const RegisterUsersView = () => {
   const { data, methods } = useLogic();
@@ -34,12 +33,7 @@ const RegisterUsersView = () => {
             </div>
           </div>
         </div>
-        <Table
-          columns={data.tableColumnsData}
-          data={data.users}
-          search
-          searchKeys={searchKeys}
-        />
+        <Table {...data.tableData} />
       </div>
       <UpsertUserModal
         user={data.modalUser}

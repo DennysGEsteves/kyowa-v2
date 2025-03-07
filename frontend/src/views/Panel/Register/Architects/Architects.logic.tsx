@@ -3,21 +3,25 @@ import { useRepository } from "@/repositories/repositories.hook";
 import type { Architect } from "@/types/architect";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { GET_ARCHITECTS_REFETCH_TAG, tableColumns } from "./Architects.props";
+import {
+  GET_ARCHITECTS_PAGE_REFETCH_TAG,
+  tableColumns,
+} from "./Architects.props";
 
 export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalArchitect, setModalArchitect] = useState<Architect | undefined>(
     undefined,
   );
+  const [page, setPage] = useState(1);
 
   const { architectsRepository } = useRepository();
 
   const { managers } = useEntitiesContext();
 
-  const { data: architects } = useQuery({
-    queryKey: [GET_ARCHITECTS_REFETCH_TAG],
-    queryFn: architectsRepository.getAll,
+  const { data } = useQuery({
+    queryKey: [GET_ARCHITECTS_PAGE_REFETCH_TAG + page],
+    queryFn: () => architectsRepository.getAllByPagination(page),
   });
 
   const tableColumnsData = tableColumns({
@@ -26,12 +30,23 @@ export const useLogic = () => {
     managers,
   });
 
+  function onPageChange(page: number) {
+    setPage(page);
+  }
+
   return {
     data: {
-      architects: architects || [],
       openModal,
       modalArchitect,
-      tableColumnsData,
+      tableData: {
+        items: data?.items || [],
+        columns: tableColumnsData,
+        search: true,
+        pagination: {
+          ...data?.meta,
+          onPageChange,
+        },
+      },
     },
     methods: {
       setOpenModal,

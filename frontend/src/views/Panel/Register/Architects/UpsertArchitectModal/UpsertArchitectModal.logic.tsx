@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GET_ARCHITECTS_REFETCH_TAG } from "../Architects.props";
+import { GET_ARCHITECTS_PAGE_REFETCH_TAG } from "../Architects.props";
 import type { IForm } from "./UpsertArchitectModal.schema";
 import Transform from "./UpsertArchitectModal.transform";
 import type { UpsertArchitectModalType } from "./UpsertArchitectModal.view";
@@ -31,7 +31,7 @@ export const useLogic = (props: UpsertArchitectModalType) => {
       payload,
     ).then(() => {
       queryClient.invalidateQueries({
-        queryKey: [GET_ARCHITECTS_REFETCH_TAG],
+        queryKey: [GET_ARCHITECTS_PAGE_REFETCH_TAG],
       });
       props.setOpenModal(false);
     });

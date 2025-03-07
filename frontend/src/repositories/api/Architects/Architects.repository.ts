@@ -32,6 +32,44 @@ export function ArchitectsRepository(client: IApolloClient) {
     return data.getArchitects;
   }
 
+  async function getAllByPagination(page: number) {
+    const { data } = await client.query({
+      variables: {
+        page,
+      },
+      query: gql`
+        query GetArchitectsByPagination($page: Int) {
+          getArchitectsByPagination(page: $page) {
+            items {
+              mid
+              id
+              name
+              cpf
+              birthday
+              email
+              address
+              phone
+              obs
+              active
+              sellerId
+              seller {
+                mid
+                name
+              }
+            }
+            meta {
+              total
+              page
+              totalPages
+            }
+          }
+        }
+      `,
+    });
+
+    return data.getArchitectsByPagination;
+  }
+
   async function update(dto: UpsertArchitectDTO): Promise<void> {
     await client.mutate({
       variables: {
@@ -82,6 +120,7 @@ export function ArchitectsRepository(client: IApolloClient) {
 
   return {
     getAll,
+    getAllByPagination,
     update,
     create,
   };

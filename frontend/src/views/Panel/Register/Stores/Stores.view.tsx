@@ -3,7 +3,6 @@
 import { Table } from "@/components";
 import { PlusIcon } from "@/components/Icons";
 import { useLogic } from "./Stores.logic";
-import { searchKeys } from "./Stores.props";
 import UpsertStoreModal from "./UpsertStoreModal/UpsertStoreModal.view";
 
 const RegisterStoresView = () => {
@@ -34,12 +33,7 @@ const RegisterStoresView = () => {
             </div>
           </div>
         </div>
-        <Table
-          columns={data.tableColumnsData}
-          data={data.stores}
-          search
-          searchKeys={searchKeys}
-        />
+        <Table {...data.tableData} />
       </div>
       <UpsertStoreModal
         store={data.modalStore}

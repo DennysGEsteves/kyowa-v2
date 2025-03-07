@@ -3,7 +3,7 @@ export type UpsertArchitectDTO = {
   name: string;
   email: string;
   cpf?: string;
-  birthday?: Date;
+  birthday?: string;
   address?: string;
   phone?: string;
   obs?: string;

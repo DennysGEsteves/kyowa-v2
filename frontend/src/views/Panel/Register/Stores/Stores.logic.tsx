@@ -3,7 +3,11 @@ import { useRepository } from "@/repositories/repositories.hook";
 import type { Store } from "@/types/store";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { GET_STORES_REFETCH_TAG, tableColumns } from "./Stores.props";
+import {
+  GET_STORES_REFETCH_TAG,
+  searchKeys,
+  tableColumns,
+} from "./Stores.props";
 
 export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -26,10 +30,14 @@ export const useLogic = () => {
 
   return {
     data: {
-      stores: stores || [],
       openModal,
       modalStore,
-      tableColumnsData,
+      tableData: {
+        items: stores || [],
+        columns: tableColumnsData,
+        search: true,
+        searchKeys: searchKeys,
+      },
     },
     methods: {
       setOpenModal,

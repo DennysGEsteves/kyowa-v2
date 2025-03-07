@@ -11,7 +11,7 @@ type TableColumnsType = {
   managers: User[];
 };
 
-export const GET_ARCHITECTS_REFETCH_TAG = "GET_ARCHITECTS";
+export const GET_ARCHITECTS_PAGE_REFETCH_TAG = "GET_ARCHITECTS_PAGE_";
 
 export const tableColumns = (props: TableColumnsType) => {
   return [
