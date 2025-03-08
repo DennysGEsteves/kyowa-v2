@@ -27,15 +27,22 @@ export class ArchitectRepository implements IArchitectRepository {
   async findAllByPagination(
     paginationArgs: PaginationArgs,
   ): Promise<IArchitectPagination> {
+    const paginationDBQuery = paginationDBQueryObj(paginationArgs, [
+      'name',
+      'email',
+    ]);
+
     const [items, total] = await this.prisma.$transaction([
       this.db.findMany({
         include: {
           seller: true,
           clients: true,
         },
-        ...paginationDBQueryObj(paginationArgs),
+        ...paginationDBQuery,
       }),
-      this.db.count(),
+      this.db.count({
+        where: paginationDBQuery.where,
+      }),
     ]);
 
     return {

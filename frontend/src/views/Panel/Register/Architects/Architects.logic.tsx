@@ -3,10 +3,7 @@ import { useRepository } from "@/repositories/repositories.hook";
 import type { Architect } from "@/types/architect";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import {
-  GET_ARCHITECTS_PAGE_REFETCH_TAG,
-  tableColumns,
-} from "./Architects.props";
+import { GET_ARCHITECTS_REFETCH_TAG, tableColumns } from "./Architects.props";
 
 export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -14,14 +11,17 @@ export const useLogic = () => {
     undefined,
   );
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  let debounce: NodeJS.Timeout | undefined = undefined;
 
   const { architectsRepository } = useRepository();
 
   const { managers } = useEntitiesContext();
 
   const { data } = useQuery({
-    queryKey: [GET_ARCHITECTS_PAGE_REFETCH_TAG + page],
-    queryFn: () => architectsRepository.getAllByPagination(page),
+    queryKey: [GET_ARCHITECTS_REFETCH_TAG, { page, search }],
+    queryFn: () => architectsRepository.getAllByPagination(page, search),
   });
 
   const tableColumnsData = tableColumns({
@@ -34,6 +34,14 @@ export const useLogic = () => {
     setPage(page);
   }
 
+  function onSearch(value: string) {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      setPage(1);
+      setSearch(value);
+    }, 500);
+  }
+
   return {
     data: {
       openModal,
@@ -42,6 +50,7 @@ export const useLogic = () => {
         items: data?.items || [],
         columns: tableColumnsData,
         search: true,
+        onSearch,
         pagination: {
           ...data?.meta,
           onPageChange,

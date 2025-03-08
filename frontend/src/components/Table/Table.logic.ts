@@ -24,10 +24,9 @@ export const useLogic = (props: TableComponentType) => {
       } else {
         const newSearchItems = props.items.filter(
           (item: Record<string, any>) => {
-            const found = props.searchKeys?.some((key) => {
-              // console.log(item[key].toLowerCase(), seachValue.toLowerCase());
-              return item[key].toLowerCase().includes(seachValue.toLowerCase());
-            });
+            const found = props.searchKeys?.some((key) =>
+              item[key].toLowerCase().includes(seachValue.toLowerCase()),
+            );
 
             return found;
           },

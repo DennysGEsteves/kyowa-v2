@@ -15,7 +15,7 @@ const RegisterArchitectsView = () => {
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <h5 className="block font-sans text-xl font-semibold leading-snug tracking-normal text-gray-900 antialiased">
-                Lista de Lojas
+                Lista de arquitetos
               </h5>
             </div>
             <div className="flex shrink-0 flex-col gap-2 sm:flex-row">

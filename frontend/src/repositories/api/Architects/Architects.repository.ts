@@ -32,14 +32,15 @@ export function ArchitectsRepository(client: IApolloClient) {
     return data.getArchitects;
   }
 
-  async function getAllByPagination(page: number) {
+  async function getAllByPagination(page: number, search?: string) {
     const { data } = await client.query({
       variables: {
         page,
+        search,
       },
       query: gql`
-        query GetArchitectsByPagination($page: Int) {
-          getArchitectsByPagination(page: $page) {
+        query GetArchitectsByPagination($page: Int, $search: String) {
+          getArchitectsByPagination(page: $page, search: $search) {
             items {
               mid
               id

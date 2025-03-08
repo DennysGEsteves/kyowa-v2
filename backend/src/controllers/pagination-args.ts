@@ -7,4 +7,7 @@ export class PaginationArgs {
 
   @Field(() => Int, { nullable: true, defaultValue: 10 })
   limit?: number;
+
+  @Field(() => String, { nullable: true })
+  search?: string;
 }
