@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEntitiesContext } from "@/context/Entities.context";
+import { GET_STORES_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GET_STORES_REFETCH_TAG } from "../Stores.props";
 import type { IForm } from "./UpsertStoreModal.schema";
 import Transform from "./UpsertStoreModal.transform";
 import type { UpsertStoreModalType } from "./UpsertStoreModal.view";

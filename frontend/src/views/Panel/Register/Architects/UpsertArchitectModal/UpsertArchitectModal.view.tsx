@@ -29,7 +29,7 @@ export const UpsertArchitectModal = (props: UpsertArchitectModalType) => {
       onClose={() => props.setOpenModal(false)}
     >
       <FormModal.Header onClose={() => props.setOpenModal(false)}>
-        Adicionar nova loja
+        Adicionar novo arquiteto
       </FormModal.Header>
       <form onSubmit={methods.handleSubmit(methods.onSubmit)}>
         <FormModal.Body>

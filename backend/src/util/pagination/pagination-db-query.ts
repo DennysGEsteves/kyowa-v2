@@ -1,4 +1,4 @@
-import { PaginationArgs } from 'src/controllers/pagination-args';
+import { PaginationArgs } from 'src/util/pagination/pagination-args';
 
 export type PaginationSearchType = {
   [key: string]: {

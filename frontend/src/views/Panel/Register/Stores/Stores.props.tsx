@@ -11,8 +11,6 @@ type TableColumnsType = {
   managers: User[];
 };
 
-export const GET_STORES_REFETCH_TAG = "GET_STORES";
-
 export const searchKeys = ["name", "email"];
 
 export const tableColumns = (props: TableColumnsType) => {

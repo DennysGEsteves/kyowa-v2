@@ -1,9 +1,10 @@
 import { useEntitiesContext } from "@/context/Entities.context";
+import { GET_USERS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
 import type { User } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { GET_USERS_REFETCH_TAG, searchKeys, tableColumns } from "./Users.props";
+import { searchKeys, tableColumns } from "./Users.props";
 
 export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);

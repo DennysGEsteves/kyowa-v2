@@ -3,6 +3,9 @@ import { IClientRepository } from './interfaces/i-client-repository';
 import { ClientEntity } from '../../entities/client';
 import { PrismaService } from 'src/services/prisma/prisma-service';
 import { ClientDB } from './types';
+import { PaginationArgs } from 'src/util/pagination/pagination-args';
+import { IClientPagination } from './interfaces/i-client-pagination';
+import { paginationDBQueryObj } from 'src/util/pagination';
 
 @Injectable()
 export class ClientRepository implements IClientRepository {
@@ -20,6 +23,32 @@ export class ClientRepository implements IClientRepository {
     });
   }
 
+  async findAllByPagination(
+    paginationArgs: PaginationArgs,
+  ): Promise<IClientPagination> {
+    const paginationDBQuery = paginationDBQueryObj(paginationArgs, [
+      'name',
+      'email',
+    ]);
+
+    const [items, total] = await this.prisma.$transaction([
+      this.db.findMany({
+        include: {
+          architect: true,
+        },
+        ...paginationDBQuery,
+      }),
+      this.db.count({
+        where: paginationDBQuery.where,
+      }),
+    ]);
+
+    return {
+      items,
+      total,
+    };
+  }
+
   async findByEmail(email: string): Promise<ClientDB> {
     return await this.db.findUnique({
       where: {
@@ -34,7 +63,7 @@ export class ClientRepository implements IClientRepository {
   async update(client: ClientEntity): Promise<ClientDB> {
     return await this.db.update({
       where: {
-        id: client.id,
+        mid: client.mid,
       },
       data: {
         name: client.name,
@@ -50,7 +79,7 @@ export class ClientRepository implements IClientRepository {
         active: client.active,
         interestProducts: client.interestProducts,
         origins: client.origins,
-        architectID: client.architectID,
+        architectId: client.architectId,
       },
     });
   }
@@ -71,7 +100,7 @@ export class ClientRepository implements IClientRepository {
         active: client.active,
         interestProducts: client.interestProducts,
         origins: client.origins,
-        architectID: client.architectID,
+        architectId: client.architectId,
       },
     });
   }
@@ -79,7 +108,7 @@ export class ClientRepository implements IClientRepository {
   async delete(clientId: string): Promise<void> {
     await this.db.update({
       where: {
-        id: clientId,
+        mid: clientId,
       },
       data: {
         active: false,

@@ -15,6 +15,7 @@ import { useCallback } from "react";
 import {
   ArchitectsRepository,
   AuthRepository,
+  ClientsRepository,
   StoresRepository,
   UsersRepository,
 } from "./api";
@@ -79,6 +80,10 @@ export function useRepository() {
     storesRepository: useCallback(() => StoresRepository(client()), [token])(),
     architectsRepository: useCallback(
       () => ArchitectsRepository(client()),
+      [token],
+    )(),
+    clientsRepository: useCallback(
+      () => ClientsRepository(client()),
       [token],
     )(),
   };

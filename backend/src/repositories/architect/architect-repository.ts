@@ -3,9 +3,9 @@ import { IArchitectRepository } from './interfaces/i-architect-repository';
 import { ArchitectEntity } from '../../entities/architect';
 import { PrismaService } from 'src/services/prisma/prisma-service';
 import { ArchitectDB } from './types';
-import { PaginationArgs } from 'src/controllers/pagination-args';
-import { paginationDBQueryObj } from 'src/util/pagination-db-query/pagination-db-query';
-import { IArchitectPagination } from './interfaces/i-pagination';
+import { PaginationArgs } from 'src/util/pagination/pagination-args';
+import { paginationDBQueryObj } from 'src/util/pagination/pagination-db-query';
+import { IArchitectPagination } from './interfaces/i-architect-pagination';
 
 @Injectable()
 export class ArchitectRepository implements IArchitectRepository {

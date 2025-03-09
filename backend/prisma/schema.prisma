@@ -77,9 +77,9 @@ model Client {
   interestProducts InterestProducts[]
   origins          Origins[]
   createdAt        DateTime           @default(now())
-  architectID      String?            @db.ObjectId
+  architectId      String?            @db.ObjectId
 
-  architect Architect? @relation(fields: [architectID], references: [mid])
+  architect Architect? @relation(fields: [architectId], references: [mid])
 }
 
 model Supplier {

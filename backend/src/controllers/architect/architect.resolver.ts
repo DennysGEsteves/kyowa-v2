@@ -10,7 +10,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/http/middlewares/auth/auth-guard';
 import { Roles } from 'src/http/middlewares/auth/roles-decorator';
 import { RoleType } from 'src/entities/user/types';
-import { PaginationArgs } from '../pagination-args';
+import { PaginationArgs } from '../../util/pagination/pagination-args';
 import { GetArchitectsByPaginationResponse } from 'src/adapters/presenters/architects/dtos/get-architects-by-pagination';
 
 @UseGuards(AuthGuard)

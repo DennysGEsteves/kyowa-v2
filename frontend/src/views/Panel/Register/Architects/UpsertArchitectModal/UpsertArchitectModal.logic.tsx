@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEntitiesContext } from "@/context/Entities.context";
+import { GET_ARCHITECTS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { GET_ARCHITECTS_REFETCH_TAG } from "../Architects.props";
 import type { IForm } from "./UpsertArchitectModal.schema";
 import Transform from "./UpsertArchitectModal.transform";
 import type { UpsertArchitectModalType } from "./UpsertArchitectModal.view";

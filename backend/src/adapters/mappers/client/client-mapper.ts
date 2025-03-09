@@ -3,30 +3,38 @@ import { ClientEntity as ClientEntity } from 'src/entities';
 import { ClientDB } from 'src/repositories/client/types';
 import { ArchitectMapper } from '../architect';
 import { InterestProduct, Origin } from 'src/entities/client/types';
+import { UpsertClientDTO } from 'src/controllers/client/dto';
+import { slugify } from 'src/util/string';
 
 export class ClientMapper {
-  static fromUpsertClientDTO(dto: any, clientId?: number): ClientEntity {
+  static fromUpsertClientDTO(dto: UpsertClientDTO): ClientEntity {
     return new ClientEntity({
-      ...(clientId ? { id: clientId } : {}),
+      ...(dto.mid
+        ? {
+            mid: dto.mid,
+          }
+        : {
+            nameFilter: slugify(dto.name),
+          }),
       name: dto.name,
-      nameFilter: dto.nameFilter,
       cpf: dto.cpf,
       rg: dto.rg,
       birthday: dto.birthday,
-      occupation: dto.occupation,
       email: dto.email,
       address: dto.address,
       phone: dto.phone,
+      occupation: dto.occupation,
       obs: dto.obs,
       active: dto.active,
       interestProducts: dto.interestProducts,
       origins: dto.origins,
-      architectID: dto.architectID,
+      architectId: dto.architectId,
     });
   }
 
   static fromDB(client: ClientDB): ClientEntity {
     return new ClientEntity({
+      mid: client.mid,
       id: client.id,
       name: client.name,
       nameFilter: client.nameFilter,
@@ -41,9 +49,9 @@ export class ClientMapper {
       active: client.active,
       interestProducts: client.interestProducts as InterestProduct[],
       origins: client.origins as Origin[],
-      architectID: client.architectID,
+      architectId: client.architectId,
 
-      architect: ArchitectMapper.fromClientDB(client),
+      architect: client.architect ? ArchitectMapper.fromClientDB(client) : null,
     });
   }
 

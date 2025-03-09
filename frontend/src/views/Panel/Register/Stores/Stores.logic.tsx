@@ -1,13 +1,10 @@
 import { useEntitiesContext } from "@/context/Entities.context";
+import { GET_STORES_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
 import type { Store } from "@/types/store";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import {
-  GET_STORES_REFETCH_TAG,
-  searchKeys,
-  tableColumns,
-} from "./Stores.props";
+import { searchKeys, tableColumns } from "./Stores.props";
 
 export const useLogic = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);

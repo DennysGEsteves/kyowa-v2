@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ArchitectEntity } from 'src/entities';
 import { ArchitectMapper } from 'src/adapters/mappers/architect';
 import { IArchitectRepository } from 'src/repositories/architect/interfaces/i-architect-repository';
-import { PaginationArgs } from 'src/controllers/pagination-args';
+import { PaginationArgs } from 'src/util/pagination/pagination-args';
 import { GetArchitectsByPaginationResponse } from 'src/adapters/presenters/architects/dtos/get-architects-by-pagination';
 
 @Injectable()

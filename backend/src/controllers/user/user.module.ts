@@ -9,15 +9,8 @@ import {
   GetUsersManagerUseCase,
 } from 'src/usecases/user';
 import { IUserRepository, UserRepository } from 'src/repositories/user';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
   providers: [
     UserResolver,
     CreateUserUseCase,

@@ -1,7 +1,7 @@
 import { ArchitectEntity as ArchitectEntity } from 'src/entities';
 import { ArchitectDB } from '../types';
-import { PaginationArgs } from 'src/controllers/pagination-args';
-import { IArchitectPagination } from './i-pagination';
+import { PaginationArgs } from 'src/util/pagination/pagination-args';
+import { IArchitectPagination } from './i-architect-pagination';
 
 export abstract class IArchitectRepository {
   abstract create(architect: ArchitectEntity): Promise<ArchitectDB>;

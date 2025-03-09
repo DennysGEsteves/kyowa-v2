@@ -1,7 +1,9 @@
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { ArchitectEntity } from '../architect';
 import { InterestProduct, Origin } from './types';
 
 type IConstructorParams = {
+  readonly mid?: string;
   readonly id?: number;
   readonly name: string;
   readonly nameFilter?: string;
@@ -17,38 +19,75 @@ type IConstructorParams = {
   readonly interestProducts?: InterestProduct[];
   readonly origins?: Origin[];
   readonly createdAt?: Date;
-  readonly architectID?: string;
+  readonly architectId?: string;
 
   readonly architect?: ArchitectEntity;
 };
 
+@ObjectType()
 export class ClientEntity {
-  public readonly id?: number;
-  public readonly name: string;
-  public readonly nameFilter?: string;
-  public readonly cpf?: string;
-  public readonly rg?: string;
-  public readonly birthday?: Date;
-  public readonly occupation?: string;
-  public readonly email?: string;
-  public readonly address?: string;
-  public readonly phone?: string;
-  public readonly obs?: string;
-  public readonly active?: boolean;
-  public readonly interestProducts?: InterestProduct[];
-  public readonly origins?: Origin[];
-  public readonly createdAt?: Date;
-  public readonly architectID?: string;
+  @Field(() => ID)
+  public readonly mid?: string;
 
+  @Field(() => Int)
+  public readonly id?: number;
+
+  @Field()
+  public readonly name: string;
+
+  @Field({ nullable: true })
+  public readonly nameFilter?: string;
+
+  @Field({ nullable: true })
+  public readonly cpf?: string;
+
+  @Field({ nullable: true })
+  public readonly rg?: string;
+
+  @Field({ nullable: true })
+  public readonly birthday?: Date;
+
+  @Field({ nullable: true })
+  public readonly occupation?: string;
+
+  @Field({ nullable: true })
+  public readonly email?: string;
+
+  @Field({ nullable: true })
+  public readonly address?: string;
+
+  @Field({ nullable: true })
+  public readonly phone?: string;
+
+  @Field({ nullable: true })
+  public readonly obs?: string;
+
+  @Field({ nullable: true })
+  public readonly active?: boolean;
+
+  @Field(() => [InterestProduct], { nullable: true })
+  public readonly interestProducts?: InterestProduct[];
+
+  @Field(() => [Origin], { nullable: true })
+  public readonly origins?: Origin[];
+
+  @Field({ nullable: true })
+  public readonly createdAt?: Date;
+
+  @Field({ nullable: true })
+  public readonly architectId?: string;
+
+  @Field(() => ArchitectEntity, { nullable: true })
   public readonly architect?: ArchitectEntity;
 
   constructor(params: IConstructorParams) {
+    this.mid = params.mid;
     this.id = params.id;
     this.name = params.name;
     this.nameFilter = params.nameFilter;
     this.cpf = params.cpf;
     this.rg = params.rg;
-    this.architectID = params.architectID;
+    this.architectId = params.architectId;
     this.birthday = params.birthday;
     this.occupation = params.occupation;
     this.email = params.email;

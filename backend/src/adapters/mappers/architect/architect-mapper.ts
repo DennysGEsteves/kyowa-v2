@@ -5,9 +5,10 @@ import { ArchitectDB } from 'src/repositories/architect/types';
 import { UserMapper } from '../user';
 import { ClientDB } from 'src/repositories/client/types';
 import { slugify } from 'src/util/string';
+import { UpsertArchitectDTO } from 'src/controllers/architect/dto';
 
 export class ArchitectMapper {
-  static fromUpsertArchitectDTO(dto: any): ArchitectEntity {
+  static fromUpsertArchitectDTO(dto: UpsertArchitectDTO): ArchitectEntity {
     return new ArchitectEntity({
       ...(dto.mid
         ? {
@@ -23,7 +24,6 @@ export class ArchitectMapper {
       address: dto.address,
       phone: dto.phone,
       obs: dto.obs,
-      active: dto.active,
       sellerId: dto.sellerId,
     });
   }

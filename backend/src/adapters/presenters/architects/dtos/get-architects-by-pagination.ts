@@ -1,17 +1,6 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { ArchitectEntity } from 'src/entities';
-
-@ObjectType()
-class PaginationMeta {
-  @Field(() => Int)
-  total: number;
-
-  @Field(() => Int)
-  page: number;
-
-  @Field(() => Int)
-  totalPages: number;
-}
+import { PaginationMeta } from 'src/util/pagination';
 
 @ObjectType()
 export class GetArchitectsByPaginationResponse {

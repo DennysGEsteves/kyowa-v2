@@ -1,3 +1,5 @@
+import { registerEnumType } from '@nestjs/graphql';
+
 export enum Origin {
   friends = 'friends',
   architect = 'architect',
@@ -7,3 +9,5 @@ export enum Origin {
   socialNetwork = 'socialNetwork',
   tv = 'tv',
 }
+
+registerEnumType(Origin, { name: 'Origin' });

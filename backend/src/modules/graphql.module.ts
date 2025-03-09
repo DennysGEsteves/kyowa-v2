@@ -8,9 +8,17 @@ import { RequestContextMiddleware } from 'src/http/middlewares/request-context/r
 import { AuthModule } from '../controllers/auth/auth.module';
 import { StoreModule } from 'src/controllers/store/store.module';
 import { ArchitectModule } from 'src/controllers/architect/architect.module';
+import { ClientModule } from 'src/controllers/client/client.module';
 
 @Module({
-  imports: [GlobalModule, AuthModule, UserModule, StoreModule, ArchitectModule],
+  imports: [
+    GlobalModule,
+    AuthModule,
+    UserModule,
+    StoreModule,
+    ArchitectModule,
+    ClientModule,
+  ],
   providers: [
     {
       provide: APP_INTERCEPTOR,

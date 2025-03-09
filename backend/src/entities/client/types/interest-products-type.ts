@@ -1,3 +1,5 @@
+import { registerEnumType } from '@nestjs/graphql';
+
 export enum InterestProduct {
   cushion = 'cushion',
   carpet = 'carpet',
@@ -10,3 +12,5 @@ export enum InterestProduct {
   mat = 'mat',
   awning = 'awning',
 }
+
+registerEnumType(InterestProduct, { name: 'InterestProduct' });
