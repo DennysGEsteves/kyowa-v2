@@ -81,6 +81,24 @@ export function ClientsRepository(client: IApolloClient) {
     return data.getClientsByPagination;
   }
 
+  async function getByName(name: string) {
+    const { data } = await client.query({
+      variables: {
+        name,
+      },
+      query: gql`
+        query GetClientsByPagination($name: String) {
+          getClientsByPagination(name: $name) {
+            mid
+            name
+          }
+        }
+      `,
+    });
+
+    return data.getClientsByName;
+  }
+
   async function update(dto: UpsertClientDTO): Promise<void> {
     await client.mutate({
       variables: {
@@ -138,6 +156,7 @@ export function ClientsRepository(client: IApolloClient) {
   return {
     getAll,
     getAllByPagination,
+    getByName,
     update,
     create,
   };

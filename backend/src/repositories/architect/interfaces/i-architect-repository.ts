@@ -8,6 +8,7 @@ export abstract class IArchitectRepository {
   abstract update(architect: ArchitectEntity): Promise<ArchitectDB>;
   abstract delete(architectId: string): Promise<void>;
   abstract findAll(paginationArgs?: PaginationArgs): Promise<ArchitectDB[]>;
+  abstract findAllByName(name: string): Promise<ArchitectDB[]>;
   abstract findAllByPagination(
     paginationArgs: PaginationArgs,
   ): Promise<IArchitectPagination>;

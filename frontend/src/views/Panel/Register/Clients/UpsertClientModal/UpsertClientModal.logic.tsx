@@ -17,8 +17,8 @@ export const useLogic = (props: UpsertClientModalType) => {
     formState: { errors, isLoading },
     reset,
     clearErrors,
-    getValues,
     register,
+    getValues,
   } = useForm<IForm>({
     defaultValues: {},
   });

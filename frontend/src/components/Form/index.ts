@@ -1,3 +1,4 @@
+export { default as FormAutocomplete } from "./Autocomplete";
 export * from "./Button";
 export { default as FormCheckboxGroup } from "./CheckboxGroup";
 export { default as FormDatepicker } from "./Datepicker";

@@ -71,6 +71,24 @@ export function ArchitectsRepository(client: IApolloClient) {
     return data.getArchitectsByPagination;
   }
 
+  async function getByName(name: string) {
+    const { data } = await client.query({
+      variables: {
+        name,
+      },
+      query: gql`
+        query GetArchitectsByName($name: String!) {
+          getArchitectsByName(name: $name) {
+            mid
+            name
+          }
+        }
+      `,
+    });
+
+    return data.getArchitectsByName;
+  }
+
   async function update(dto: UpsertArchitectDTO): Promise<void> {
     await client.mutate({
       variables: {
@@ -122,6 +140,7 @@ export function ArchitectsRepository(client: IApolloClient) {
   return {
     getAll,
     getAllByPagination,
+    getByName,
     update,
     create,
   };

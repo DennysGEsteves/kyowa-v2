@@ -51,6 +51,17 @@ export class ArchitectRepository implements IArchitectRepository {
     };
   }
 
+  async findAllByName(name: string): Promise<ArchitectDB[]> {
+    return await this.db.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+
   async findByEmail(email: string): Promise<ArchitectDB> {
     return await this.db.findUnique({
       where: {

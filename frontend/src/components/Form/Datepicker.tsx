@@ -14,7 +14,7 @@ const FormDatepicker = (props: any) => {
           </label>
         </div>
         <div className="md:w-80">
-          <DatePicker {...props} dateFormat={"dd/MM/yyyy"} />
+          <DatePicker {...props} dateFormat={"dd/MM/yyyy"} showYearDropdown />
         </div>
       </div>
     </>

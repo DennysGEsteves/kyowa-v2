@@ -4,6 +4,7 @@ import { ArchitectMapper } from 'src/adapters/mappers/architect';
 import { IArchitectRepository } from 'src/repositories/architect/interfaces/i-architect-repository';
 import { PaginationArgs } from 'src/util/pagination/pagination-args';
 import { GetArchitectsByPaginationResponse } from 'src/adapters/presenters/architects/dtos/get-architects-by-pagination';
+import { GetArchitectsByNameResponse } from 'src/adapters/presenters/architects/dtos/get-architects-by-name';
 
 @Injectable()
 export class GetArchitectsUseCase {
@@ -30,5 +31,18 @@ export class GetArchitectsUseCase {
         totalPages: Math.ceil(res.total / paginationArgs.limit),
       },
     };
+  }
+
+  async executeByName(name: string): Promise<GetArchitectsByNameResponse[]> {
+    const architectsDB = await this.architectRepository.findAllByName(name);
+
+    console.log(architectsDB);
+
+    const architects = ArchitectMapper.fromDBList(architectsDB);
+
+    return architects.map((architect) => ({
+      mid: architect.mid,
+      name: architect.name,
+    }));
   }
 }

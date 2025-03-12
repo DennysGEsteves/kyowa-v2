@@ -2,12 +2,12 @@
 
 import { FormModal } from "@/components";
 import {
+  FormAutocomplete,
   FormBtnCancel,
   FormBtnSubmit,
   FormCheckboxGroup,
   FormDatepicker,
   FormInput,
-  FormSelect,
 } from "@/components/Form";
 import type { InterestProductType, OriginType } from "@/types/client";
 import { interestProductMap, originMap, type Client } from "@/types/client";
@@ -118,7 +118,7 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
               render={({ field }) => (
                 <FormDatepicker
                   label="Data de Nascimento"
-                  selected={field.value ? new Date(field.value) : new Date()}
+                  selected={field.value ? new Date(field.value) : null}
                   onChange={(date: Date) => field.onChange(date)}
                 />
               )}
@@ -129,15 +129,11 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
               name="architectId"
               control={data.control}
               render={({ field }) => (
-                <FormSelect
+                <FormAutocomplete
                   label="Arquiteto"
                   error={data.errors.architectId}
-                  options={[]}
-                  // options={data.managers.map((manager: User) => ({
-                  //   value: manager.mid,
-                  //   label: manager.name,
-                  // }))}
-                  {...field}
+                  entity="ARCHITECTS"
+                  field={field}
                 />
               )}
             />

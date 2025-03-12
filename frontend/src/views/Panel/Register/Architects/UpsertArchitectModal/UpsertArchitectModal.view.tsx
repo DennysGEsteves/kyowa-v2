@@ -95,7 +95,7 @@ export const UpsertArchitectModal = (props: UpsertArchitectModalType) => {
               render={({ field }) => (
                 <FormDatepicker
                   label="Data de Nascimento"
-                  selected={field.value ? new Date(field.value) : new Date()}
+                  selected={field.value ? new Date(field.value) : null}
                   onChange={(date: Date) => field.onChange(date)}
                 />
               )}

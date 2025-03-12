@@ -12,6 +12,7 @@ import { Roles } from 'src/http/middlewares/auth/roles-decorator';
 import { RoleType } from 'src/entities/user/types';
 import { PaginationArgs } from '../../util/pagination/pagination-args';
 import { GetArchitectsByPaginationResponse } from 'src/adapters/presenters/architects/dtos/get-architects-by-pagination';
+import { GetArchitectsByNameResponse } from 'src/adapters/presenters/architects/dtos/get-architects-by-name';
 
 @UseGuards(AuthGuard)
 @Roles(RoleType.ADMIN)
@@ -33,6 +34,13 @@ export class ArchitectResolver {
     @Args() paginationArgs: PaginationArgs,
   ): Promise<GetArchitectsByPaginationResponse> {
     return this.getArchitectsUseCase.executeByPagination(paginationArgs);
+  }
+
+  @Query(() => [GetArchitectsByNameResponse])
+  async getArchitectsByName(
+    @Args('name') name: string,
+  ): Promise<GetArchitectsByNameResponse[]> {
+    return this.getArchitectsUseCase.executeByName(name);
   }
 
   @Mutation(() => ArchitectEntity)
