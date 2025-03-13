@@ -1,32 +1,37 @@
 import { SupplierEntity as SupplierEntity } from 'src/entities';
 // import { UpsertSupplierDTO } from 'src/controllers/supplier/dtos';
 import { SupplierDB } from 'src/repositories/supplier/types';
-import { SupplierType } from 'src/entities/supplier/types';
+import { UpsertSupplierDTO } from 'src/controllers/supplier/dto';
+import { slugify } from 'src/util/string';
 
 export class SupplierMapper {
-  static fromUpsertSupplierDTO(dto: any, supplierId?: number): SupplierEntity {
+  static fromUpsertSupplierDTO(dto: UpsertSupplierDTO): SupplierEntity {
     return new SupplierEntity({
-      ...(supplierId ? { id: supplierId } : {}),
+      ...(dto.mid
+        ? {
+            mid: dto.mid,
+          }
+        : {
+            nameFilter: slugify(dto.name),
+          }),
       name: dto.name,
-      nameFilter: dto.nameFilter,
-      cpnj: dto.cnpj,
+      cnpj: dto.cnpj,
       im: dto.im,
       ie: dto.ie,
       email: dto.email,
       address: dto.address,
       phone: dto.phone,
       obs: dto.obs,
-      active: dto.active,
-      type: dto.type,
     });
   }
 
   static fromDB(supplier: SupplierDB): SupplierEntity {
     return new SupplierEntity({
+      mid: supplier.mid,
       id: supplier.id,
       name: supplier.name,
       nameFilter: supplier.nameFilter,
-      cpnj: supplier.cpnj,
+      cnpj: supplier.cnpj,
       im: supplier.im,
       ie: supplier.ie,
       email: supplier.email,
@@ -34,7 +39,6 @@ export class SupplierMapper {
       phone: supplier.phone,
       obs: supplier.obs,
       active: supplier.active,
-      type: supplier.type as SupplierType,
     });
   }
 

@@ -19,7 +19,6 @@ export class ArchitectRepository implements IArchitectRepository {
     return await this.db.findMany({
       include: {
         seller: true,
-        clients: true,
       },
     });
   }
@@ -36,7 +35,6 @@ export class ArchitectRepository implements IArchitectRepository {
       this.db.findMany({
         include: {
           seller: true,
-          clients: true,
         },
         ...paginationDBQuery,
       }),
@@ -69,7 +67,6 @@ export class ArchitectRepository implements IArchitectRepository {
       },
       include: {
         seller: true,
-        clients: true,
       },
     });
   }

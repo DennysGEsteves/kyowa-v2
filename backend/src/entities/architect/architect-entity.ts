@@ -1,5 +1,4 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { ClientEntity } from '../client';
 import { UserEntity } from '../user';
 
 type IConstructorParams = {
@@ -17,7 +16,6 @@ type IConstructorParams = {
   readonly sellerId?: string;
 
   readonly seller?: UserEntity;
-  readonly clients?: ClientEntity[];
 };
 
 @ObjectType()
@@ -61,9 +59,6 @@ export class ArchitectEntity {
   @Field(() => UserEntity, { nullable: true })
   public readonly seller?: UserEntity;
 
-  // @Field(() => [ClientEntity], { nullable: true })
-  public readonly clients?: ClientEntity[];
-
   constructor(params: IConstructorParams) {
     this.mid = params.mid;
     this.id = params.id;
@@ -79,6 +74,5 @@ export class ArchitectEntity {
     this.sellerId = params.sellerId;
 
     this.seller = params.seller;
-    this.clients = params.clients;
   }
 }

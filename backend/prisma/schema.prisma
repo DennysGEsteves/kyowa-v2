@@ -87,7 +87,7 @@ model Supplier {
   id         Int?           @unique
   name       String
   nameFilter String?
-  cpnj       String?        @unique
+  cnpj       String?        @unique
   im         String?
   ie         String?
   email      String?
@@ -95,7 +95,6 @@ model Supplier {
   phone      String?
   obs        String?
   active     Boolean?       @default(true)
-  type       SuppliersTypes
 }
 
 enum Role {
@@ -129,7 +128,3 @@ enum InterestProducts {
   awning
 }
 
-enum SuppliersTypes {
-  PRODUCT
-  SERVICE
-}

@@ -3,6 +3,8 @@ import { ISupplierRepository } from './interfaces/i-supplier-repository';
 import { SupplierEntity } from '../../entities/supplier';
 import { PrismaService } from 'src/services/prisma/prisma-service';
 import { SupplierDB } from './types';
+import { PaginationArgs, paginationDBQueryObj } from 'src/util/pagination';
+import { ISupplierPagination } from './interfaces/i-supplier-pagination';
 
 @Injectable()
 export class SupplierRepository implements ISupplierRepository {
@@ -24,15 +26,36 @@ export class SupplierRepository implements ISupplierRepository {
     });
   }
 
+  async findAllByPagination(
+    paginationArgs: PaginationArgs,
+  ): Promise<ISupplierPagination> {
+    const paginationDBQuery = paginationDBQueryObj(paginationArgs, [
+      'name',
+      'email',
+    ]);
+
+    const [items, total] = await this.prisma.$transaction([
+      this.db.findMany(paginationDBQuery),
+      this.db.count({
+        where: paginationDBQuery.where,
+      }),
+    ]);
+
+    return {
+      items,
+      total,
+    };
+  }
+
   async update(supplier: SupplierEntity): Promise<SupplierDB> {
     return await this.db.update({
       where: {
-        id: supplier.id,
+        mid: supplier.mid,
       },
       data: {
         name: supplier.name,
         nameFilter: supplier.nameFilter,
-        cpnj: supplier.cpnj,
+        cnpj: supplier.cnpj,
         im: supplier.im,
         ie: supplier.ie,
         email: supplier.email,
@@ -40,7 +63,6 @@ export class SupplierRepository implements ISupplierRepository {
         phone: supplier.phone,
         obs: supplier.obs,
         active: supplier.active,
-        type: supplier.type,
       },
     });
   }
@@ -50,7 +72,7 @@ export class SupplierRepository implements ISupplierRepository {
       data: {
         name: supplier.name,
         nameFilter: supplier.nameFilter,
-        cpnj: supplier.cpnj,
+        cnpj: supplier.cnpj,
         im: supplier.im,
         ie: supplier.ie,
         email: supplier.email,
@@ -58,7 +80,6 @@ export class SupplierRepository implements ISupplierRepository {
         phone: supplier.phone,
         obs: supplier.obs,
         active: supplier.active,
-        type: supplier.type,
       },
     });
   }
@@ -66,7 +87,7 @@ export class SupplierRepository implements ISupplierRepository {
   async delete(supplierId: string): Promise<void> {
     await this.db.update({
       where: {
-        id: supplierId,
+        mid: supplierId,
       },
       data: {
         active: false,

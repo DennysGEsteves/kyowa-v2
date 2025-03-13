@@ -1,1 +1,1 @@
-export * from './architect-mapper';
+export * from './supplier-mapper';

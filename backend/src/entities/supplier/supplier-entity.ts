@@ -1,10 +1,11 @@
-import { SupplierType } from './types';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 
 type IConstructorParams = {
+  readonly mid?: string;
   readonly id?: number;
-  readonly name?: string;
+  readonly name: string;
   readonly nameFilter?: string;
-  readonly cpnj?: string;
+  readonly cnpj?: string;
   readonly im?: string;
   readonly ie?: string;
   readonly email?: string;
@@ -12,28 +13,51 @@ type IConstructorParams = {
   readonly phone?: string;
   readonly obs?: string;
   readonly active?: boolean;
-  readonly type?: SupplierType;
 };
-
+@ObjectType()
 export class SupplierEntity {
+  @Field(() => ID)
+  public readonly mid?: string;
+
+  @Field(() => Int)
   public readonly id?: number;
-  public readonly name?: string;
+
+  @Field()
+  public readonly name: string;
+
+  @Field({ nullable: true })
   public readonly nameFilter?: string;
-  public readonly cpnj?: string;
+
+  @Field({ nullable: true })
+  public readonly cnpj?: string;
+
+  @Field({ nullable: true })
   public readonly im?: string;
+
+  @Field({ nullable: true })
   public readonly ie?: string;
+
+  @Field({ nullable: true })
   public readonly email?: string;
+
+  @Field({ nullable: true })
   public readonly address?: string;
+
+  @Field({ nullable: true })
   public readonly phone?: string;
+
+  @Field({ nullable: true })
   public readonly obs?: string;
+
+  @Field({ nullable: true })
   public readonly active?: boolean;
-  public readonly type?: SupplierType;
 
   constructor(params: IConstructorParams) {
+    this.mid = params.mid;
     this.id = params.id;
     this.name = params.name;
     this.nameFilter = params.nameFilter;
-    this.cpnj = params.cpnj;
+    this.cnpj = params.cnpj;
     this.im = params.im;
     this.ie = params.ie;
     this.email = params.email;

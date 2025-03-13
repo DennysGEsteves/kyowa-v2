@@ -16,7 +16,6 @@ export class UserRepository implements IUserRepository {
   async findAll(): Promise<UserDB[]> {
     return await this.db.findMany({
       include: {
-        architects: true,
         managerStores: true,
       },
     });
@@ -28,7 +27,6 @@ export class UserRepository implements IUserRepository {
         role,
       },
       include: {
-        architects: true,
         managerStores: true,
       },
     });
@@ -40,7 +38,6 @@ export class UserRepository implements IUserRepository {
         email,
       },
       include: {
-        architects: true,
         managerStores: true,
       },
     });

@@ -17,6 +17,7 @@ import {
   AuthRepository,
   ClientsRepository,
   StoresRepository,
+  SuppliersRepository,
   UsersRepository,
 } from "./api";
 
@@ -84,6 +85,10 @@ export function useRepository() {
     )(),
     clientsRepository: useCallback(
       () => ClientsRepository(client()),
+      [token],
+    )(),
+    suppliersRepository: useCallback(
+      () => SuppliersRepository(client()),
       [token],
     )(),
   };

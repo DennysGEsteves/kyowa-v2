@@ -9,6 +9,7 @@ import { AuthModule } from '../controllers/auth/auth.module';
 import { StoreModule } from 'src/controllers/store/store.module';
 import { ArchitectModule } from 'src/controllers/architect/architect.module';
 import { ClientModule } from 'src/controllers/client/client.module';
+import { SupplierModule } from 'src/controllers/supplier/supplier.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ClientModule } from 'src/controllers/client/client.module';
     StoreModule,
     ArchitectModule,
     ClientModule,
+    SupplierModule,
   ],
   providers: [
     {

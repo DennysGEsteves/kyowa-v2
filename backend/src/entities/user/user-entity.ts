@@ -1,5 +1,4 @@
 import { Field, HideField, ID, Int, ObjectType } from '@nestjs/graphql';
-import { ArchitectEntity } from '../architect';
 import { StoreEntity } from '../store';
 import { RoleType } from './types';
 
@@ -15,7 +14,6 @@ interface IConstructorParams {
   readonly storeId?: string;
   readonly active?: boolean;
 
-  readonly architects?: ArchitectEntity[];
   readonly managerStores?: StoreEntity[];
 }
 
@@ -51,9 +49,6 @@ export class UserEntity {
   @Field({ nullable: true })
   public readonly active?: boolean;
 
-  // @Field(() => [ArchitectEntity], { nullable: true })
-  public readonly architects?: ArchitectEntity[];
-
   @Field(() => [StoreEntity], { nullable: true })
   public readonly managerStores?: StoreEntity[];
 
@@ -69,7 +64,6 @@ export class UserEntity {
     this.storeId = params.storeId;
     this.active = params.active;
 
-    this.architects = params.architects;
     this.managerStores = params.managerStores;
   }
 }
