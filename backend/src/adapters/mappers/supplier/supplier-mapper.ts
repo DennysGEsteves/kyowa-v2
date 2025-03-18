@@ -3,6 +3,7 @@ import { SupplierEntity as SupplierEntity } from 'src/entities';
 import { SupplierDB } from 'src/repositories/supplier/types';
 import { UpsertSupplierDTO } from 'src/controllers/supplier/dto';
 import { slugify } from 'src/util/string';
+import { ProductDB } from 'src/repositories/product/types';
 
 export class SupplierMapper {
   static fromUpsertSupplierDTO(dto: UpsertSupplierDTO): SupplierEntity {
@@ -44,5 +45,22 @@ export class SupplierMapper {
 
   static fromDBList(suppliers: SupplierDB[]): SupplierEntity[] {
     return suppliers.map((supplier) => SupplierMapper.fromDB(supplier));
+  }
+
+  static fromProductDB({ supplier }: ProductDB): SupplierEntity {
+    return new SupplierEntity({
+      mid: supplier.mid,
+      id: supplier.id,
+      name: supplier.name,
+      nameFilter: supplier.nameFilter,
+      cnpj: supplier.cnpj,
+      im: supplier.im,
+      ie: supplier.ie,
+      email: supplier.email,
+      address: supplier.address,
+      phone: supplier.phone,
+      obs: supplier.obs,
+      active: supplier.active,
+    });
   }
 }

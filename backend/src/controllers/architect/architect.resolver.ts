@@ -5,7 +5,7 @@ import {
   GetArchitectsUseCase,
   UpdateArchitectUseCase,
 } from 'src/usecases/architect';
-import { UpsertArchitectDTO } from './dto';
+import { UpsertArchitectDTO } from './dtos';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/http/middlewares/auth/auth-guard';
 import { Roles } from 'src/http/middlewares/auth/roles-decorator';

@@ -74,8 +74,8 @@ model Client {
   phone            String?
   obs              String?
   active           Boolean?           @default(true)
-  interestProducts InterestProducts[]
-  origins          Origins[]
+  interestProducts InterestProduct[]
+  origins          Origin[]
   createdAt        DateTime           @default(now())
   architectId      String?            @db.ObjectId
 
@@ -83,18 +83,61 @@ model Client {
 }
 
 model Supplier {
-  mid        String         @id @default(auto()) @map("_id") @db.ObjectId
-  id         Int?           @unique
+  mid        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         Int?     @unique
   name       String
   nameFilter String?
-  cnpj       String?        @unique
+  cnpj       String?  @unique
   im         String?
   ie         String?
   email      String?
   address    String?
   phone      String?
   obs        String?
-  active     Boolean?       @default(true)
+  active     Boolean? @default(true)
+
+  product Product[]
+}
+
+model Product {
+  mid               String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                Int?     @unique
+  name              String
+  fantasyName       String   @unique
+  nameFilter        String
+  ezID              Int?
+  ref               String?
+  ncm               String?
+  cst               String?
+  ean               String?
+  buyBrice          Int?
+  sellPrice         Int?
+  hasSeals          Boolean?
+  amountStart       Int?
+  amountSold        Int?
+  isAmountUnlimited Boolean  @default(false)
+  supplierId        String?  @db.ObjectId
+
+  supplier    Supplier?         @relation(fields: [supplierId], references: [mid])
+  descriptors ProductDescritors
+}
+
+model Descriptor {
+  mid   String @id @default(auto()) @map("_id") @db.ObjectId
+  type  String
+  value String
+}
+
+type ProductDescritors {
+  category String?
+  unit     String?
+  colord   String?
+  size     String?
+  design   String?
+  shape    String?
+  origin   String?
+  model    String?
+  height   String?
 }
 
 enum Role {
@@ -105,7 +148,7 @@ enum Role {
   FINANCE
 }
 
-enum Origins {
+enum Origin {
   friends
   architect
   internet
@@ -115,7 +158,7 @@ enum Origins {
   tv
 }
 
-enum InterestProducts {
+enum InterestProduct {
   cushion
   carpet
   curtain
@@ -127,4 +170,3 @@ enum InterestProducts {
   mat
   awning
 }
-

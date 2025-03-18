@@ -5,7 +5,7 @@ import { ArchitectDB } from 'src/repositories/architect/types';
 import { UserMapper } from '../user';
 import { ClientDB } from 'src/repositories/client/types';
 import { slugify } from 'src/util/string';
-import { UpsertArchitectDTO } from 'src/controllers/architect/dto';
+import { UpsertArchitectDTO } from 'src/controllers/architect/dtos';
 
 export class ArchitectMapper {
   static fromUpsertArchitectDTO(dto: UpsertArchitectDTO): ArchitectEntity {

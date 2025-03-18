@@ -35,9 +35,6 @@ export class GetArchitectsUseCase {
 
   async executeByName(name: string): Promise<GetArchitectsByNameResponse[]> {
     const architectsDB = await this.architectRepository.findAllByName(name);
-
-    console.log(architectsDB);
-
     const architects = ArchitectMapper.fromDBList(architectsDB);
 
     return architects.map((architect) => ({
