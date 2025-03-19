@@ -1,5 +1,34 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
-import { ProductDescriptors } from 'src/entities';
+
+@InputType()
+export class ProductDescriptorsInput {
+  @Field()
+  category: string;
+
+  @Field()
+  unit: string;
+
+  @Field()
+  colord: string;
+
+  @Field()
+  size: string;
+
+  @Field()
+  design: string;
+
+  @Field()
+  shape: string;
+
+  @Field()
+  origin: string;
+
+  @Field()
+  model: string;
+
+  @Field()
+  height: string;
+}
 
 @InputType()
 export class UpsertProductDTO {
@@ -51,6 +80,6 @@ export class UpsertProductDTO {
   @Field({ nullable: true })
   supplierId?: string;
 
-  @Field(() => ProductDescriptors, { nullable: true })
-  descriptors?: ProductDescriptors;
+  @Field(() => ProductDescriptorsInput, { nullable: true })
+  descriptors?: ProductDescriptorsInput;
 }

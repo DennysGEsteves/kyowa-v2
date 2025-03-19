@@ -10,7 +10,7 @@ import type { ControllerRenderProps, FieldError } from "react-hook-form";
 export type FormDatalistProps = {
   label: string;
   error?: FieldError | undefined;
-  entity: "ARCHITECTS" | "CLIENTS";
+  entity: "ARCHITECTS" | "CLIENTS" | "SUPPLIERS";
   field: ControllerRenderProps<any, any>;
 };
 
@@ -32,6 +32,9 @@ const FormAutocomplete = ({
 
       case "CLIENTS":
         return repository.clientsRepository.getByName;
+
+      case "SUPPLIERS":
+        return repository.suppliersRepository.getByName;
 
       default:
         return repository.clientsRepository.getByName;

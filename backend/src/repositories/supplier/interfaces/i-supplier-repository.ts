@@ -11,5 +11,6 @@ export abstract class ISupplierRepository {
   abstract findAllByPagination(
     paginationArgs: PaginationArgs,
   ): Promise<ISupplierPagination>;
+  abstract findAllByName(name: string): Promise<SupplierDB[]>;
   abstract findByEmail(email: string): Promise<SupplierDB>;
 }

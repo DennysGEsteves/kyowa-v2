@@ -61,8 +61,8 @@ model Architect {
 }
 
 model Client {
-  mid              String             @id @default(auto()) @map("_id") @db.ObjectId
-  id               Int?               @unique
+  mid              String            @id @default(auto()) @map("_id") @db.ObjectId
+  id               Int?              @unique
   name             String
   nameFilter       String?
   cpf              String?
@@ -73,11 +73,11 @@ model Client {
   address          String?
   phone            String?
   obs              String?
-  active           Boolean?           @default(true)
+  active           Boolean?          @default(true)
   interestProducts InterestProduct[]
   origins          Origin[]
-  createdAt        DateTime           @default(now())
-  architectId      String?            @db.ObjectId
+  createdAt        DateTime          @default(now())
+  architectId      String?           @db.ObjectId
 
   architect Architect? @relation(fields: [architectId], references: [mid])
 }
@@ -100,10 +100,10 @@ model Supplier {
 }
 
 model Product {
-  mid               String   @id @default(auto()) @map("_id") @db.ObjectId
-  id                Int?     @unique
+  mid               String             @id @default(auto()) @map("_id") @db.ObjectId
+  id                Int?               @unique
   name              String
-  fantasyName       String   @unique
+  fantasyName       String             @unique
   nameFilter        String
   ezID              Int?
   ref               String?
@@ -115,11 +115,11 @@ model Product {
   hasSeals          Boolean?
   amountStart       Int?
   amountSold        Int?
-  isAmountUnlimited Boolean  @default(false)
-  supplierId        String?  @db.ObjectId
+  isAmountUnlimited Boolean            @default(false)
+  supplierId        String?            @db.ObjectId
+  descriptors       ProductDescritors?
 
-  supplier    Supplier?         @relation(fields: [supplierId], references: [mid])
-  descriptors ProductDescritors
+  supplier Supplier? @relation(fields: [supplierId], references: [mid])
 }
 
 model Descriptor {

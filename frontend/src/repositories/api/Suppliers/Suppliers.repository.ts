@@ -3,9 +3,9 @@ import { gql } from "@apollo/client";
 import type { IApolloClient } from "../../repositories.hook";
 import type { UpsertSupplierDTO } from "./Suppliers.dto";
 
-export function SuppliersRepository(Supplier: IApolloClient) {
+export function SuppliersRepository(client: IApolloClient) {
   async function getAll(): Promise<Supplier[]> {
-    const { data } = await Supplier.query({
+    const { data } = await client.query({
       query: gql`
         query GetSuppliers {
           getSuppliers {
@@ -29,7 +29,7 @@ export function SuppliersRepository(Supplier: IApolloClient) {
   }
 
   async function getAllByPagination(page: number, search?: string) {
-    const { data } = await Supplier.query({
+    const { data } = await client.query({
       variables: {
         page,
         search,
@@ -63,8 +63,26 @@ export function SuppliersRepository(Supplier: IApolloClient) {
     return data.getSuppliersByPagination;
   }
 
+  async function getByName(name: string) {
+    const { data } = await client.query({
+      variables: {
+        name,
+      },
+      query: gql`
+        query GetSuppliersByName($name: String!) {
+          getSuppliersByName(name: $name) {
+            mid
+            name
+          }
+        }
+      `,
+    });
+
+    return data.getSuppliersByName;
+  }
+
   async function update(dto: UpsertSupplierDTO): Promise<void> {
-    await Supplier.mutate({
+    await client.mutate({
       variables: {
         input: dto,
       },
@@ -88,7 +106,7 @@ export function SuppliersRepository(Supplier: IApolloClient) {
   }
 
   async function create(dto: UpsertSupplierDTO): Promise<void> {
-    await Supplier.mutate({
+    await client.mutate({
       variables: {
         input: dto,
       },
@@ -114,6 +132,7 @@ export function SuppliersRepository(Supplier: IApolloClient) {
   return {
     getAll,
     getAllByPagination,
+    getByName,
     update,
     create,
   };

@@ -10,6 +10,7 @@ import { StoreModule } from 'src/controllers/store/store.module';
 import { ArchitectModule } from 'src/controllers/architect/architect.module';
 import { ClientModule } from 'src/controllers/client/client.module';
 import { SupplierModule } from 'src/controllers/supplier/supplier.module';
+import { ProductModule } from 'src/controllers/product/product.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SupplierModule } from 'src/controllers/supplier/supplier.module';
     ArchitectModule,
     ClientModule,
     SupplierModule,
+    ProductModule,
   ],
   providers: [
     {

@@ -12,6 +12,7 @@ import { Roles } from 'src/http/middlewares/auth/roles-decorator';
 import { RoleType } from 'src/entities/user/types';
 import { PaginationArgs } from '../../util/pagination/pagination-args';
 import { GetSuppliersByPaginationResponse } from 'src/adapters/presenters/suppliers/dtos/get-suppliers-by-pagination';
+import { GetSuppliersByNameResponse } from 'src/adapters/presenters/suppliers/dtos/get-suppliers-by-name';
 
 @UseGuards(AuthGuard)
 @Roles(RoleType.ADMIN)
@@ -33,6 +34,13 @@ export class SupplierResolver {
     @Args() paginationArgs: PaginationArgs,
   ): Promise<GetSuppliersByPaginationResponse> {
     return this.getSuppliersUseCase.executeByPagination(paginationArgs);
+  }
+
+  @Query(() => [GetSuppliersByNameResponse])
+  async getSuppliersByName(
+    @Args('name') name: string,
+  ): Promise<GetSuppliersByNameResponse[]> {
+    return this.getSuppliersUseCase.executeByName(name);
   }
 
   @Mutation(() => SupplierEntity)

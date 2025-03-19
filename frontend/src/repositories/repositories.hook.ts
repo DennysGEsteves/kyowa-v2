@@ -16,6 +16,7 @@ import {
   ArchitectsRepository,
   AuthRepository,
   ClientsRepository,
+  ProductsRepository,
   StoresRepository,
   SuppliersRepository,
   UsersRepository,
@@ -89,6 +90,10 @@ export function useRepository() {
     )(),
     suppliersRepository: useCallback(
       () => SuppliersRepository(client()),
+      [token],
+    )(),
+    productsRepository: useCallback(
+      () => ProductsRepository(client()),
       [token],
     )(),
   };

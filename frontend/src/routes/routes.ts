@@ -29,10 +29,6 @@ export const Routes: Record<Module, RoutesType> = {
         title: "Agenda Comercial",
         pathname: "/agenda",
       },
-      {
-        title: "Consultar Lacres",
-        pathname: "/consultar-lacres",
-      },
     ],
   },
   CADASTROS: {
@@ -41,23 +37,23 @@ export const Routes: Record<Module, RoutesType> = {
     pages: [
       {
         title: "Usuarios",
-        pathname: "/usuarios",
+        pathname: "/cadastros/usuarios",
       },
       {
         title: "Lojas",
-        pathname: "/lojas",
+        pathname: "/cadastros/lojas",
       },
       {
         title: "Arquitetos",
-        pathname: "/arquitetos",
+        pathname: "/cadastros/arquitetos",
       },
       {
         title: "Clientes",
-        pathname: "/clientes",
+        pathname: "/cadastros/clientes",
       },
       {
         title: "Fornecedores",
-        pathname: "/fornecedores",
+        pathname: "/cadastros/fornecedores",
       },
     ],
   },
@@ -66,12 +62,20 @@ export const Routes: Record<Module, RoutesType> = {
     icon: HiShoppingBag,
     pages: [
       {
-        title: "Produtos",
-        pathname: "/produtos",
+        title: "Cadastrar Produtos",
+        pathname: "/produtos/produtos",
       },
       {
-        title: "Cadastrar lacres",
-        pathname: "/cadastrar-lacres",
+        title: "Consultar Lacres",
+        pathname: "/produtos/consultar-lacres",
+      },
+      {
+        title: "Descritores",
+        pathname: "/produtos/descritores",
+      },
+      {
+        title: "Atualizar preços",
+        pathname: "/produtos/atualizar-precos",
       },
     ],
   },

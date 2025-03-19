@@ -47,6 +47,17 @@ export class SupplierRepository implements ISupplierRepository {
     };
   }
 
+  async findAllByName(name: string): Promise<SupplierDB[]> {
+    return await this.db.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: 'insensitive',
+        },
+      },
+    });
+  }
+
   async update(supplier: SupplierEntity): Promise<SupplierDB> {
     return await this.db.update({
       where: {
