@@ -1,4 +1,4 @@
-import type { InterestProductType, OriginType } from "@/types";
+import type { InterestProductType, OriginType } from "@/@types";
 
 export type UpsertClientDTO = {
   mid?: string;

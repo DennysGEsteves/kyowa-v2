@@ -10,7 +10,7 @@ export default function Table(props: TableComponentType) {
   return (
     <>
       {props.search && (
-        <div className="mx-6 flex flex-col items-center justify-end md:flex-row">
+        <div className="flex flex-col items-center justify-end md:flex-row">
           <div className="w-full md:w-72">
             <div className="relative h-10 w-full min-w-[200px]">
               <div className="absolute right-3 top-2/4 grid size-5 -translate-y-2/4 place-items-center text-gray-500">
@@ -29,7 +29,7 @@ export default function Table(props: TableComponentType) {
           </div>
         </div>
       )}
-      <div className="overflow-hidden p-6">
+      <div className="overflow-hidden py-6">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>

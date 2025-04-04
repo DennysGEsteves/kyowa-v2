@@ -60,6 +60,17 @@ export class ClientRepository implements IClientRepository {
     });
   }
 
+  async findById(id: number): Promise<ClientDB> {
+    return await this.db.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        architect: true,
+      },
+    });
+  }
+
   async update(client: ClientEntity): Promise<ClientDB> {
     return await this.db.update({
       where: {

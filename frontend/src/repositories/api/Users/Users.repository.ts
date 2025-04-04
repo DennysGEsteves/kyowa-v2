@@ -1,4 +1,4 @@
-import type { User } from "@/types/user";
+import type { User } from "@/@types/user";
 import { gql } from "@apollo/client";
 import type { IApolloClient } from "../../repositories.hook";
 import type { UpsertUserDTO } from "./Users.dto";
@@ -46,6 +46,31 @@ export function UsersRepository(client: IApolloClient) {
     });
 
     return data.getUsersManager;
+  }
+
+  async function getById(id: number): Promise<User> {
+    const { data } = await client.query({
+      variables: {
+        id,
+      },
+      query: gql`
+        query GetUserById($id: Float!) {
+          getUserById(id: $id) {
+            mid
+            id
+            name
+            email
+            phone
+            login
+            storeId
+            role
+            active
+          }
+        }
+      `,
+    });
+
+    return data.getUserById;
   }
 
   async function update(dto: UpsertUserDTO): Promise<void> {
@@ -117,6 +142,7 @@ export function UsersRepository(client: IApolloClient) {
   return {
     getAll,
     getAllManagers,
+    getById,
     update,
     create,
     inactive,

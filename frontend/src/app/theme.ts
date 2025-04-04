@@ -22,6 +22,9 @@ export const flowbiteTheme: CustomFlowbiteTheme = {
     body: {
       base: "space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8",
     },
+    content: {
+      base: "border bg-gray-700 border-gray-500",
+    },
   },
   sidebar: {
     root: {

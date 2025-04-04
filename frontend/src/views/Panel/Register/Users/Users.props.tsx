@@ -1,14 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import type { Store } from "@/@types";
+import { RoleTranslated, type User } from "@/@types";
 import { EditIcon } from "@/components/Icons";
-import type { Store } from "@/types";
-import { RoleTranslated, type User } from "@/types";
-import type { Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 
 type TableColumnsType = {
-  setModalUser: Dispatch<SetStateAction<User | undefined>>;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
+  goToUpsert: (user: User) => void;
   stores: Store[];
 };
 
@@ -75,8 +73,7 @@ export const tableColumns = (props: TableColumnsType) => {
           <div
             className="w-max cursor-pointer opacity-40 hover:opacity-100"
             onClick={() => {
-              props.setModalUser(user);
-              props.setOpenModal(true);
+              props.goToUpsert(user);
             }}
           >
             <EditIcon />

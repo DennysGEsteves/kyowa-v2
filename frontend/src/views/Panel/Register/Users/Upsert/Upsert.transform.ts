@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import type { UpsertUserDTO } from "@/repositories/api/Users/Users.dto";
-import type { IForm } from "./UpsertUserModal.schema";
+import type { IForm } from "./Upsert.schema";
 
 export default class Transform {
   static toUpsertUserDTO(data: IForm, mid?: string): UpsertUserDTO {

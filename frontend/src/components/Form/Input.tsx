@@ -9,35 +9,26 @@ export type FormInputProps = {
 
 const FormInput = ({ label, type, ...props }: FormInputProps) => {
   return (
-    <>
-      <div className="mt-6 w-full md:flex md:items-center">
-        <div className="md:min-w-36">
-          <label
-            className="mb-1 block w-40 pr-4 font-bold text-white md:mb-0 md:text-left"
-            htmlFor={label}
-          >
-            {label}
-          </label>
-        </div>
-        <div className="md:w-80">
-          <input
-            className={twMerge(
-              "w-full appearance-none rounded border-2 border-gray-200  px-4 py-2 leading-tight text-gray-700 focus:bg-white focus:outline-none",
-              props.error ? "border-red-500 bg-red-50" : "",
-            )}
-            id={label}
-            type={type || "text"}
-            {...props}
-          />
-        </div>
-        {props.error && (
-          <div className="md:w-28">
-            <p className="ml-5 text-sm text-red-400">* obrigatório</p>
-          </div>
-        )}
+    <div className="flex w-full flex-col items-start">
+      <label className=" text-sm font-bold text-gray-700" htmlFor={label}>
+        {label}
+      </label>
+      <div className="flex w-full gap-4">
+        <input
+          className={twMerge(
+            "w-full appearance-none rounded-md border border-gray-300 px-4 py-2 leading-tight text-gray-700 focus:bg-white focus:outline-none",
+            props.error ? "border-red-500 bg-red-50" : "",
+          )}
+          id={label}
+          type={type || "text"}
+          {...props}
+        />
+        <p className="w-1/4 self-center text-sm text-red-500">
+          {props.error && <>* obrigatório</>}
+        </p>
       </div>
-    </>
+    </div>
   );
 };
 
-export default FormInput;
+export { FormInput };

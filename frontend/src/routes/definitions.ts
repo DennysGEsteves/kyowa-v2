@@ -1,4 +1,4 @@
-import type { Role } from "@/types";
+import type { Role } from "@/@types";
 import type { RoutesType } from "./routes";
 import { Routes } from "./routes";
 

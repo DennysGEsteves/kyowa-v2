@@ -1,6 +1,6 @@
 import { GET_PRODUCTS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Product } from "@/types/product";
+import type { Product } from "@/@types/product";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { tableColumns } from "./Products.props";

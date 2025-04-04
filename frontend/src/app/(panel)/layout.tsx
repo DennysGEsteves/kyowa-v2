@@ -6,7 +6,7 @@ import { UserProvider } from "@/context/User.context";
 import LayoutContent from "@/layout/Layout";
 import { useRepositorySSR } from "@/repositories/repositories.hook";
 import { getUser } from "@/services/Session/Session";
-import type { Store, User } from "@/types";
+import type { Store, User } from "@/@types";
 import type { ApolloError } from "@apollo/client";
 import "react-datepicker/dist/react-datepicker.css";
 

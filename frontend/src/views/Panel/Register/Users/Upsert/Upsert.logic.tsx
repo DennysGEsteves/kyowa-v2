@@ -1,36 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_USERS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import type { IForm } from "./UpsertUserModal.schema";
-import Transform from "./UpsertUserModal.transform";
-import type { UpsertUserModalType } from "./UpsertUserModal.view";
+import type { IForm } from "./Upsert.schema";
+import Transform from "./Upsert.transform";
+import type { UpsertProps } from "./Upsert.view";
 
-export const useLogic = (props: UpsertUserModalType) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isLoading },
-    reset,
-    clearErrors,
-  } = useForm<IForm>({
+export const useLogic = (props: UpsertProps) => {
+  const form = useForm<IForm>({
     defaultValues: {},
   });
 
+  const router = useRouter();
+
   const { usersRepository } = useRepository();
   const queryClient = useQueryClient();
-  const { stores } = useEntitiesContext();
 
   const isUserActive = props.user && props.user.active;
 
   const handleChangeUserActiveStatus = (userId: string) => {
     usersRepository[isUserActive ? "inactive" : "active"](userId).then(() => {
       queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
-      props.setOpenModal(false);
+      backToUsers();
     });
   };
 
@@ -38,34 +33,35 @@ export const useLogic = (props: UpsertUserModalType) => {
     const payload = Transform.toUpsertUserDTO(data, props.user?.mid);
     usersRepository[props.user?.mid ? "update" : "create"](payload).then(() => {
       queryClient.invalidateQueries({ queryKey: [GET_USERS_REFETCH_TAG] });
-      props.setOpenModal(false);
+      backToUsers();
     });
   };
 
-  useEffect(() => {
-    clearErrors();
+  const backToUsers = () => {
+    router.push(`/cadastros/usuarios`);
+  };
 
-    if (!props.openModal) {
-      reset({
+  useEffect(() => {
+    form.clearErrors();
+
+    if (!props.user) {
+      form.reset({
         name: "",
       });
     } else if (props.user) {
-      reset({ ...props.user });
+      form.reset({ ...props.user });
     }
-  }, [props.openModal]);
+  }, [props.user]);
 
   return {
     data: {
-      control,
-      isLoading,
-      errors,
       isUserActive,
-      stores,
+      form,
     },
     methods: {
-      handleSubmit,
-      onSubmit,
+      handleSubmit: form.handleSubmit(onSubmit),
       handleChangeUserActiveStatus,
+      backToUsers,
     },
   };
 };

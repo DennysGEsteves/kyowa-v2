@@ -1,7 +1,7 @@
 import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_SUPPLIERS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Supplier } from "@/types/supplier";
+import type { Supplier } from "@/@types/supplier";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { tableColumns } from "./Suppliers.props";

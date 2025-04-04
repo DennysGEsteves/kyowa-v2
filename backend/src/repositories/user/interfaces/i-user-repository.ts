@@ -7,6 +7,7 @@ export abstract class IUserRepository {
   abstract update(user: UserEntity): Promise<UserDB>;
   abstract changeActiveValue(userId: number, active: boolean): Promise<void>;
   abstract findAll(): Promise<UserDB[]>;
+  abstract findById(id: number): Promise<UserDB>;
   abstract findAllByRole(role: RoleType): Promise<UserDB[]>;
   abstract findByEmail(email: string): Promise<UserDB>;
 }

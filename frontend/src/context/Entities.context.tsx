@@ -1,7 +1,7 @@
 "use client";
 
-import type { Store } from "@/types";
-import type { User } from "@/types/user";
+import type { Store } from "@/@types";
+import type { User } from "@/@types/user";
 import { createContext, useContext, type ReactNode } from "react";
 
 export type EntitiesContextType = {

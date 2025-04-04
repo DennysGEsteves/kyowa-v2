@@ -7,6 +7,7 @@ import {
   UpdateUserUseCase,
   ActiveUserUseCase,
   GetUsersManagerUseCase,
+  GetUserByIdUseCase,
 } from 'src/usecases/user';
 import { IUserRepository, UserRepository } from 'src/repositories/user';
 
@@ -19,6 +20,7 @@ import { IUserRepository, UserRepository } from 'src/repositories/user';
     UpdateUserUseCase,
     InactiveUserUseCase,
     ActiveUserUseCase,
+    GetUserByIdUseCase,
     { provide: IUserRepository, useClass: UserRepository },
   ],
 })

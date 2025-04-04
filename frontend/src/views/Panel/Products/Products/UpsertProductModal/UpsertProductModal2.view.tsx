@@ -5,23 +5,20 @@ import {
   FormAutocomplete,
   FormBtnCancel,
   FormBtnSubmit,
-  FormCheckboxGroup,
-  FormDatepicker,
   FormInput,
 } from "@/components/Form";
-import type { InterestProductType, OriginType } from "@/types/client";
-import { interestProductMap, originMap, type Client } from "@/types/client";
+import type { Product } from "@/@types/product";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller } from "react-hook-form";
-import { useLogic } from "./UpsertClientModal.logic";
+import { useLogic } from "./UpsertProductModal.logic";
 
-export type UpsertClientModalType = {
+export type UpsertProductModalType = {
   openModal: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
-  client?: Client;
+  product?: Product;
 };
 
-export const UpsertClientModal = (props: UpsertClientModalType) => {
+export const UpsertProductModal = (props: UpsertProductModalType) => {
   const { data, methods } = useLogic(props);
 
   return (
@@ -30,7 +27,7 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
       onClose={() => props.setOpenModal(false)}
     >
       <FormModal.Header onClose={() => props.setOpenModal(false)}>
-        Adicionar novo cliente
+        Adicionar novo produto
       </FormModal.Header>
       <form onSubmit={methods.handleSubmit(methods.onSubmit)}>
         <FormModal.Body>
@@ -46,22 +43,13 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
           </div>
           <div className="md:flex md:items-center">
             <Controller
-              name="email"
-              control={data.control}
+              name="fantasyName"
               rules={{ required: true }}
-              render={({ field }) => (
-                <FormInput error={data.errors.email} label="Email" {...field} />
-              )}
-            />
-          </div>
-          <div className="md:flex md:items-center">
-            <Controller
-              name="address"
               control={data.control}
               render={({ field }) => (
                 <FormInput
-                  label="Endereço"
-                  error={data.errors.address}
+                  label="Nome fantasia"
+                  error={data.errors.fantasyName}
                   {...field}
                 />
               )}
@@ -69,12 +57,48 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
           </div>
           <div className="md:flex md:items-center">
             <Controller
-              name="phone"
+              name="ref"
+              control={data.control}
+              render={({ field }) => (
+                <FormInput label="Ref" error={data.errors.ref} {...field} />
+              )}
+            />
+          </div>
+          <div className="md:flex md:items-center">
+            <Controller
+              name="ncm"
+              control={data.control}
+              render={({ field }) => (
+                <FormInput label="NCM" error={data.errors.ncm} {...field} />
+              )}
+            />
+          </div>
+          <div className="md:flex md:items-center">
+            <Controller
+              name="cst"
+              control={data.control}
+              render={({ field }) => (
+                <FormInput label="CST" error={data.errors.cst} {...field} />
+              )}
+            />
+          </div>
+          <div className="md:flex md:items-center">
+            <Controller
+              name="ean"
+              control={data.control}
+              render={({ field }) => (
+                <FormInput label="EAN" error={data.errors.ean} {...field} />
+              )}
+            />
+          </div>
+          <div className="md:flex md:items-center">
+            <Controller
+              name="buyBrice"
               control={data.control}
               render={({ field }) => (
                 <FormInput
-                  label="Telefone"
-                  error={data.errors.phone}
+                  label="VAlor de compra"
+                  error={data.errors.buyBrice}
                   {...field}
                 />
               )}
@@ -82,30 +106,12 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
           </div>
           <div className="md:flex md:items-center">
             <Controller
-              name="cpf"
-              control={data.control}
-              render={({ field }) => (
-                <FormInput label="CPF" error={data.errors.cpf} {...field} />
-              )}
-            />
-          </div>
-          <div className="md:flex md:items-center">
-            <Controller
-              name="rg"
-              control={data.control}
-              render={({ field }) => (
-                <FormInput label="RG" error={data.errors.rg} {...field} />
-              )}
-            />
-          </div>
-          <div className="md:flex md:items-center">
-            <Controller
-              name="occupation"
+              name="sellPrice"
               control={data.control}
               render={({ field }) => (
                 <FormInput
-                  label="Profissão"
-                  error={data.errors.occupation}
+                  label="Valor de venda"
+                  error={data.errors.sellPrice}
                   {...field}
                 />
               )}
@@ -113,69 +119,28 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
           </div>
           <div className="md:flex md:items-center">
             <Controller
-              name="birthday"
+              name="hasSeals"
               control={data.control}
               render={({ field }) => (
-                <FormDatepicker
-                  label="Data de Nascimento"
-                  selected={field.value ? new Date(field.value) : null}
-                  onChange={(date: Date) => field.onChange(date)}
+                <FormInput
+                  label="Possui lacres?"
+                  error={data.errors.hasSeals}
+                  {...field}
                 />
               )}
             />
           </div>
           <div className="md:flex md:items-center">
             <Controller
-              name="architectId"
+              name="supplierId"
               control={data.control}
               render={({ field }) => (
                 <FormAutocomplete
-                  label="Arquiteto"
-                  error={data.errors.architectId}
-                  entity="ARCHITECTS"
+                  label="Fornecedor"
+                  error={data.errors.supplierId}
+                  entity="SUPPLIERS"
                   field={field}
                 />
-              )}
-            />
-          </div>
-          <div className="md:flex md:items-center">
-            <Controller
-              name="interestProducts"
-              control={data.control}
-              render={({ field }) => (
-                <FormCheckboxGroup
-                  label="Produtos de interesse"
-                  options={Object.keys(interestProductMap).map((id) => ({
-                    name: interestProductMap[id as InterestProductType],
-                    id,
-                  }))}
-                  field={field}
-                />
-              )}
-            />
-          </div>
-          <div className="md:flex md:items-center">
-            <Controller
-              name="origins"
-              control={data.control}
-              render={({ field }) => (
-                <FormCheckboxGroup
-                  label="Procedência"
-                  options={Object.keys(originMap).map((id) => ({
-                    name: originMap[id as OriginType],
-                    id,
-                  }))}
-                  field={field}
-                />
-              )}
-            />
-          </div>
-          <div className="md:flex md:items-center">
-            <Controller
-              name="obs"
-              control={data.control}
-              render={({ field }) => (
-                <FormInput label="Obs" error={data.errors.obs} {...field} />
               )}
             />
           </div>
@@ -198,4 +163,4 @@ export const UpsertClientModal = (props: UpsertClientModalType) => {
   );
 };
 
-export default UpsertClientModal;
+export default UpsertProductModal;

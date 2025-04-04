@@ -7,6 +7,7 @@ import {
   UpdateUserUseCase,
   ActiveUserUseCase,
   GetUsersManagerUseCase,
+  GetUserByIdUseCase,
 } from 'src/usecases/user';
 import { UpsertUserDTO } from './dto';
 import { UseGuards } from '@nestjs/common';
@@ -25,11 +26,18 @@ export class UserResolver {
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly inactiveUserUseCase: InactiveUserUseCase,
     private readonly activeUserUseCase: ActiveUserUseCase,
+    private readonly getUserByIdUseCase: GetUserByIdUseCase,
   ) {}
 
   @Query(() => [UserEntity])
   async getUsers(): Promise<UserEntity[]> {
     return await this.getUsersUseCase.execute();
+  }
+
+  @Roles(RoleType.LOGGED)
+  @Query(() => UserEntity)
+  async getUserById(@Args('id') id: number): Promise<UserEntity> {
+    return await this.getUserByIdUseCase.execute(id);
   }
 
   @Roles(RoleType.LOGGED)

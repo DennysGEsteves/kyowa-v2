@@ -4,6 +4,8 @@ import {
   CreateClientUseCase,
   GetClientsUseCase,
   UpdateClientUseCase,
+  GetClientByIdUseCase,
+  DeleteClientUseCase,
 } from 'src/usecases/client';
 import { IClientRepository } from 'src/repositories/client/interfaces/i-client-repository';
 import { ClientRepository } from 'src/repositories/client/client-repository';
@@ -14,6 +16,8 @@ import { ClientRepository } from 'src/repositories/client/client-repository';
     CreateClientUseCase,
     GetClientsUseCase,
     UpdateClientUseCase,
+    GetClientByIdUseCase,
+    DeleteClientUseCase,
     { provide: IClientRepository, useClass: ClientRepository },
   ],
 })

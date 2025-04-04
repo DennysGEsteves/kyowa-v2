@@ -1,7 +1,7 @@
 import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_STORES_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Store } from "@/types/store";
+import type { Store } from "@/@types/store";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { searchKeys, tableColumns } from "./Stores.props";

@@ -1,4 +1,4 @@
-import type { Store } from "@/types";
+import type { Store } from "@/@types";
 import { gql } from "@apollo/client";
 import type { IApolloClient } from "../../repositories.hook";
 import type { UpsertStoreDTO } from "./Stores.dto";

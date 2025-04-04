@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBase } from "@/components";
 import { useSidebarContext } from "@/context/Sidebar.context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { FC, PropsWithChildren } from "react";
@@ -22,7 +23,7 @@ const SidebarContainer: FC<PropsWithChildren> = function ({ children }) {
         )}
       >
         <QueryClientProvider client={queryClient}>
-          {children}
+          <PageBase>{children}</PageBase>
         </QueryClientProvider>
       </div>
     </div>

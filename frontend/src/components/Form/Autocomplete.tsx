@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRepository } from "@/repositories/repositories.hook";
-import type { AutoCompleteCompleteEvent } from "primereact/autocomplete";
-import { AutoComplete } from "primereact/autocomplete";
+import {
+  AutoComplete,
+  type AutoCompleteCompleteEvent,
+} from "primereact/autocomplete";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { useMemo, useState } from "react";
 import type { ControllerRenderProps, FieldError } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
 export type FormDatalistProps = {
   label: string;
@@ -48,38 +51,34 @@ const FormAutocomplete = ({
   };
 
   return (
-    <>
-      <div className="mt-6 w-full md:flex md:items-center">
-        <div className="md:min-w-36">
-          <label
-            className="mb-1 block w-40 pr-4 font-bold text-white md:mb-0 md:text-left"
-            htmlFor={label}
-          >
-            {label}
-          </label>
-        </div>
-        <div className="rounded-none md:w-80">
-          <AutoComplete
-            field="name"
-            value={value}
-            suggestions={suggestions}
-            completeMethod={search}
-            forceSelection
-            onChange={(e) => {
-              const value = e.value;
-              value?.mid && field.onChange(value.mid);
-              setValue(value);
-            }}
-          />
-        </div>
-        {error && (
-          <div className="md:w-28">
-            <p className="ml-5 text-sm text-red-400">* obrigatório</p>
-          </div>
-        )}
+    <div className="flex w-full flex-col items-start">
+      <label className="text-sm font-bold text-gray-700" htmlFor={label}>
+        {label}
+      </label>
+      <div className="flex w-full gap-4">
+        <AutoComplete
+          field="name"
+          value={value}
+          suggestions={suggestions}
+          completeMethod={search}
+          forceSelection
+          className="w-full"
+          inputClassName={twMerge(
+            "w-full appearance-none rounded-md border border-gray-300 px-4 py-2 leading-tight text-gray-700 focus:bg-white focus:outline-none",
+            error ? "border-red-500 bg-red-50" : "",
+          )}
+          onChange={(e) => {
+            const value = e.value;
+            value?.mid && field.onChange(value.mid);
+            setValue(value);
+          }}
+        />
+        <p className="w-1/4 self-center text-sm text-red-500">
+          {error && <>* obrigatório</>}
+        </p>
       </div>
-    </>
+    </div>
   );
 };
 
-export default FormAutocomplete;
+export { FormAutocomplete };

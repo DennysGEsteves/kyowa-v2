@@ -120,6 +120,7 @@ export function useRepositorySSR(token?: string) {
   return {
     authRepository: AuthRepository(client()),
     usersRepository: UsersRepository(client()),
+    clientsRepository: ClientsRepository(client()),
     storesRepository: StoresRepository(client()),
   };
 }

@@ -7,8 +7,8 @@ import {
   FormInput,
   FormSelect,
 } from "@/components/Form";
-import type { User } from "@/types";
-import type { Store } from "@/types/store";
+import type { User } from "@/@types";
+import type { Store } from "@/@types/store";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller } from "react-hook-form";
 import { useLogic } from "./UpsertStoreModal.logic";

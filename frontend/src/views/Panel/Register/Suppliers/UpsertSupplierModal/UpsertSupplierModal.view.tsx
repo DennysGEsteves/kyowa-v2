@@ -2,7 +2,7 @@
 
 import { FormModal } from "@/components";
 import { FormBtnCancel, FormBtnSubmit, FormInput } from "@/components/Form";
-import type { Supplier } from "@/types";
+import type { Supplier } from "@/@types";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller } from "react-hook-form";
 import { useLogic } from "./UpsertSupplierModal.logic";

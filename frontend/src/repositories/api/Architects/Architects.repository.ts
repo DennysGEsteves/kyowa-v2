@@ -1,4 +1,4 @@
-import type { Architect } from "@/types";
+import type { Architect } from "@/@types";
 import { gql } from "@apollo/client";
 import type { IApolloClient } from "../../repositories.hook";
 import type { UpsertArchitectDTO } from "./Architects.dto";

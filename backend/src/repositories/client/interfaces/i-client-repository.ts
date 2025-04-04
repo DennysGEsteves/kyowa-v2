@@ -8,6 +8,7 @@ export abstract class IClientRepository {
   abstract update(client: ClientEntity): Promise<ClientDB>;
   abstract delete(clientId: string): Promise<void>;
   abstract findAll(): Promise<ClientDB[]>;
+  abstract findById(id: number): Promise<ClientDB>;
   abstract findAllByPagination(
     paginationArgs: PaginationArgs,
   ): Promise<IClientPagination>;

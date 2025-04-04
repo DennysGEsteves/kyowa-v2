@@ -1,4 +1,4 @@
-import type { ProductDescriptors } from "@/types/product";
+import type { ProductDescriptors } from "@/@types/product";
 
 export type UpsertProductDTO = {
   mid?: string;

@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { EditIcon } from "@/components/Icons";
-import type { User } from "@/types";
-import { type Architect } from "@/types";
+import type { User } from "@/@types";
+import { type Architect } from "@/@types";
 import type { Dispatch, SetStateAction } from "react";
 
 type TableColumnsType = {

@@ -12,7 +12,7 @@ export type ModalProps = {
 
 export const FormModal = ({ children, onClose, isOpen }: ModalProps) => {
   return (
-    <Modal show={isOpen} size="2xl" onClose={onClose}>
+    <Modal show={isOpen} size="7xl" onClose={onClose}>
       {children}
     </Modal>
   );

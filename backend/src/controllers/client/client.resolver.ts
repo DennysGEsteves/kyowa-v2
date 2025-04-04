@@ -4,6 +4,7 @@ import {
   CreateClientUseCase,
   GetClientsUseCase,
   UpdateClientUseCase,
+  GetClientByIdUseCase,
 } from 'src/usecases/client';
 import { UpsertClientDTO } from './dto';
 import { UseGuards } from '@nestjs/common';
@@ -21,6 +22,7 @@ export class ClientResolver {
     private readonly getClientsUseCase: GetClientsUseCase,
     private readonly createClientUseCase: CreateClientUseCase,
     private readonly updateClientUseCase: UpdateClientUseCase,
+    private readonly getClientByIdUseCase: GetClientByIdUseCase,
   ) {}
 
   @Query(() => [ClientEntity])
@@ -33,6 +35,12 @@ export class ClientResolver {
     @Args() paginationArgs: PaginationArgs,
   ): Promise<GetClientsByPaginationResponse> {
     return this.getClientsUseCase.executeByPagination(paginationArgs);
+  }
+
+  @Roles(RoleType.LOGGED)
+  @Query(() => ClientEntity)
+  async getClientById(@Args('id') id: number): Promise<ClientEntity> {
+    return await this.getClientByIdUseCase.execute(id);
   }
 
   @Mutation(() => ClientEntity)

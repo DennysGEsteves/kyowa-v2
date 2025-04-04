@@ -1,4 +1,4 @@
-import type { Client } from "@/types";
+import type { Client } from "@/@types";
 import { gql } from "@apollo/client";
 import type { IApolloClient } from "../../repositories.hook";
 import type { UpsertClientDTO } from "./Clients.dto";
@@ -99,6 +99,39 @@ export function ClientsRepository(client: IApolloClient) {
     return data.getClientsByName;
   }
 
+  async function getById(id: number) {
+    console.log(1111111, id);
+    const { data } = await client.query({
+      variables: {
+        id,
+      },
+      query: gql`
+        query GetClientById($id: Float!) {
+          getClientById(id: $id) {
+            mid
+            id
+            name
+            cpf
+            rg
+            birthday
+            occupation
+            email
+            address
+            phone
+            obs
+            active
+            interestProducts
+            origins
+            createdAt
+            architectId
+          }
+        }
+      `,
+    });
+
+    return data.getClientById;
+  }
+
   async function update(dto: UpsertClientDTO): Promise<void> {
     await client.mutate({
       variables: {
@@ -156,6 +189,7 @@ export function ClientsRepository(client: IApolloClient) {
   return {
     getAll,
     getAllByPagination,
+    getById,
     getByName,
     update,
     create,

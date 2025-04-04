@@ -32,6 +32,17 @@ export class UserRepository implements IUserRepository {
     });
   }
 
+  async findById(id: number): Promise<UserDB> {
+    return await this.db.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        managerStores: true,
+      },
+    });
+  }
+
   async findByEmail(email: string): Promise<UserDB> {
     return await this.db.findUnique({
       where: {

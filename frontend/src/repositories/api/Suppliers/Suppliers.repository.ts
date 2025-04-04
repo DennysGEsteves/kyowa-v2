@@ -1,4 +1,4 @@
-import type { Supplier } from "@/types";
+import type { Supplier } from "@/@types";
 import { gql } from "@apollo/client";
 import type { IApolloClient } from "../../repositories.hook";
 import type { UpsertSupplierDTO } from "./Suppliers.dto";

@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+[role="dialog"] > div {
+  box-shadow: none;
+}

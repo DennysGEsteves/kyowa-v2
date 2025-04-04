@@ -1,4 +1,4 @@
-import type { ProductDescriptors } from "@/types";
+import type { ProductDescriptors } from "@/@types";
 
 export interface IForm {
   name: string;

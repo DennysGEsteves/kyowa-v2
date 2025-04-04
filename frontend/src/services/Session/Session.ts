@@ -1,4 +1,4 @@
-import type { User } from "@/types/user";
+import type { User } from "@/@types/user";
 import { getIronSession } from "iron-session";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";

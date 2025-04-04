@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import type { Client } from "@/@types";
 import { EditIcon } from "@/components/Icons";
-import type { Client, User } from "@/types";
-import type { Dispatch, SetStateAction } from "react";
 
 type TableColumnsType = {
-  setModalClient: Dispatch<SetStateAction<Client | undefined>>;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
-  managers: User[];
+  goToUpsert: (client: Client) => void;
 };
 
 export const tableColumns = (props: TableColumnsType) => {
@@ -47,8 +44,7 @@ export const tableColumns = (props: TableColumnsType) => {
           <div
             className="w-max cursor-pointer opacity-40 hover:opacity-100"
             onClick={() => {
-              props.setModalClient(client);
-              props.setOpenModal(true);
+              props.goToUpsert(client);
             }}
           >
             <EditIcon />

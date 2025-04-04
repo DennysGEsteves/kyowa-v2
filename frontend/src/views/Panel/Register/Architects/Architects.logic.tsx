@@ -1,7 +1,7 @@
 import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_ARCHITECTS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Architect } from "@/types/architect";
+import type { Architect } from "@/@types/architect";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { tableColumns } from "./Architects.props";
