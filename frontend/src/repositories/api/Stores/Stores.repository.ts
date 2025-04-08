@@ -29,6 +29,30 @@ export function StoresRepository(client: IApolloClient) {
     return data.getStores;
   }
 
+  async function getById(id: number): Promise<Store> {
+    const { data } = await client.query({
+      variables: {
+        id,
+      },
+      query: gql`
+        query GetStoreById($id: Float!) {
+          getStoreById(id: $id) {
+            mid
+            id
+            name
+            email
+            address
+            phone
+            obs
+            managerId
+          }
+        }
+      `,
+    });
+
+    return data.getStoreById;
+  }
+
   async function update(dto: UpsertStoreDTO): Promise<void> {
     await client.mutate({
       variables: {
@@ -72,6 +96,7 @@ export function StoresRepository(client: IApolloClient) {
 
   return {
     getAll,
+    getById,
     update,
     create,
   };

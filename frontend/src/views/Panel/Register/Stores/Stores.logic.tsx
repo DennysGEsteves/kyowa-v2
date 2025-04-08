@@ -1,17 +1,14 @@
+import type { Store } from "@/@types/store";
 import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_STORES_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Store } from "@/@types/store";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { searchKeys, tableColumns } from "./Stores.props";
 
 export const useLogic = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalStore, setModalStore] = useState<Store | undefined>(undefined);
-
+  const router = useRouter();
   const { storesRepository } = useRepository();
-
   const { managers } = useEntitiesContext();
 
   const { data: stores } = useQuery({
@@ -19,16 +16,17 @@ export const useLogic = () => {
     queryFn: storesRepository.getAll,
   });
 
+  const goToUpsert = (store?: Store) => {
+    router.push(`/cadastros/lojas/${store?.id ?? "novo"}`);
+  };
+
   const tableColumnsData = tableColumns({
-    setModalStore,
-    setOpenModal,
+    goToUpsert,
     managers,
   });
 
   return {
     data: {
-      openModal,
-      modalStore,
       tableData: {
         items: stores || [],
         columns: tableColumnsData,
@@ -37,8 +35,7 @@ export const useLogic = () => {
       },
     },
     methods: {
-      setOpenModal,
-      setModalStore,
+      goToUpsert,
     },
   };
 };

@@ -4,6 +4,7 @@ import {
   CreateStoreUseCase,
   GetStoresUseCase,
   UpdateStoreUseCase,
+  GetStoreByIdUseCase,
 } from 'src/usecases/store';
 import { UpsertStoreDTO } from './dto';
 import { UseGuards } from '@nestjs/common';
@@ -19,12 +20,20 @@ export class StoreResolver {
     private readonly getStoresUseCase: GetStoresUseCase,
     private readonly createStoreUseCase: CreateStoreUseCase,
     private readonly updateStoreUseCase: UpdateStoreUseCase,
+    private readonly getStoreByIdUseCase: GetStoreByIdUseCase,
   ) {}
 
   @Roles(RoleType.LOGGED)
   @Query(() => [StoreEntity])
   async getStores(): Promise<StoreEntity[]> {
     return this.getStoresUseCase.execute();
+  }
+
+  @Roles(RoleType.LOGGED)
+  @Query(() => StoreEntity)
+  async getStoreById(@Args('id') id: number): Promise<StoreEntity> {
+    console.log(1111111111111111111);
+    return await this.getStoreByIdUseCase.execute(id);
   }
 
   @Mutation(() => StoreEntity)

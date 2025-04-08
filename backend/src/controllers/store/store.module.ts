@@ -4,6 +4,7 @@ import {
   CreateStoreUseCase,
   GetStoresUseCase,
   UpdateStoreUseCase,
+  GetStoreByIdUseCase,
 } from 'src/usecases/store';
 import { IStoreRepository } from 'src/repositories/store/interfaces/i-store-repository';
 import { StoreRepository } from 'src/repositories/store/store-repository';
@@ -14,6 +15,7 @@ import { StoreRepository } from 'src/repositories/store/store-repository';
     CreateStoreUseCase,
     GetStoresUseCase,
     UpdateStoreUseCase,
+    GetStoreByIdUseCase,
     { provide: IStoreRepository, useClass: StoreRepository },
   ],
 })

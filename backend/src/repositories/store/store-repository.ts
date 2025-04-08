@@ -20,10 +20,10 @@ export class StoreRepository implements IStoreRepository {
     });
   }
 
-  public findById(mid: string): Promise<StoreDB> {
-    return this.db.findFirst({
+  public findById(id: number): Promise<StoreDB> {
+    return this.db.findUnique({
       where: {
-        mid,
+        id,
       },
       include: {
         manager: true,
