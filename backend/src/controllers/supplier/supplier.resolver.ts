@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { SupplierEntity } from 'src/entities';
 import {
   CreateSupplierUseCase,
+  GetSupplierByIdUseCase,
   GetSuppliersUseCase,
   UpdateSupplierUseCase,
 } from 'src/usecases/supplier';
@@ -22,6 +23,7 @@ export class SupplierResolver {
     private readonly getSuppliersUseCase: GetSuppliersUseCase,
     private readonly createSupplierUseCase: CreateSupplierUseCase,
     private readonly updateSupplierUseCase: UpdateSupplierUseCase,
+    private readonly getSupplierByIdUseCase: GetSupplierByIdUseCase,
   ) {}
 
   @Query(() => [SupplierEntity])
@@ -41,6 +43,12 @@ export class SupplierResolver {
     @Args('name') name: string,
   ): Promise<GetSuppliersByNameResponse[]> {
     return this.getSuppliersUseCase.executeByName(name);
+  }
+
+  @Roles(RoleType.LOGGED)
+  @Query(() => SupplierEntity)
+  async getSupplierById(@Args('id') id: number): Promise<SupplierEntity> {
+    return await this.getSupplierByIdUseCase.execute(id);
   }
 
   @Mutation(() => SupplierEntity)

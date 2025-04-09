@@ -123,5 +123,6 @@ export function useRepositorySSR(token?: string) {
     clientsRepository: ClientsRepository(client()),
     storesRepository: StoresRepository(client()),
     architectsRepository: ArchitectsRepository(client()),
+    suppliersRepository: SuppliersRepository(client()),
   };
 }

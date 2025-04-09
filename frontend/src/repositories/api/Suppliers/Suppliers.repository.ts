@@ -81,6 +81,33 @@ export function SuppliersRepository(client: IApolloClient) {
     return data.getSuppliersByName;
   }
 
+  async function getById(id: number): Promise<Supplier> {
+    const { data } = await client.query({
+      variables: {
+        id,
+      },
+      query: gql`
+        query GetSupplierById($id: Float!) {
+          getSupplierById(id: $id) {
+            mid
+            id
+            name
+            cnpj
+            im
+            ie
+            email
+            address
+            phone
+            obs
+            active
+          }
+        }
+      `,
+    });
+
+    return data.getSupplierById;
+  }
+
   async function update(dto: UpsertSupplierDTO): Promise<void> {
     await client.mutate({
       variables: {
@@ -133,6 +160,7 @@ export function SuppliersRepository(client: IApolloClient) {
     getAll,
     getAllByPagination,
     getByName,
+    getById,
     update,
     create,
   };

@@ -9,7 +9,7 @@ const RegisterArchitectsView = () => {
 
   return (
     <>
-      <PageTitle>Lista de clientes</PageTitle>
+      <PageTitle>Lista de Arquitetos</PageTitle>
       <Section>
         <div className="p-6">
           <button

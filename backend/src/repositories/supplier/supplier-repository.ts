@@ -58,6 +58,14 @@ export class SupplierRepository implements ISupplierRepository {
     });
   }
 
+  async findById(id: number): Promise<SupplierDB> {
+    return await this.db.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
   async update(supplier: SupplierEntity): Promise<SupplierDB> {
     return await this.db.update({
       where: {

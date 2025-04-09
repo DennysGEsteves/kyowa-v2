@@ -8,6 +8,7 @@ export abstract class ISupplierRepository {
   abstract update(supplier: SupplierEntity): Promise<SupplierDB>;
   abstract delete(supplierId: string): Promise<void>;
   abstract findAll(): Promise<SupplierDB[]>;
+  abstract findById(id: number): Promise<SupplierDB>;
   abstract findAllByPagination(
     paginationArgs: PaginationArgs,
   ): Promise<ISupplierPagination>;

@@ -1,18 +1,17 @@
+import type { Supplier } from "@/@types";
 import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_SUPPLIERS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Supplier } from "@/@types/supplier";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { tableColumns } from "./Suppliers.props";
 
 export const useLogic = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalSupplier, setModalSupplier] = useState<Supplier | undefined>(
-    undefined,
-  );
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  const router = useRouter();
 
   let debounce: NodeJS.Timeout | undefined = undefined;
 
@@ -25,10 +24,13 @@ export const useLogic = () => {
     queryFn: () => suppliersRepository.getAllByPagination(page, search),
   });
 
+  const goToUpsert = (supplier?: Supplier) => {
+    router.push(`/cadastros/fornecedores/${supplier?.id ?? "novo"}`);
+  };
+
   const tableColumnsData = tableColumns({
-    setModalSupplier,
-    setOpenModal,
     managers,
+    goToUpsert,
   });
 
   function onPageChange(page: number) {
@@ -45,8 +47,6 @@ export const useLogic = () => {
 
   return {
     data: {
-      openModal,
-      modalSupplier,
       tableData: {
         items: data?.items || [],
         columns: tableColumnsData,
@@ -59,8 +59,7 @@ export const useLogic = () => {
       },
     },
     methods: {
-      setOpenModal,
-      setModalSupplier,
+      goToUpsert,
     },
   };
 };

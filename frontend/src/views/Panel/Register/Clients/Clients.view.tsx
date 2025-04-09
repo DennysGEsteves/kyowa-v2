@@ -9,7 +9,7 @@ const RegisterClientsView = () => {
 
   return (
     <>
-      <PageTitle>Lista de clientes</PageTitle>
+      <PageTitle>Lista de Clientes</PageTitle>
       <Section>
         <div className="p-6">
           <button

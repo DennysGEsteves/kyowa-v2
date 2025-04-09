@@ -4,6 +4,7 @@ import {
   CreateSupplierUseCase,
   GetSuppliersUseCase,
   UpdateSupplierUseCase,
+  GetSupplierByIdUseCase,
 } from 'src/usecases/supplier';
 import { ISupplierRepository } from 'src/repositories/supplier/interfaces/i-supplier-repository';
 import { SupplierRepository } from 'src/repositories/supplier/supplier-repository';
@@ -14,6 +15,7 @@ import { SupplierRepository } from 'src/repositories/supplier/supplier-repositor
     CreateSupplierUseCase,
     GetSuppliersUseCase,
     UpdateSupplierUseCase,
+    GetSupplierByIdUseCase,
     { provide: ISupplierRepository, useClass: SupplierRepository },
   ],
 })
