@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ArchitectEntity } from 'src/entities';
 import {
   CreateArchitectUseCase,
+  GetArchitectByIdUseCase,
   GetArchitectsUseCase,
   UpdateArchitectUseCase,
 } from 'src/usecases/architect';
@@ -22,6 +23,7 @@ export class ArchitectResolver {
     private readonly getArchitectsUseCase: GetArchitectsUseCase,
     private readonly createArchitectUseCase: CreateArchitectUseCase,
     private readonly updateArchitectUseCase: UpdateArchitectUseCase,
+    private readonly getArchitectByIdUseCase: GetArchitectByIdUseCase,
   ) {}
 
   @Query(() => [ArchitectEntity])
@@ -41,6 +43,12 @@ export class ArchitectResolver {
     @Args('name') name: string,
   ): Promise<GetArchitectsByNameResponse[]> {
     return this.getArchitectsUseCase.executeByName(name);
+  }
+
+  @Roles(RoleType.LOGGED)
+  @Query(() => ArchitectEntity)
+  async getArchitectById(@Args('id') id: number): Promise<ArchitectEntity> {
+    return await this.getArchitectByIdUseCase.execute(id);
   }
 
   @Mutation(() => ArchitectEntity)

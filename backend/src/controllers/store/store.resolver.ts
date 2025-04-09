@@ -32,7 +32,6 @@ export class StoreResolver {
   @Roles(RoleType.LOGGED)
   @Query(() => StoreEntity)
   async getStoreById(@Args('id') id: number): Promise<StoreEntity> {
-    console.log(1111111111111111111);
     return await this.getStoreByIdUseCase.execute(id);
   }
 

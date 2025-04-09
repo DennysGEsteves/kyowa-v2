@@ -100,7 +100,6 @@ export function ClientsRepository(client: IApolloClient) {
   }
 
   async function getById(id: number) {
-    console.log(1111111, id);
     const { data } = await client.query({
       variables: {
         id,

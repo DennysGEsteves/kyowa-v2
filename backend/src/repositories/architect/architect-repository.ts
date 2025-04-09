@@ -60,6 +60,14 @@ export class ArchitectRepository implements IArchitectRepository {
     });
   }
 
+  async findById(id: number): Promise<ArchitectDB> {
+    return await this.db.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
   async findByEmail(email: string): Promise<ArchitectDB> {
     return await this.db.findUnique({
       where: {

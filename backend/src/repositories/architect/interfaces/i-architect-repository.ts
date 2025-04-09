@@ -9,6 +9,7 @@ export abstract class IArchitectRepository {
   abstract delete(architectId: string): Promise<void>;
   abstract findAll(paginationArgs?: PaginationArgs): Promise<ArchitectDB[]>;
   abstract findAllByName(name: string): Promise<ArchitectDB[]>;
+  public abstract findById(id: number): Promise<ArchitectDB>;
   abstract findAllByPagination(
     paginationArgs: PaginationArgs,
   ): Promise<IArchitectPagination>;

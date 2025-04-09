@@ -63,8 +63,8 @@ export const MultiStepRoot = (props: MultiStepRootProps) => {
         isLast: isLastStep,
       }}
     >
-      <div className="flex gap-4 border-b border-gray-400">
-        <div className="w-1/4 border-r border-gray-400 px-10">
+      <div className="flex gap-4 border-b border-gray-200">
+        <div className="w-1/4 border-r border-gray-200 px-10">
           <ol
             className={twMerge(
               "relative mt-6 border-gray-500 text-gray-400",

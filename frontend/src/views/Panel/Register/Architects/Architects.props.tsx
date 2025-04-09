@@ -1,14 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { EditIcon } from "@/components/Icons";
 import type { User } from "@/@types";
 import { type Architect } from "@/@types";
-import type { Dispatch, SetStateAction } from "react";
+import { EditIcon } from "@/components/Icons";
 
 type TableColumnsType = {
-  setModalArchitect: Dispatch<SetStateAction<Architect | undefined>>;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
   managers: User[];
+  goToUpsert: (architect?: Architect) => void;
 };
 
 export const tableColumns = (props: TableColumnsType) => {
@@ -48,8 +46,7 @@ export const tableColumns = (props: TableColumnsType) => {
           <div
             className="w-max cursor-pointer opacity-40 hover:opacity-100"
             onClick={() => {
-              props.setModalArchitect(architect);
-              props.setOpenModal(true);
+              props.goToUpsert(architect);
             }}
           >
             <EditIcon />

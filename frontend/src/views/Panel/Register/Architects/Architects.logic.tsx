@@ -1,18 +1,17 @@
+import type { Architect } from "@/@types/architect";
 import { useEntitiesContext } from "@/context/Entities.context";
 import { GET_ARCHITECTS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Architect } from "@/@types/architect";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { tableColumns } from "./Architects.props";
 
 export const useLogic = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalArchitect, setModalArchitect] = useState<Architect | undefined>(
-    undefined,
-  );
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  const router = useRouter();
 
   let debounce: NodeJS.Timeout | undefined = undefined;
 
@@ -25,9 +24,12 @@ export const useLogic = () => {
     queryFn: () => architectsRepository.getAllByPagination(page, search),
   });
 
+  const goToUpsert = (architect?: Architect) => {
+    router.push(`/cadastros/arquitetos/${architect?.id ?? "novo"}`);
+  };
+
   const tableColumnsData = tableColumns({
-    setModalArchitect,
-    setOpenModal,
+    goToUpsert,
     managers,
   });
 
@@ -45,8 +47,6 @@ export const useLogic = () => {
 
   return {
     data: {
-      openModal,
-      modalArchitect,
       tableData: {
         items: data?.items || [],
         columns: tableColumnsData,
@@ -59,8 +59,7 @@ export const useLogic = () => {
       },
     },
     methods: {
-      setOpenModal,
-      setModalArchitect,
+      goToUpsert,
     },
   };
 };
