@@ -1,18 +1,16 @@
+import type { Product } from "@/@types/product";
 import { GET_PRODUCTS_REFETCH_TAG } from "@/repositories/api";
 import { useRepository } from "@/repositories/repositories.hook";
-import type { Product } from "@/@types/product";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { tableColumns } from "./Products.props";
 
 export const useLogic = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [modalProduct, setModalProduct] = useState<Product | undefined>(
-    undefined,
-  );
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
+  const router = useRouter();
   let debounce: NodeJS.Timeout | undefined = undefined;
 
   const { productsRepository } = useRepository();
@@ -22,9 +20,14 @@ export const useLogic = () => {
     queryFn: () => productsRepository.getAllByPagination(page, search),
   });
 
+  console.log(data);
+
+  const goToUpsert = (product?: Product) => {
+    router.push(`/produtos/produtos/${product?.id ?? "novo"}`);
+  };
+
   const tableColumnsData = tableColumns({
-    setModalProduct,
-    setOpenModal,
+    goToUpsert,
   });
 
   function onPageChange(page: number) {
@@ -41,8 +44,6 @@ export const useLogic = () => {
 
   return {
     data: {
-      openModal,
-      modalProduct,
       tableData: {
         items: data?.items || [],
         columns: tableColumnsData,
@@ -55,8 +56,7 @@ export const useLogic = () => {
       },
     },
     methods: {
-      setOpenModal,
-      setModalProduct,
+      goToUpsert,
     },
   };
 };

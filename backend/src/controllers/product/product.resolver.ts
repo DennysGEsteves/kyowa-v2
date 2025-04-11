@@ -4,6 +4,7 @@ import {
   CreateProductUseCase,
   GetProductsUseCase,
   UpdateProductUseCase,
+  GetProductByIdUseCase,
 } from 'src/usecases/product';
 import { UpsertProductDTO } from './dtos';
 import { UseGuards } from '@nestjs/common';
@@ -22,6 +23,7 @@ export class ProductResolver {
     private readonly getProductsUseCase: GetProductsUseCase,
     private readonly createProductUseCase: CreateProductUseCase,
     private readonly updateProductUseCase: UpdateProductUseCase,
+    private readonly getProductByIdUseCase: GetProductByIdUseCase,
   ) {}
 
   @Query(() => [ProductEntity])
@@ -41,6 +43,12 @@ export class ProductResolver {
     @Args('name') name: string,
   ): Promise<GetProductsByNameResponse[]> {
     return this.getProductsUseCase.executeByName(name);
+  }
+
+  @Roles(RoleType.LOGGED)
+  @Query(() => ProductEntity)
+  async getProductById(@Args('id') id: number): Promise<ProductEntity> {
+    return await this.getProductByIdUseCase.execute(id);
   }
 
   @Mutation(() => ProductEntity)

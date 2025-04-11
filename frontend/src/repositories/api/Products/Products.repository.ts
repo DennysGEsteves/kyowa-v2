@@ -10,6 +10,7 @@ export function ProductsRepository(client: IApolloClient) {
         query GetProducts {
           getProducts {
             mid
+            id
             name
             fantasyName
             ref
@@ -46,6 +47,7 @@ export function ProductsRepository(client: IApolloClient) {
           getProductsByPagination(page: $page, search: $search) {
             items {
               mid
+              id
               name
               fantasyName
               ref
@@ -86,6 +88,7 @@ export function ProductsRepository(client: IApolloClient) {
         query GetProductsByName($name: String!) {
           getProductsByName(name: $name) {
             mid
+            id
             name
           }
         }
@@ -93,6 +96,37 @@ export function ProductsRepository(client: IApolloClient) {
     });
 
     return data.getProductsByName;
+  }
+
+  async function getById(id: number) {
+    const { data } = await client.query({
+      variables: {
+        id,
+      },
+      query: gql`
+        query GetProductById($id: Float!) {
+          getProductById(id: $id) {
+            mid
+            id
+            name
+            fantasyName
+            ref
+            ncm
+            cst
+            ean
+            buyBrice
+            sellPrice
+            hasSeals
+            amountStart
+            amountSold
+            isAmountUnlimited
+            supplierId
+          }
+        }
+      `,
+    });
+
+    return data.getProductById;
   }
 
   async function update(dto: UpsertProductDTO): Promise<void> {
@@ -104,6 +138,7 @@ export function ProductsRepository(client: IApolloClient) {
         mutation UpdateProduct($input: UpsertProductDTO!) {
           updateProduct(input: $input) {
             mid
+            id
             name
             fantasyName
             ref
@@ -154,6 +189,7 @@ export function ProductsRepository(client: IApolloClient) {
     getAll,
     getAllByPagination,
     getByName,
+    getById,
     update,
     create,
   };

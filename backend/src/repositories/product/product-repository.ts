@@ -68,6 +68,17 @@ export class ProductRepository implements IProductRepository {
     });
   }
 
+  async findById(id: number): Promise<ProductDB> {
+    return await this.db.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        supplier: true,
+      },
+    });
+  }
+
   async update(product: ProductEntity): Promise<ProductDB> {
     return await this.db.update({
       where: {

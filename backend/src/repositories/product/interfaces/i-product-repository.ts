@@ -8,6 +8,7 @@ export abstract class IProductRepository {
   abstract update(product: ProductEntity): Promise<ProductDB>;
   abstract delete(productId: string): Promise<void>;
   abstract findAll(paginationArgs?: PaginationArgs): Promise<ProductDB[]>;
+  abstract findById(id: number): Promise<ProductDB>;
   abstract findAllByName(name: string): Promise<ProductDB[]>;
   abstract findAllByPagination(
     paginationArgs: PaginationArgs,
