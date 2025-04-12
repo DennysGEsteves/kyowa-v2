@@ -11,7 +11,7 @@ import { ArchitectModule } from 'src/controllers/architect/architect.module';
 import { ClientModule } from 'src/controllers/client/client.module';
 import { SupplierModule } from 'src/controllers/supplier/supplier.module';
 import { ProductModule } from 'src/controllers/product/product.module';
-
+import { DescriptorsModule } from 'src/controllers/descriptors/descriptors.module';
 @Module({
   imports: [
     GlobalModule,
@@ -22,6 +22,7 @@ import { ProductModule } from 'src/controllers/product/product.module';
     ClientModule,
     SupplierModule,
     ProductModule,
+    DescriptorsModule,
   ],
   providers: [
     {

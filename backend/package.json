@@ -19,7 +19,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:update": "npx prisma db push",
-    "db:reset": "npx prisma migrate reset"
+    "db:reset": "npx prisma migrate reset",
+    "db:studio": "npx prisma studio",
+    "db:seed": "npx ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",

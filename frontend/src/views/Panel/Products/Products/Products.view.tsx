@@ -4,7 +4,7 @@ import { PageTitle, Section, Table } from "@/components";
 import { PlusIcon } from "@/components/Icons";
 import { useLogic } from "./Products.logic";
 
-const RegisterProductsView = () => {
+const ProductsProductsView = () => {
   const { data, methods } = useLogic();
 
   return (
@@ -29,4 +29,4 @@ const RegisterProductsView = () => {
   );
 };
 
-export default RegisterProductsView;
+export default ProductsProductsView;

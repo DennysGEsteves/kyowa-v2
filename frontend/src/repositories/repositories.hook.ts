@@ -16,6 +16,7 @@ import {
   ArchitectsRepository,
   AuthRepository,
   ClientsRepository,
+  DescriptorsRepository,
   ProductsRepository,
   StoresRepository,
   SuppliersRepository,
@@ -96,6 +97,10 @@ export function useRepository() {
       () => ProductsRepository(client()),
       [token],
     )(),
+    descriptorsRepository: useCallback(
+      () => DescriptorsRepository(client()),
+      [token],
+    )(),
   };
 }
 
@@ -125,5 +130,6 @@ export function useRepositorySSR(token?: string) {
     architectsRepository: ArchitectsRepository(client()),
     suppliersRepository: SuppliersRepository(client()),
     productsRepository: ProductsRepository(client()),
+    descriptorsRepository: DescriptorsRepository(client()),
   };
 }
