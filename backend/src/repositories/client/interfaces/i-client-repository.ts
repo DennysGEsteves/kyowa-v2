@@ -1,16 +1,58 @@
-import { ClientEntity as ClientEntity } from 'src/entities';
-import { ClientDB } from '../types';
-import { PaginationArgs } from 'src/util/pagination/pagination-args';
-import { IClientPagination } from './i-client-pagination';
+import { ClientEntity } from '../../../entities/client';
+import { ClientOrigin, InterestProduct } from '../../../entities/client/types';
 
-export abstract class IClientRepository {
-  abstract create(client: ClientEntity): Promise<ClientDB>;
-  abstract update(client: ClientEntity): Promise<ClientDB>;
-  abstract delete(clientId: string): Promise<void>;
-  abstract findAll(): Promise<ClientDB[]>;
-  abstract findById(id: number): Promise<ClientDB>;
-  abstract findAllByPagination(
-    paginationArgs: PaginationArgs,
-  ): Promise<IClientPagination>;
-  abstract findByEmail(email: string): Promise<ClientDB>;
+export const CLIENT_REPOSITORY = Symbol('CLIENT_REPOSITORY');
+
+export interface CreateClientData {
+  name: string;
+  nameFilter?: string;
+  cpf?: string | null;
+  rg?: string | null;
+  architectId?: string | null;
+  nasc?: Date | null;
+  occupation?: string | null;
+  email?: string | null;
+  cep?: string | null;
+  address?: string | null;
+  district?: string | null;
+  city?: string | null;
+  region?: string | null;
+  phone1?: string | null;
+  phone2?: string | null;
+  obs?: string | null;
+  active?: boolean;
+  interestProducts?: InterestProduct[] | null;
+  origins?: ClientOrigin[] | null;
+  entry?: Date;
+}
+
+export interface UpdateClientData {
+  name?: string;
+  nameFilter?: string;
+  cpf?: string | null;
+  rg?: string | null;
+  architectId?: string | null;
+  nasc?: Date | null;
+  occupation?: string | null;
+  email?: string | null;
+  cep?: string | null;
+  address?: string | null;
+  district?: string | null;
+  city?: string | null;
+  region?: string | null;
+  phone1?: string | null;
+  phone2?: string | null;
+  obs?: string | null;
+  active?: boolean;
+  interestProducts?: InterestProduct[] | null;
+  origins?: ClientOrigin[] | null;
+  entry?: Date;
+}
+
+export interface IClientRepository {
+  create(data: CreateClientData): Promise<ClientEntity>;
+  findAll(): Promise<ClientEntity[]>;
+  findById(id: string): Promise<ClientEntity | null>;
+  update(id: string, data: UpdateClientData): Promise<ClientEntity | null>;
+  delete(id: string): Promise<boolean>;
 }

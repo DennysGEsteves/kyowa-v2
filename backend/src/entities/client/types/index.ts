@@ -1,2 +1,2 @@
-export * from './interest-products-type';
-export * from './origins-type';
+export * from './client-origin';
+export * from './interest-product';

@@ -1,27 +1,30 @@
 import { Module } from '@nestjs/common';
-import { UserResolver } from './user.resolver';
-import {
-  CreateUserUseCase,
-  InactiveUserUseCase,
-  GetUsersUseCase,
-  UpdateUserUseCase,
-  ActiveUserUseCase,
-  GetUsersManagerUseCase,
-  GetUserByIdUseCase,
-} from 'src/usecases/user';
-import { IUserRepository, UserRepository } from 'src/repositories/user';
+import { MongooseModule } from '@nestjs/mongoose';
+import { USER_REPOSITORY } from '../../repositories/user/interfaces/i-user-repository';
+import { User, UserSchema } from '../../repositories/user/schemas/user.schema';
+import { UserRepository } from '../../repositories/user/user.repository';
+import { CreateUserUseCase } from '../../usecases/user/create-user.usecase';
+import { DeleteUserUseCase } from '../../usecases/user/delete-user.usecase';
+import { GetUserByIdUseCase } from '../../usecases/user/get-user-by-id.usecase';
+import { GetUsersUseCase } from '../../usecases/user/get-users.usecase';
+import { UpdateUserUseCase } from '../../usecases/user/update-user.usecase';
+import { UserController } from './user.controller';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+  ],
+  controllers: [UserController],
   providers: [
-    UserResolver,
+    {
+      provide: USER_REPOSITORY,
+      useClass: UserRepository,
+    },
     CreateUserUseCase,
     GetUsersUseCase,
-    GetUsersManagerUseCase,
-    UpdateUserUseCase,
-    InactiveUserUseCase,
-    ActiveUserUseCase,
     GetUserByIdUseCase,
-    { provide: IUserRepository, useClass: UserRepository },
+    UpdateUserUseCase,
+    DeleteUserUseCase,
   ],
 })
 export class UserModule {}

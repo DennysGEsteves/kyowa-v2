@@ -1,13 +1,35 @@
-import { UserEntity as UserEntity } from 'src/entities';
-import { UserDB } from '../types/';
-import { RoleType } from 'src/entities/user/types';
+import { UserEntity } from '../../../entities/user';
+import { UserPermission } from '../../../entities/user/types/user-permission';
 
-export abstract class IUserRepository {
-  abstract create(user: UserEntity): Promise<UserDB>;
-  abstract update(user: UserEntity): Promise<UserDB>;
-  abstract changeActiveValue(userId: number, active: boolean): Promise<void>;
-  abstract findAll(): Promise<UserDB[]>;
-  abstract findById(id: number): Promise<UserDB>;
-  abstract findAllByRole(role: RoleType): Promise<UserDB[]>;
-  abstract findByEmail(email: string): Promise<UserDB>;
+export const USER_REPOSITORY = Symbol('USER_REPOSITORY');
+
+export interface CreateUserData {
+  email: string;
+  name: string;
+  pass?: string;
+  phone?: string | null;
+  login?: string | null;
+  permission: UserPermission;
+  storeId: number;
+  active?: boolean;
+}
+
+export interface UpdateUserData {
+  email?: string;
+  name?: string;
+  pass?: string;
+  phone?: string | null;
+  login?: string | null;
+  permission?: UserPermission;
+  storeId?: number;
+  active?: boolean;
+}
+
+export interface IUserRepository {
+  create(data: CreateUserData): Promise<UserEntity>;
+  findAll(): Promise<UserEntity[]>;
+  findById(id: string): Promise<UserEntity | null>;
+  findByEmail(email: string): Promise<UserEntity | null>;
+  update(id: string, data: UpdateUserData): Promise<UserEntity | null>;
+  delete(id: string): Promise<boolean>;
 }

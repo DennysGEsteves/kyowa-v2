@@ -1,22 +1,33 @@
 import { Module } from '@nestjs/common';
-import { StoreResolver } from './store.resolver';
+import { MongooseModule } from '@nestjs/mongoose';
+import { STORE_REPOSITORY } from '../../repositories/store/interfaces/i-store-repository';
+import { StoreRepository } from '../../repositories/store/store.repository';
 import {
-  CreateStoreUseCase,
-  GetStoresUseCase,
-  UpdateStoreUseCase,
-  GetStoreByIdUseCase,
-} from 'src/usecases/store';
-import { IStoreRepository } from 'src/repositories/store/interfaces/i-store-repository';
-import { StoreRepository } from 'src/repositories/store/store-repository';
+  Store,
+  StoreSchema,
+} from '../../repositories/store/schemas/store.schema';
+import { CreateStoreUseCase } from '../../usecases/store/create-store.usecase';
+import { DeleteStoreUseCase } from '../../usecases/store/delete-store.usecase';
+import { GetStoreByIdUseCase } from '../../usecases/store/get-store-by-id.usecase';
+import { GetStoresUseCase } from '../../usecases/store/get-stores.usecase';
+import { UpdateStoreUseCase } from '../../usecases/store/update-store.usecase';
+import { StoreController } from './store.controller';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([{ name: Store.name, schema: StoreSchema }]),
+  ],
+  controllers: [StoreController],
   providers: [
-    StoreResolver,
+    {
+      provide: STORE_REPOSITORY,
+      useClass: StoreRepository,
+    },
     CreateStoreUseCase,
     GetStoresUseCase,
-    UpdateStoreUseCase,
     GetStoreByIdUseCase,
-    { provide: IStoreRepository, useClass: StoreRepository },
+    UpdateStoreUseCase,
+    DeleteStoreUseCase,
   ],
 })
 export class StoreModule {}

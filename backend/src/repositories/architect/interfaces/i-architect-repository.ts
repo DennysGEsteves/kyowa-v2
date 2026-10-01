@@ -1,17 +1,47 @@
-import { ArchitectEntity as ArchitectEntity } from 'src/entities';
-import { ArchitectDB } from '../types';
-import { PaginationArgs } from 'src/util/pagination/pagination-args';
-import { IArchitectPagination } from './i-architect-pagination';
+import { ArchitectEntity } from '../../../entities/architect';
 
-export abstract class IArchitectRepository {
-  abstract create(architect: ArchitectEntity): Promise<ArchitectDB>;
-  abstract update(architect: ArchitectEntity): Promise<ArchitectDB>;
-  abstract delete(architectId: string): Promise<void>;
-  abstract findAll(paginationArgs?: PaginationArgs): Promise<ArchitectDB[]>;
-  abstract findAllByName(name: string): Promise<ArchitectDB[]>;
-  public abstract findById(id: number): Promise<ArchitectDB>;
-  abstract findAllByPagination(
-    paginationArgs: PaginationArgs,
-  ): Promise<IArchitectPagination>;
-  abstract findByEmail(email: string): Promise<ArchitectDB>;
+export const ARCHITECT_REPOSITORY = Symbol('ARCHITECT_REPOSITORY');
+
+export interface CreateArchitectData {
+  name: string;
+  nameFilter?: string;
+  cpf?: string | null;
+  nasc?: Date | null;
+  email?: string | null;
+  cep?: string | null;
+  address?: string | null;
+  district?: string | null;
+  city?: string | null;
+  region?: string | null;
+  phone1?: string | null;
+  phone2?: string | null;
+  obs?: string | null;
+  active?: boolean;
+  sellerId: string;
+}
+
+export interface UpdateArchitectData {
+  name?: string;
+  nameFilter?: string;
+  cpf?: string | null;
+  nasc?: Date | null;
+  email?: string | null;
+  cep?: string | null;
+  address?: string | null;
+  district?: string | null;
+  city?: string | null;
+  region?: string | null;
+  phone1?: string | null;
+  phone2?: string | null;
+  obs?: string | null;
+  active?: boolean;
+  sellerId?: string;
+}
+
+export interface IArchitectRepository {
+  create(data: CreateArchitectData): Promise<ArchitectEntity>;
+  findAll(): Promise<ArchitectEntity[]>;
+  findById(id: string): Promise<ArchitectEntity | null>;
+  update(id: string, data: UpdateArchitectData): Promise<ArchitectEntity | null>;
+  delete(id: string): Promise<boolean>;
 }

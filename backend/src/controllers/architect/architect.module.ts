@@ -1,21 +1,35 @@
 import { Module } from '@nestjs/common';
-import { ArchitectResolver } from './architect.resolver';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ARCHITECT_REPOSITORY } from '../../repositories/architect/interfaces/i-architect-repository';
+import { ArchitectRepository } from '../../repositories/architect/architect.repository';
 import {
-  CreateArchitectUseCase,
-  GetArchitectsUseCase,
-  UpdateArchitectUseCase,
-  GetArchitectByIdUseCase,
-} from 'src/usecases/architect';
-import { IArchitectRepository } from 'src/repositories/architect/interfaces/i-architect-repository';
-import { ArchitectRepository } from 'src/repositories/architect/architect-repository';
+  Architect,
+  ArchitectSchema,
+} from '../../repositories/architect/schemas/architect.schema';
+import { CreateArchitectUseCase } from '../../usecases/architect/create-architect.usecase';
+import { DeleteArchitectUseCase } from '../../usecases/architect/delete-architect.usecase';
+import { GetArchitectByIdUseCase } from '../../usecases/architect/get-architect-by-id.usecase';
+import { GetArchitectsUseCase } from '../../usecases/architect/get-architects.usecase';
+import { UpdateArchitectUseCase } from '../../usecases/architect/update-architect.usecase';
+import { ArchitectController } from './architect.controller';
+
 @Module({
+  imports: [
+    MongooseModule.forFeature([
+      { name: Architect.name, schema: ArchitectSchema },
+    ]),
+  ],
+  controllers: [ArchitectController],
   providers: [
-    ArchitectResolver,
+    {
+      provide: ARCHITECT_REPOSITORY,
+      useClass: ArchitectRepository,
+    },
     CreateArchitectUseCase,
     GetArchitectsUseCase,
-    UpdateArchitectUseCase,
     GetArchitectByIdUseCase,
-    { provide: IArchitectRepository, useClass: ArchitectRepository },
+    UpdateArchitectUseCase,
+    DeleteArchitectUseCase,
   ],
 })
 export class ArchitectModule {}

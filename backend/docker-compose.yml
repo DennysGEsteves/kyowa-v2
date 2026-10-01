@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  kyowa-mongodb:
+    image: mongo:8
+    container_name: kyowa-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: kyowa
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  kyowa-mongo-express:
+    image: mongo-express:1.0.2-20
+    container_name: kyowa-mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://kyowa-mongodb:27017/
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_BASICAUTH: "false"
+    depends_on:
+      - kyowa-mongodb
+
+volumes:
+  mongodb_data:

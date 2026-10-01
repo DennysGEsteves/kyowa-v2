@@ -1,22 +1,33 @@
 import { Module } from '@nestjs/common';
-import { ProductResolver } from './product.resolver';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PRODUCT_REPOSITORY } from '../../repositories/product/interfaces/i-product-repository';
+import { ProductRepository } from '../../repositories/product/product.repository';
 import {
-  CreateProductUseCase,
-  GetProductsUseCase,
-  UpdateProductUseCase,
-  GetProductByIdUseCase,
-} from 'src/usecases/product';
-import { IProductRepository } from 'src/repositories/product/interfaces/i-product-repository';
-import { ProductRepository } from 'src/repositories/product/product-repository';
+  Product,
+  ProductSchema,
+} from '../../repositories/product/schemas/product.schema';
+import { CreateProductUseCase } from '../../usecases/product/create-product.usecase';
+import { DeleteProductUseCase } from '../../usecases/product/delete-product.usecase';
+import { GetProductByIdUseCase } from '../../usecases/product/get-product-by-id.usecase';
+import { GetProductsUseCase } from '../../usecases/product/get-products.usecase';
+import { UpdateProductUseCase } from '../../usecases/product/update-product.usecase';
+import { ProductController } from './product.controller';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
+  ],
+  controllers: [ProductController],
   providers: [
-    ProductResolver,
+    {
+      provide: PRODUCT_REPOSITORY,
+      useClass: ProductRepository,
+    },
     CreateProductUseCase,
     GetProductsUseCase,
-    UpdateProductUseCase,
     GetProductByIdUseCase,
-    { provide: IProductRepository, useClass: ProductRepository },
+    UpdateProductUseCase,
+    DeleteProductUseCase,
   ],
 })
 export class ProductModule {}

@@ -1,0 +1,82 @@
+@baseUrl = http://localhost:3000/api
+
+### Criar usuário
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "email": "dennysteves@hotmail.com",
+  "name": "Dennys Esteves",
+  "pass": "mudar123",
+  "phone": "11999998888",
+  "login": "admin",
+  "permission": "admin",
+  "storeId": 1,
+  "active": true
+}
+
+### Criar cliente
+POST {{baseUrl}}/clients
+Content-Type: application/json
+
+{
+  "name": "Maria Silva",
+  "cpf": "12345678900",
+  "rg": "1234567",
+  "nasc": "1990-05-15",
+  "occupation": "Designer",
+  "email": "maria@example.com",
+  "cep": "01310100",
+  "address": "Av. Paulista, 1000",
+  "district": "Bela Vista",
+  "city": "São Paulo",
+  "region": "SP",
+  "phone1": "11999998888",
+  "phone2": "1133334444",
+  "obs": "Cliente indicado por arquiteto",
+  "active": true,
+  "interestProducts": ["curtain", "carpet"],
+  "origins": ["architect", "friends"],
+  "entry": "2026-10-01T12:00:00.000Z"
+}
+
+### Criar arquiteto
+# sellerId = _id do usuário vendedor (GET /api/users)
+POST {{baseUrl}}/architects
+Content-Type: application/json
+
+{
+  "name": "João Arquiteto",
+  "cpf": "98765432100",
+  "nasc": "1985-03-20",
+  "email": "joao.arquiteto@example.com",
+  "cep": "04547006",
+  "address": "Av. Eng. Luís Carlos Berrini, 500",
+  "district": "Itaim Bibi",
+  "city": "São Paulo",
+  "region": "SP",
+  "phone1": "11988887777",
+  "phone2": "1144445555",
+  "obs": "Parceiro comercial",
+  "active": true,
+  "sellerId": "SUBSTITUA_PELO_ID_DO_USUARIO"
+}
+
+### Criar loja
+# managerId opcional = _id do usuário gerente (GET /api/users)
+POST {{baseUrl}}/stores
+Content-Type: application/json
+
+{
+  "name": "Kyowa Matriz",
+  "email": "matriz@kyowa.local",
+  "cep": "01310100",
+  "address": "Av. Paulista, 500",
+  "district": "Bela Vista",
+  "city": "São Paulo",
+  "region": "SP",
+  "phone1": "1133334444",
+  "phone2": "1144443333",
+  "obs": "Loja principal",
+  "managerId": "SUBSTITUA_PELO_ID_DO_USUARIO"
+}

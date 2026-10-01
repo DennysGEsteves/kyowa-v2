@@ -1,0 +1,18 @@
+{
+  "files.associations": {
+    "*.api": "http",
+    "*.http": "http"
+  },
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "baseUrl": "http://localhost:3000/api"
+    }
+  },
+  "rest-client.previewResponseInUntitledDocument": true,
+  "rest-client.previewOption": "full",
+  "rest-client.previewColumn": "beside",
+  "rest-client.showResponseInDifferentTab": true,
+  "rest-client.previewResponsePanelTakeFocus": false,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.closeOnFileDelete": false
+}
