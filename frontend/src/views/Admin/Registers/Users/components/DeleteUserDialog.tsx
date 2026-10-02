@@ -1,7 +1,9 @@
 "use client";
 
+import { useApi } from "@/api/api.hook";
+import { useInvalidateUsersQuery } from "@/api/Users/users.query";
 import { ActionButton } from "@/components/ActionButton";
-import type { User } from "@entities/user";
+import type { User } from "@entities";
 import { useEffect } from "react";
 
 type DeleteUserDialogProps = {
@@ -15,8 +17,14 @@ export function DeleteUserDialog({
   user,
   onClose,
 }: DeleteUserDialogProps) {
+  const { usersApi } = useApi();
+  const invalidateUsers = useInvalidateUsersQuery();
+
   const onConfirm = () => {
-    onClose();
+    usersApi.remove(user!.id).then(() => {
+      invalidateUsers();
+      onClose();
+    });
   };
 
   useEffect(() => {

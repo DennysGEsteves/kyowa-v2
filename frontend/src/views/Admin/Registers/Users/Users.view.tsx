@@ -42,13 +42,19 @@ export function RegistersUsersView() {
       <UpsertUserModal
         open={data.formOpen}
         user={data.editingUser}
-        onClose={() => methods.setFormOpen(false)}
+        onClose={(reload) => {
+          methods.setFormOpen(false);
+          if (reload) methods.refetchUsers();
+        }}
       />
 
       <DeleteUserDialog
-        open={Boolean(data.deleteTarget)}
-        user={data.deleteTarget}
-        onClose={() => methods.setDeleteTarget(null)}
+        open={Boolean(data.deleteUser)}
+        user={data.deleteUser}
+        onClose={(reload?: boolean) => {
+          methods.setDeleteUser(null);
+          if (reload) methods.refetchUsers();
+        }}
       />
     </>
   );

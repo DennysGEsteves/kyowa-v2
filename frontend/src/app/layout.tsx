@@ -1,3 +1,4 @@
+import { QueryProvider } from "@/providers/query-client-provider";
 import type { Metadata } from "next";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${playfair.variable} ${sourceSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-sans">{children}</body>
+      <body className="min-h-full font-sans">
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }

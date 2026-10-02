@@ -10,7 +10,7 @@ export interface CreateUserData {
   phone?: string | null;
   login?: string | null;
   permission: UserPermission;
-  storeId: number;
+  storeId: string;
   active?: boolean;
 }
 
@@ -21,7 +21,7 @@ export interface UpdateUserData {
   phone?: string | null;
   login?: string | null;
   permission?: UserPermission;
-  storeId?: number;
+  storeId?: string;
   active?: boolean;
 }
 

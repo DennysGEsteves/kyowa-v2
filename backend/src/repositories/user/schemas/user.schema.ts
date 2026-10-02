@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import {
   USER_PERMISSIONS,
   UserPermission,
@@ -37,8 +37,8 @@ export class User {
   })
   permission!: UserPermission;
 
-  @Prop({ required: true, index: true })
-  storeId!: number;
+  @Prop({ type: Types.ObjectId, required: true, ref: 'Store', index: true })
+  storeId!: Types.ObjectId;
 
   @Prop({ required: true, default: true })
   active!: boolean;

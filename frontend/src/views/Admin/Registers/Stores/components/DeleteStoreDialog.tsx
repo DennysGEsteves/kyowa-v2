@@ -1,21 +1,32 @@
 "use client";
 
-import type { Provider } from "@entities/provider";
+import { useApi } from "@/api/api.hook";
+import { useInvalidateStoresQuery } from "@/api/Stores/stores.query";
+import { ActionButton } from "@/components/ActionButton";
+import type { Store } from "@entities";
 import { useEffect } from "react";
 
-type DeleteProviderDialogProps = {
+type DeleteStoreDialogProps = {
   open: boolean;
-  provider: Provider | null;
+  store: Store | null;
   onClose: () => void;
-  onConfirm: () => void;
 };
 
-export function DeleteProviderDialog({
+export function DeleteStoreDialog({
   open,
-  provider,
+  store,
   onClose,
-  onConfirm,
-}: DeleteProviderDialogProps) {
+}: DeleteStoreDialogProps) {
+  const { storesApi } = useApi();
+  const invalidateStores = useInvalidateStoresQuery();
+
+  const onConfirm = () => {
+    storesApi.remove(store!.id).then(() => {
+      invalidateStores();
+      onClose();
+    });
+  };
+
   useEffect(() => {
     if (!open) return;
 
@@ -31,7 +42,7 @@ export function DeleteProviderDialog({
     };
   }, [open, onClose]);
 
-  if (!open || !provider) return null;
+  if (!open || !store) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
@@ -45,35 +56,25 @@ export function DeleteProviderDialog({
       <div
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="delete-provider-title"
+        aria-labelledby="delete-store-title"
         className="relative z-10 w-full max-w-md rounded-t-sm bg-white p-5 shadow-xl sm:rounded-sm sm:p-6"
       >
-        <h2
-          id="delete-provider-title"
-          className="font-serif text-xl text-kyowa-ink"
-        >
-          Remover fornecedor
+        <h2 id="delete-store-title" className="font-serif text-xl text-kyowa-ink">
+          Remover loja
         </h2>
         <p className="mt-3 text-sm text-kyowa-muted">
           Tem certeza que deseja remover{" "}
-          <span className="font-medium text-kyowa-ink">{provider.name}</span>?
+          <span className="font-medium text-kyowa-ink">{store.name}</span>? Esta
+          ação não pode ser desfeita nesta visualização.
         </p>
 
         <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2.5 text-sm font-medium text-kyowa-muted hover:text-kyowa-ink"
-          >
+          <ActionButton variant="ghost" onClick={onClose}>
             Cancelar
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            className="bg-red-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-800"
-          >
+          </ActionButton>
+          <ActionButton variant="danger" onClick={onConfirm}>
             Remover
-          </button>
+          </ActionButton>
         </div>
       </div>
     </div>

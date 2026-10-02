@@ -3,7 +3,7 @@ export type SessionUser = {
   email: string;
   name: string;
   permission: string;
-  storeId: number;
+  storeId: string;
   active: boolean;
 };
 

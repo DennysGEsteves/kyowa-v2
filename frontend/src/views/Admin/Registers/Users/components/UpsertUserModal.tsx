@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useApi } from "@/api/api.hook";
+import { useStoresQuery } from "@/api/Stores/stores.query";
+import { UpsertUserDTO } from "@/api/Users";
+import { useInvalidateUsersQuery } from "@/api/Users/users.query";
 import {
   FormActions,
   FormBody,
@@ -8,32 +11,39 @@ import {
   FormInput,
   FormSelect,
 } from "@/components/Form";
-import { permissionLabels, User, userPermissions } from "@entities/user";
+import { permissionLabels, User, userPermissions } from "@entities";
 import {
   formSchema,
   userValidationSchema,
 } from "@/views/Admin/Registers/Users/Users.schema";
 import { FormikProvider, useFormik } from "formik";
+import { useEffect, useMemo } from "react";
 
-type UserFormModalBodyProps = {
+type UpsertUserModalProps = {
   open: boolean;
   user?: User;
-  onClose: () => void;
+  onClose: (reload?: boolean) => void;
 };
 
-export function UpsertUserModal({
-  open,
+function UpsertUserModalBody({
   user,
   onClose,
-}: UserFormModalBodyProps) {
+}: Omit<UpsertUserModalProps, "open">) {
+  const { usersApi } = useApi();
+  const invalidateUsers = useInvalidateUsersQuery();
+  const { data: stores = [] } = useStoresQuery();
+
+  const defaultStoreId = user?.storeId ?? stores[0]?.id ?? "";
+
   const formik = useFormik<formSchema>({
+    enableReinitialize: true,
     initialValues: {
       name: user?.name ?? "",
       email: user?.email ?? "",
       phone: user?.phone ?? "",
       login: user?.login ?? "",
       permission: user?.permission ?? "sales",
-      storeId: user?.storeId ?? 1,
+      storeId: defaultStoreId,
       active: user?.active ?? true,
     },
     validationSchema: userValidationSchema,
@@ -49,8 +59,40 @@ export function UpsertUserModal({
     [],
   );
 
+  const storeOptions = useMemo(() => {
+    if (stores.length === 0) {
+      return [{ value: "", label: "Nenhuma loja cadastrada" }];
+    }
+
+    return stores.map((store) => ({
+      value: store.id,
+      label: store.name,
+    }));
+  }, [stores]);
+
   const onSubmit = (values: formSchema) => {
-    onClose();
+    console.log(values);
+    const userData: UpsertUserDTO = {
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
+      login: values.login,
+      permission: values.permission,
+      storeId: values.storeId,
+      active: values.active,
+    };
+
+    if (user) {
+      usersApi.update(user.id, userData).then(() => {
+        invalidateUsers();
+        onClose(true);
+      });
+    } else {
+      usersApi.create(userData).then(() => {
+        invalidateUsers();
+        onClose(true);
+      });
+    }
   };
 
   useEffect(() => {
@@ -68,15 +110,13 @@ export function UpsertUserModal({
 
   const title = user ? "Editar usuário" : "Novo usuário";
 
-  if (!open) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <button
         type="button"
         aria-label="Fechar"
         className="absolute inset-0 bg-black/50"
-        onClick={onClose}
+        onClick={() => onClose()}
       />
 
       <div
@@ -127,13 +167,11 @@ export function UpsertUserModal({
                   id="user-permission"
                   options={permissionOptions}
                 />
-                <FormInput
+                <FormSelect
                   name="storeId"
                   label="Loja"
                   id="user-store"
-                  type="number"
-                  min={1}
-                  parseValue={(raw) => Number(raw) || 0}
+                  options={storeOptions}
                 />
               </div>
 
@@ -145,7 +183,7 @@ export function UpsertUserModal({
             </FormBody>
 
             <FormActions
-              onCancel={onClose}
+              onCancel={() => onClose()}
               submitLabel={user ? "Salvar" : "Adicionar"}
             />
           </form>
@@ -153,4 +191,12 @@ export function UpsertUserModal({
       </div>
     </div>
   );
+}
+
+export function UpsertUserModal({ open, user, onClose }: UpsertUserModalProps) {
+  if (!open) return null;
+
+  const formKey = user ? `edit-${user.id}` : "create";
+
+  return <UpsertUserModalBody key={formKey} user={user} onClose={onClose} />;
 }

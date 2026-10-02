@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  clearClientSession,
-  getClientSession,
-  type SessionUser,
-} from "@util/auth/session";
+import { clearClientSession, getClientSession, type SessionUser } from "@utils";
 import { useRouter } from "next/navigation";
 import {
   createContext,

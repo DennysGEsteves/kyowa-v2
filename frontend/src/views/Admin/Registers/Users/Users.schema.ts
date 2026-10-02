@@ -1,4 +1,4 @@
-import { userPermissions, type UserPermission } from "@entities/user";
+import { userPermissions, type UserPermission } from "@entities";
 import * as Yup from "yup";
 
 export interface formSchema {
@@ -7,7 +7,7 @@ export interface formSchema {
   phone: string;
   login: string;
   permission: UserPermission;
-  storeId: number;
+  storeId?: string;
   active: boolean;
 }
 
@@ -23,10 +23,6 @@ export const userValidationSchema = Yup.object<formSchema>({
   permission: Yup.mixed<UserPermission>()
     .oneOf([...userPermissions], "Permissão inválida")
     .required("Permissão é obrigatória"),
-  storeId: Yup.number()
-    .typeError("ID da loja é obrigatório")
-    .integer()
-    .min(1, "Informe uma loja válida")
-    .required("ID da loja é obrigatório"),
+  storeId: Yup.string().trim().optional(),
   active: Yup.boolean().required("Status é obrigatório"),
 });

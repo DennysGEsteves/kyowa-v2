@@ -1,11 +1,12 @@
 "use client";
 
-import { AdminPageShell, AdminPlaceholder } from "@/layout/admin-page-shell";
+import { AdminPageShell } from "@/layout/admin-page-shell";
+import { RegistersStoresView } from "@/views/Admin/Registers/Stores/Stores.view";
 
 export default function NossasLojasPage() {
   return (
     <AdminPageShell title="Nossas Lojas">
-      <AdminPlaceholder />
+      <RegistersStoresView />
     </AdminPageShell>
   );
 }

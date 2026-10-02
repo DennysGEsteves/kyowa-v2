@@ -13,7 +13,7 @@ export type User = {
   phone: string | null;
   login: string | null;
   permission: UserPermission;
-  storeId: number;
+  storeId: string;
   active: boolean;
   createdAt?: string;
   updatedAt?: string;

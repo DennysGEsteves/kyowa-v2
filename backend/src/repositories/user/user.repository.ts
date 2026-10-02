@@ -62,7 +62,7 @@ export class UserRepository implements IUserRepository {
       document.phone,
       document.login,
       document.permission,
-      document.storeId,
+      document.storeId?.toString() ?? null,
       document.active,
       document.createdAt,
       document.updatedAt,

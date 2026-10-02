@@ -8,7 +8,7 @@ export const mockUsers: User[] = [
     phone: "(11) 98765-4321",
     login: "ana.silva",
     permission: "admin",
-    storeId: 1,
+    storeId: "000000000000000000000001",
     active: true,
   },
   {
@@ -18,7 +18,7 @@ export const mockUsers: User[] = [
     phone: "(11) 91234-5678",
     login: "carlos.mendes",
     permission: "manager",
-    storeId: 1,
+    storeId: "000000000000000000000001",
     active: true,
   },
   {
@@ -28,7 +28,7 @@ export const mockUsers: User[] = [
     phone: null,
     login: "juliana.costa",
     permission: "sales",
-    storeId: 2,
+    storeId: "000000000000000000000002",
     active: true,
   },
   {
@@ -38,7 +38,7 @@ export const mockUsers: User[] = [
     phone: "(11) 99876-5432",
     login: null,
     permission: "finance",
-    storeId: 1,
+    storeId: "000000000000000000000001",
     active: false,
   },
 ];

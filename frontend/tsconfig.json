@@ -20,8 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@entities/*": ["./src/@types/entities/*"],
-      "@util/*": ["./src/util/*"]
+      "@entities": ["./src/@types/entities"],
+      "@utils": ["./src/utils"]
     }
   },
   "include": [
@@ -30,7 +30,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/utils/fetch/Fetch.service"
   ],
   "exclude": ["node_modules"]
 }

@@ -5,18 +5,18 @@ import type { HTMLInputTypeAttribute } from "react";
 import { FormField } from "../FormField";
 import { getFieldClassName } from "../FieldStyles";
 
-type FormInputProps<T extends Record<string, unknown>> = {
-  name: keyof T & string;
+type FormInputProps = {
+  name: string;
   label: string;
   id?: string;
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
   min?: number;
   className?: string;
-  parseValue?: (raw: string) => T[keyof T];
+  parseValue?: (raw: string) => unknown;
 };
 
-export function FormInput<T extends Record<string, unknown>>({
+export function FormInput({
   name,
   label,
   id,
@@ -25,13 +25,17 @@ export function FormInput<T extends Record<string, unknown>>({
   min,
   className,
   parseValue,
-}: FormInputProps<T>) {
+}: FormInputProps) {
   const { values, errors, touched, handleChange, handleBlur, setFieldValue } =
-    useFormikContext<T>();
+    useFormikContext();
 
   const fieldId = id ?? name;
-  const fieldError = touched[name] && errors[name];
-  const errorMessage = fieldError ? String(errors[name]) : undefined;
+  const fieldError =
+    touched[name as keyof typeof touched] &&
+    errors[name as keyof typeof errors];
+  const errorMessage = fieldError
+    ? String(errors[name as keyof typeof errors])
+    : undefined;
 
   return (
     <FormField
@@ -46,7 +50,7 @@ export function FormInput<T extends Record<string, unknown>>({
         type={type}
         min={min}
         placeholder={placeholder}
-        value={values[name] as string | number}
+        value={(values as Record<string, unknown>)[name] as string | number}
         onChange={
           parseValue
             ? (event) => setFieldValue(name, parseValue(event.target.value))

@@ -2,11 +2,10 @@ import {
   IsBoolean,
   IsEmail,
   IsEnum,
-  IsInt,
+  IsMongoId,
   IsOptional,
   IsString,
   MaxLength,
-  Min,
 } from 'class-validator';
 import { UserPermission } from '../../../entities/user/types/user-permission';
 
@@ -41,9 +40,8 @@ export class UpdateUserDto {
   permission?: UserPermission;
 
   @IsOptional()
-  @IsInt()
-  @Min(1)
-  storeId?: number;
+  @IsMongoId()
+  storeId?: string;
 
   @IsOptional()
   @IsBoolean()

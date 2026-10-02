@@ -1,55 +1,59 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import type { User } from "@entities/user";
-import { getUserTableColumns } from "./Users.props";
+import { useStoresQuery } from "@/api/Stores/stores.query";
+import { useUsersQuery } from "@/api/Users/users.query";
+import type { User } from "@entities";
+import { useCallback, useMemo, useState } from "react";
+import { buildStoreNameLookup, getUserTableColumns } from "./Users.props";
 
 export function UsersLogic() {
-  const [users, setUsers] = useState<User[]>([]);
   const [formOpen, setFormOpen] = useState(false);
-  const [formMode, setFormMode] = useState<"create" | "edit">("create");
   const [editingUser, setEditingUser] = useState<User | undefined>();
-  const [deleteTarget, setDeleteTarget] = useState<User | null>(null);
+  const [deleteUser, setDeleteUser] = useState<User | null>(null);
 
-  const columns = useMemo(
-    () => getUserTableColumns(setEditingUser, setDeleteTarget),
-    [setEditingUser, setDeleteTarget],
+  const { data: users = [], isLoading, isError, refetch } = useUsersQuery();
+  const { data: stores = [] } = useStoresQuery();
+
+  const getStoreName = useMemo(
+    () => buildStoreNameLookup(stores),
+    [stores],
   );
 
   const openCreate = useCallback(() => {
-    setFormMode("create");
     setEditingUser(undefined);
     setFormOpen(true);
   }, []);
 
   const openEdit = useCallback((user: User) => {
-    setFormMode("edit");
     setEditingUser(user);
     setFormOpen(true);
   }, []);
 
-  const getUsers = () => {
-    //
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
+  const columns = useMemo(
+    () =>
+      getUserTableColumns(
+        openEdit,
+        (user) => setDeleteUser(user),
+        getStoreName,
+      ),
+    [openEdit, getStoreName],
+  );
 
   return {
     data: {
       users,
       columns,
       formOpen,
-      formMode,
       editingUser,
-      deleteTarget,
+      deleteUser,
+      isLoading,
+      isError,
     },
     methods: {
       openCreate,
       openEdit,
+      refetchUsers: refetch,
       setFormOpen,
-      setFormMode,
       setEditingUser,
-      setDeleteTarget,
+      setDeleteUser,
     },
   };
 }

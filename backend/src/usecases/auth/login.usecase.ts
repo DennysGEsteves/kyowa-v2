@@ -10,7 +10,7 @@ export type AuthenticatedUser = {
   email: string;
   name: string;
   permission: UserPermission;
-  storeId: number;
+  storeId: string;
   active: boolean;
 };
 

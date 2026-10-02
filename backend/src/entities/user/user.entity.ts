@@ -9,7 +9,7 @@ export class UserEntity {
     public phone: string | null,
     public login: string | null,
     public permission: UserPermission,
-    public storeId: number,
+    public storeId: string,
     public active: boolean,
     public readonly createdAt?: Date,
     public readonly updatedAt?: Date,

@@ -1,4 +1,4 @@
-import type { Provider } from "@entities/provider";
+import type { Provider } from "@entities";
 
 export const mockProviders: Provider[] = [
   {

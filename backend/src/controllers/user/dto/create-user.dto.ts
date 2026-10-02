@@ -2,12 +2,11 @@ import {
   IsBoolean,
   IsEmail,
   IsEnum,
-  IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
-  Min,
 } from 'class-validator';
 import { UserPermission } from '../../../entities/user/types/user-permission';
 
@@ -39,9 +38,8 @@ export class CreateUserDto {
   @IsEnum(UserPermission)
   permission: UserPermission;
 
-  @IsInt()
-  @Min(1)
-  storeId: number;
+  @IsMongoId()
+  storeId: string;
 
   @IsOptional()
   @IsBoolean()

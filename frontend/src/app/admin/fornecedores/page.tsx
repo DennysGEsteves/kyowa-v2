@@ -1,12 +1,12 @@
 "use client";
 
 import { AdminPageShell } from "@/layout/admin-page-shell";
-import { ProvidersPanel } from "@/components/admin/providers-panel";
+import { RegistersProvidersView } from "@/views/Admin/Registers/Providers/Providers.view";
 
 export default function FornecedoresPage() {
   return (
     <AdminPageShell title="Fornecedores">
-      <ProvidersPanel />
+      <RegistersProvidersView />
     </AdminPageShell>
   );
 }

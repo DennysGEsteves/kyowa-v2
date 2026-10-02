@@ -1,13 +1,20 @@
 import { ActionButton } from "@/components/ActionButton";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
-import { permissionLabels, type User } from "@entities/user";
+import { permissionLabels, type User } from "@entities";
 import { Pencil, Trash } from "lucide-react";
 
 export type UserTableColumn = TableColumn<User>;
 
+export function buildStoreNameLookup(stores: { id: string; name: string }[]) {
+  const byId = new Map(stores.map((store) => [store.id, store.name]));
+
+  return (storeId: string) => byId.get(storeId) ?? "—";
+}
+
 export const getUserTableColumns = (
   onEdit: (user: User) => void,
   onDelete: (user: User) => void,
+  getStoreName: (storeId: string) => string,
 ): UserTableColumn[] => [
   {
     id: "name",
@@ -35,7 +42,7 @@ export const getUserTableColumns = (
     header: "Loja",
     accessorKey: "storeId",
     mobile: { role: "field", label: "Loja" },
-    cell: ({ value }) => `#${value}`,
+    cell: ({ value }) => getStoreName(String(value)),
   },
   {
     id: "phone",
