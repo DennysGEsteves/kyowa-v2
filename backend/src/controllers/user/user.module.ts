@@ -26,5 +26,11 @@ import { UserController } from './user.controller';
     UpdateUserUseCase,
     DeleteUserUseCase,
   ],
+  exports: [
+    {
+      provide: USER_REPOSITORY,
+      useClass: UserRepository,
+    },
+  ],
 })
 export class UserModule {}

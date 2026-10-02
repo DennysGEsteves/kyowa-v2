@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --kyowa-maroon: #600e12;
+  --kyowa-maroon-dark: #4a0b0e;
+  --kyowa-gold: #d88a2e;
+  --kyowa-ink: #1f1f1f;
+  --kyowa-muted: #6b6b6b;
+  --kyowa-border: #e5e5e5;
+  --kyowa-surface: #f7f5f4;
+  --background: #ffffff;
+  --foreground: var(--kyowa-ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-kyowa-maroon: var(--kyowa-maroon);
+  --color-kyowa-maroon-dark: var(--kyowa-maroon-dark);
+  --color-kyowa-gold: var(--kyowa-gold);
+  --color-kyowa-ink: var(--kyowa-ink);
+  --color-kyowa-muted: var(--kyowa-muted);
+  --color-kyowa-border: var(--kyowa-border);
+  --color-kyowa-surface: var(--kyowa-surface);
+  --font-sans: var(--font-source-sans);
+  --font-serif: var(--font-playfair);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+}
+
+a[href],
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]),
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled,
+input:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not(
+    [type="button"]
+  ):not([type="reset"]),
+textarea {
+  cursor: text;
+}

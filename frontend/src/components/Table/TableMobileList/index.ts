@@ -1,0 +1,1 @@
+export { TableMobileList } from "./TableMobileList";

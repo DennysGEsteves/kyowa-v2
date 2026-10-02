@@ -1,0 +1,1 @@
+export { TableCardFooter } from "./TableCardFooter";

@@ -1,0 +1,1 @@
+export { TableMobileCard } from "./TableMobileCard";
