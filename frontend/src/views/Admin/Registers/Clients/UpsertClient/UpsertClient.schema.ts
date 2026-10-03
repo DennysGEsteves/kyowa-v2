@@ -1,3 +1,8 @@
+import { addressFormValidationSchema } from "@/components/Form/addressValidation";
+import {
+  emptyAddressFormValues,
+  type AddressFormValues,
+} from "@/util/address/formAddress";
 import {
   clientOrigins,
   interestProducts,
@@ -14,11 +19,7 @@ export type ClientFormSchema = {
   nasc: string;
   occupation: string;
   email: string;
-  cep: string;
-  address: string;
-  district: string;
-  city: string;
-  region: string;
+  address: AddressFormValues;
   phone1: string;
   phone2: string;
   obs: string;
@@ -40,11 +41,7 @@ export const emptyClientFormValues: ClientFormSchema = {
   nasc: "",
   occupation: "",
   email: "",
-  cep: "",
-  address: "",
-  district: "",
-  city: "",
-  region: "",
+  address: emptyAddressFormValues(),
   phone1: "",
   phone2: "",
   obs: "",
@@ -68,11 +65,7 @@ export const clientValidationSchema = Yup.object<ClientFormSchema>({
       "E-mail inválido",
       (value) => !value || Yup.string().email().isValidSync(value),
     ),
-  cep: Yup.string().max(10),
-  address: Yup.string().max(255),
-  district: Yup.string().max(50),
-  city: Yup.string().max(50),
-  region: Yup.string().max(2),
+  address: addressFormValidationSchema,
   phone1: Yup.string().max(15),
   phone2: Yup.string().max(15),
   obs: Yup.string(),

@@ -1,5 +1,6 @@
 "use client";
 
+import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { useFormikContext } from "formik";
 import { FormField } from "../FormField";
 import { getFieldClassName } from "../FieldStyles";
@@ -25,12 +26,8 @@ export function FormTextarea({
     useFormikContext();
 
   const fieldId = id ?? name;
-  const fieldError =
-    touched[name as keyof typeof touched] &&
-    errors[name as keyof typeof errors];
-  const errorMessage = fieldError
-    ? String(errors[name as keyof typeof errors])
-    : undefined;
+  const errorMessage = getFormikFieldError(touched, errors, name);
+  const fieldError = Boolean(errorMessage);
 
   return (
     <FormField
@@ -44,7 +41,7 @@ export function FormTextarea({
         name={name}
         rows={rows}
         placeholder={placeholder}
-        value={(values as Record<string, unknown>)[name] as string}
+        value={getFormikFieldValue(values, name) as string}
         onChange={handleChange}
         onBlur={handleBlur}
         className={getFieldClassName(Boolean(fieldError))}

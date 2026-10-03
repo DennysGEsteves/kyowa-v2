@@ -8,13 +8,17 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
+import { ListClientsPaginatedQueryDto } from './dto/list-clients-query.dto';
 import { ClientEntity } from '../../entities/client';
 import { CreateClientUseCase } from '../../usecases/client/create-client.usecase';
 import { DeleteClientUseCase } from '../../usecases/client/delete-client.usecase';
 import { GetClientByIdUseCase } from '../../usecases/client/get-client-by-id.usecase';
 import { GetClientsUseCase } from '../../usecases/client/get-clients.usecase';
+import { ListClientsPaginatedUseCase } from '../../usecases/client/list-clients-paginated.usecase';
 import { UpdateClientUseCase } from '../../usecases/client/update-client.usecase';
+import { PaginatedResult } from '../../types/pagination';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
@@ -23,6 +27,7 @@ export class ClientController {
   constructor(
     private readonly createClientUseCase: CreateClientUseCase,
     private readonly getClientsUseCase: GetClientsUseCase,
+    private readonly listClientsPaginatedUseCase: ListClientsPaginatedUseCase,
     private readonly getClientByIdUseCase: GetClientByIdUseCase,
     private readonly updateClientUseCase: UpdateClientUseCase,
     private readonly deleteClientUseCase: DeleteClientUseCase,
@@ -36,6 +41,13 @@ export class ClientController {
   @Get()
   findAll(): Promise<ClientEntity[]> {
     return this.getClientsUseCase.execute();
+  }
+
+  @Get('paginated')
+  findPaginated(
+    @Query() query: ListClientsPaginatedQueryDto,
+  ): Promise<PaginatedResult<ClientEntity>> {
+    return this.listClientsPaginatedUseCase.execute(query);
   }
 
   @Get(':id')

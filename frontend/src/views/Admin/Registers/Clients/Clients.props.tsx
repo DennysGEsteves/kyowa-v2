@@ -1,4 +1,5 @@
 import { ActionButton } from "@/components/Form/ActionButton";
+import { formatCpfBR } from "@/util/masks";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
 import {
   interestProductLabels,
@@ -12,10 +13,12 @@ import Link from "next/link";
 export type ClientTableColumn = TableColumn<Client>;
 
 function formatLocation(client: Client) {
-  if (client.city && client.region) {
-    return `${client.city} / ${client.region}`;
+  const city = client.address?.city;
+  const region = client.address?.region;
+  if (city && region) {
+    return `${city} / ${region}`;
   }
-  return client.city ?? client.region ?? "—";
+  return city ?? region ?? "—";
 }
 
 function formatInterestProducts(products: InterestProduct[] | null) {
@@ -49,7 +52,8 @@ export const getClientTableColumns = (
     header: "CPF",
     accessorKey: "cpf",
     mobile: { role: "subtitle" },
-    cell: ({ value }) => (value ? String(value) : "—"),
+    cell: ({ value }) =>
+      value ? formatCpfBR(String(value)) : "—",
   },
   {
     id: "location",

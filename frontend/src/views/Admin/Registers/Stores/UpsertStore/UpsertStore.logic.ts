@@ -51,7 +51,7 @@ export function useUpsertStoreLogic({
   const onSubmit = useCallback(
     (values: StoreFormSchema) => {
       if (store) {
-        const payload = formValuesToUpsertStoreDTO(values, true);
+        const payload = formValuesToUpsertStoreDTO(values);
         storesApi.update(store.id, payload).then(() => {
           invalidateStores();
           navigateBack();

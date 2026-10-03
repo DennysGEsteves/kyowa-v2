@@ -1,3 +1,5 @@
+import type { Address } from "./address";
+
 export type InterestProduct =
   | "cushion"
   | "carpet"
@@ -29,11 +31,7 @@ export type Client = {
   nasc: string | null;
   occupation: string | null;
   email: string | null;
-  cep: string | null;
-  address: string | null;
-  district: string | null;
-  city: string | null;
-  region: string | null;
+  address: Address | null;
   phone1: string | null;
   phone2: string | null;
   obs: string | null;
@@ -44,7 +42,7 @@ export type Client = {
 };
 
 export const interestProductLabels: Record<InterestProduct, string> = {
-  cushion: "Almofadas",
+  cushion: "Almofada",
   carpet: "Carpete",
   curtain: "Cortina",
   mirror: "Espelho",
@@ -56,10 +54,6 @@ export const interestProductLabels: Record<InterestProduct, string> = {
   awning: "Toldo",
 };
 
-export const interestProducts = Object.keys(
-  interestProductLabels,
-) as InterestProduct[];
-
 export const clientOriginLabels: Record<ClientOrigin, string> = {
   friends: "Amigos",
   architect: "Arquiteto",
@@ -70,6 +64,25 @@ export const clientOriginLabels: Record<ClientOrigin, string> = {
   tv: "TV",
 };
 
-export const clientOrigins = Object.keys(
-  clientOriginLabels,
-) as ClientOrigin[];
+export const clientOrigins: ClientOrigin[] = [
+  "friends",
+  "architect",
+  "internet",
+  "relatives",
+  "radio",
+  "socialNetwork",
+  "tv",
+];
+
+export const interestProducts: InterestProduct[] = [
+  "cushion",
+  "carpet",
+  "curtain",
+  "mirror",
+  "others",
+  "wallpaper",
+  "blind",
+  "floor",
+  "mat",
+  "awning",
+];

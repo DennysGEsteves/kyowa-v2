@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -5,7 +6,9 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { ProviderAddressDto } from './provider-address.dto';
 import { ProviderType } from '../../../entities/provider/types/provider-type';
 
 export class UpdateProviderDto {
@@ -40,29 +43,9 @@ export class UpdateProviderDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(10)
-  readonly cep?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
-  readonly address?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly district?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly city?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(2)
-  readonly region?: string;
+  @ValidateNested()
+  @Type(() => ProviderAddressDto)
+  readonly address?: ProviderAddressDto;
 
   @IsOptional()
   @IsString()

@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
@@ -8,7 +9,9 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { ClientAddressDto } from './client-address.dto';
 import { ClientOrigin, InterestProduct } from '../../../entities/client/types';
 
 export class UpdateClientDto {
@@ -51,29 +54,9 @@ export class UpdateClientDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(10)
-  readonly cep?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
-  readonly address?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly district?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly city?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(2)
-  readonly region?: string;
+  @ValidateNested()
+  @Type(() => ClientAddressDto)
+  readonly address?: ClientAddressDto;
 
   @IsOptional()
   @IsString()

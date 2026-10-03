@@ -1,3 +1,7 @@
+import {
+  addressToFormValues,
+  formValuesToAddressPayload,
+} from "@/util/address/formAddress";
 import { formatPhoneBR } from "@/util/masks";
 import type { Provider } from "@entities";
 import type { UpsertProviderDTO } from "@/api/Providers";
@@ -10,11 +14,7 @@ export function providerToFormValues(provider: Provider): ProviderFormSchema {
     im: provider.im ?? "",
     ie: provider.ie ?? "",
     email: provider.email ?? "",
-    cep: provider.cep ?? "",
-    address: provider.address ?? "",
-    district: provider.district ?? "",
-    city: provider.city ?? "",
-    region: provider.region ?? "",
+    address: addressToFormValues(provider.address),
     phone1: formatPhoneBR(provider.phone1 ?? ""),
     phone2: formatPhoneBR(provider.phone2 ?? ""),
     obs: provider.obs ?? "",
@@ -31,12 +31,8 @@ export function formValuesToUpsertProviderDTO(
     cnpj: values.cnpj,
     im: values.im,
     ie: values.ie,
-    email: values.email.toLowerCase(),
-    cep: values.cep,
-    address: values.address,
-    district: values.district,
-    city: values.city,
-    region: values.region.toUpperCase(),
+    email: values.email.trim().toLowerCase(),
+    address: formValuesToAddressPayload(values.address),
     phone1: values.phone1,
     phone2: values.phone2,
     obs: values.obs,

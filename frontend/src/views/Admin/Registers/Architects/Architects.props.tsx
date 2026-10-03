@@ -1,4 +1,5 @@
 import { ActionButton } from "@/components/Form/ActionButton";
+import { formatCpfBR } from "@/util/masks";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
 import type { Architect, User } from "@entities";
 import { Pencil, Trash } from "lucide-react";
@@ -7,10 +8,12 @@ import Link from "next/link";
 export type ArchitectTableColumn = TableColumn<Architect>;
 
 function formatLocation(architect: Architect) {
-  if (architect.city && architect.region) {
-    return `${architect.city} / ${architect.region}`;
+  const city = architect.address?.city;
+  const region = architect.address?.region;
+  if (city && region) {
+    return `${city} / ${region}`;
   }
-  return architect.city ?? architect.region ?? "—";
+  return city ?? region ?? "—";
 }
 
 export function buildSellerNameLookup(users: User[]) {
@@ -36,7 +39,8 @@ export const getArchitectTableColumns = (
     header: "CPF",
     accessorKey: "cpf",
     mobile: { role: "subtitle" },
-    cell: ({ value }) => (value ? String(value) : "—"),
+    cell: ({ value }) =>
+      value ? formatCpfBR(String(value)) : "—",
   },
   {
     id: "location",

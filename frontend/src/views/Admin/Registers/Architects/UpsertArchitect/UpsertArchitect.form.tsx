@@ -4,13 +4,14 @@ import {
   FormActions,
   FormBody,
   FormCheckbox,
+  FormAddressFields,
   FormColumn,
+  FormContactFields,
+  FormCpfInput,
   FormInput,
-  FormPhoneInput,
   FormSelect,
   FormTextarea,
   FormTwoColumns,
-  formAddressGridInColumn,
   formFieldGrid2,
   formSectionStack,
   formSectionTitle,
@@ -60,7 +61,7 @@ export function UpsertArchitectForm({
                   <p className={formSectionTitle}>Dados gerais</p>
                   <div className={formFieldGrid2}>
                     <FormInput name="name" label="Nome" id="architect-name" />
-                    <FormInput name="cpf" label="CPF" id="architect-cpf" />
+                    <FormCpfInput name="cpf" label="CPF" id="architect-cpf" />
                     <FormInput
                       name="nasc"
                       label="Data de nascimento"
@@ -78,39 +79,14 @@ export function UpsertArchitectForm({
 
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Contato</p>
-                  <div className={formFieldGrid2}>
-                    <FormInput
-                      name="email"
-                      label="E-mail"
-                      id="architect-email"
-                      type="email"
-                    />
-                    <FormPhoneInput name="phone1" label="Telefone 1" id="architect-phone1" />
-                    <FormPhoneInput name="phone2" label="Telefone 2" id="architect-phone2" />
-                  </div>
+                  <FormContactFields idPrefix="architect" />
                 </section>
               </FormColumn>
 
               <FormColumn>
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Endereço</p>
-                  <div className={formAddressGridInColumn}>
-                    <FormInput name="cep" label="CEP" id="architect-cep" />
-                    <FormInput
-                      name="region"
-                      label="UF"
-                      id="architect-region"
-                      placeholder="SP"
-                    />
-                    <FormInput
-                      name="address"
-                      label="Endereço"
-                      id="architect-address"
-                      className="sm:col-span-2"
-                    />
-                    <FormInput name="district" label="Bairro" id="architect-district" />
-                    <FormInput name="city" label="Cidade" id="architect-city" />
-                  </div>
+                  <FormAddressFields idPrefix="architect" />
                 </section>
 
                 <FormTextarea name="obs" label="Observações" id="architect-obs" />

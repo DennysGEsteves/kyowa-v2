@@ -4,13 +4,15 @@ import {
   FormActions,
   FormBody,
   FormCheckbox,
+  FormAddressFields,
   FormColumn,
+  FormContactFields,
+  FormCpfInput,
   FormInput,
-  FormPhoneInput,
+  FormRgInput,
   FormSelect,
   FormTextarea,
   FormTwoColumns,
-  formAddressGridInColumn,
   formFieldGrid2,
   formSectionStack,
   formSectionTitle,
@@ -60,8 +62,8 @@ export function UpsertClientForm({ client, listHref }: UpsertClientFormProps) {
                   <p className={formSectionTitle}>Dados gerais</p>
                   <div className={formFieldGrid2}>
                     <FormInput name="name" label="Nome" id="client-name" />
-                    <FormInput name="cpf" label="CPF" id="client-cpf" />
-                    <FormInput name="rg" label="RG" id="client-rg" />
+                    <FormCpfInput name="cpf" label="CPF" id="client-cpf" />
+                    <FormRgInput name="rg" label="RG" id="client-rg" />
                     <FormInput
                       name="nasc"
                       label="Data de nascimento"
@@ -90,37 +92,12 @@ export function UpsertClientForm({ client, listHref }: UpsertClientFormProps) {
 
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Contato</p>
-                  <div className={formFieldGrid2}>
-                    <FormInput
-                      name="email"
-                      label="E-mail"
-                      id="client-email"
-                      type="email"
-                    />
-                    <FormPhoneInput name="phone1" label="Telefone 1" id="client-phone1" />
-                    <FormPhoneInput name="phone2" label="Telefone 2" id="client-phone2" />
-                  </div>
+                  <FormContactFields idPrefix="client" />
                 </section>
 
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Endereço</p>
-                  <div className={formAddressGridInColumn}>
-                    <FormInput name="cep" label="CEP" id="client-cep" />
-                    <FormInput
-                      name="region"
-                      label="UF"
-                      id="client-region"
-                      placeholder="SP"
-                    />
-                    <FormInput
-                      name="address"
-                      label="Endereço"
-                      id="client-address"
-                      className="sm:col-span-2"
-                    />
-                    <FormInput name="district" label="Bairro" id="client-district" />
-                    <FormInput name="city" label="Cidade" id="client-city" />
-                  </div>
+                  <FormAddressFields idPrefix="client" />
                 </section>
               </FormColumn>
 

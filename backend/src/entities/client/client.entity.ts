@@ -1,5 +1,6 @@
 import { CreateClientDto } from '../../controllers/client/dto/create-client.dto';
 import { UpdateClientDto } from '../../controllers/client/dto/update-client.dto';
+import { Address, toAddress } from '../../types/address';
 import { ClientDocument } from '../../repositories/client/schemas/client.schema';
 import { resolveNameFilter } from '../../util/string/name-filter';
 import { ClientOrigin, InterestProduct } from './types';
@@ -14,11 +15,7 @@ export interface IClientConstructorParams {
   nasc?: Date | null;
   occupation?: string | null;
   email?: string | null;
-  cep?: string | null;
-  address?: string | null;
-  district?: string | null;
-  city?: string | null;
-  region?: string | null;
+  address?: Address | null;
   phone1?: string | null;
   phone2?: string | null;
   obs?: string | null;
@@ -38,11 +35,7 @@ export class ClientEntity {
   public nasc: Date | null;
   public occupation: string | null;
   public email: string | null;
-  public cep: string | null;
-  public address: string | null;
-  public district: string | null;
-  public city: string | null;
-  public region: string | null;
+  public address: Address | null;
   public phone1: string | null;
   public phone2: string | null;
   public obs: string | null;
@@ -61,11 +54,7 @@ export class ClientEntity {
     this.nasc = params.nasc ?? null;
     this.occupation = params.occupation ?? null;
     this.email = params.email ?? null;
-    this.cep = params.cep ?? null;
     this.address = params.address ?? null;
-    this.district = params.district ?? null;
-    this.city = params.city ?? null;
-    this.region = params.region ?? null;
     this.phone1 = params.phone1 ?? null;
     this.phone2 = params.phone2 ?? null;
     this.obs = params.obs ?? null;
@@ -86,11 +75,7 @@ export class ClientEntity {
       nasc: document.nasc,
       occupation: document.occupation,
       email: document.email,
-      cep: document.cep,
-      address: document.address,
-      district: document.district,
-      city: document.city,
-      region: document.region,
+      address: document.address ?? null,
       phone1: document.phone1,
       phone2: document.phone2,
       obs: document.obs,
@@ -111,11 +96,7 @@ export class ClientEntity {
       nasc: dto.nasc ? new Date(dto.nasc) : null,
       occupation: dto.occupation,
       email: dto.email,
-      cep: dto.cep,
-      address: dto.address,
-      district: dto.district,
-      city: dto.city,
-      region: dto.region,
+      address: toAddress(dto.address),
       phone1: dto.phone1,
       phone2: dto.phone2,
       obs: dto.obs,
@@ -153,11 +134,8 @@ export class ClientEntity {
       occupation:
         dto.occupation !== undefined ? dto.occupation : oldClient.occupation,
       email: dto.email !== undefined ? dto.email : oldClient.email,
-      cep: dto.cep !== undefined ? dto.cep : oldClient.cep,
-      address: dto.address !== undefined ? dto.address : oldClient.address,
-      district: dto.district !== undefined ? dto.district : oldClient.district,
-      city: dto.city !== undefined ? dto.city : oldClient.city,
-      region: dto.region !== undefined ? dto.region : oldClient.region,
+      address:
+        dto.address !== undefined ? toAddress(dto.address) : oldClient.address,
       phone1: dto.phone1 !== undefined ? dto.phone1 : oldClient.phone1,
       phone2: dto.phone2 !== undefined ? dto.phone2 : oldClient.phone2,
       obs: dto.obs !== undefined ? dto.obs : oldClient.obs,

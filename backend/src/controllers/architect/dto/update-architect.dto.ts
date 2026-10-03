@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDateString,
@@ -6,7 +7,9 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { ArchitectAddressDto } from './architect-address.dto';
 
 export class UpdateArchitectDto {
   @IsOptional()
@@ -34,29 +37,9 @@ export class UpdateArchitectDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(10)
-  readonly cep?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
-  readonly address?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly district?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly city?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(2)
-  readonly region?: string;
+  @ValidateNested()
+  @Type(() => ArchitectAddressDto)
+  readonly address?: ArchitectAddressDto;
 
   @IsOptional()
   @IsString()

@@ -1,12 +1,10 @@
+import type { Address } from "./address";
+
 export type Store = {
   id: string;
   name: string;
   email: string | null;
-  cep: string | null;
-  address: string | null;
-  district: string | null;
-  city: string | null;
-  region: string | null;
+  address: Address | null;
   phone1: string | null;
   phone2: string | null;
   obs: string | null;

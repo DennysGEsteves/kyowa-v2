@@ -1,8 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { ProviderEntity } from '../../entities/provider';
-import { IProviderRepository } from './interfaces/i-provider-repository';
+import { PaginatedResult } from '../../types/pagination';
+import { escapeRegExp } from '../../util/string/escape-regexp';
+import { toNameFilter } from '../../util/string/name-filter';
+import {
+  IProviderRepository,
+  ProviderListFilters,
+  ProviderPaginationParams,
+} from './interfaces/i-provider-repository';
 import { Provider, ProviderDocument } from './schemas/provider.schema';
 
 @Injectable()
@@ -25,6 +32,52 @@ export class ProviderRepository implements IProviderRepository {
     return providers.map((provider) =>
       ProviderEntity.fromPersistData(provider),
     );
+  }
+
+  async findPaginated(
+    filters: ProviderListFilters,
+    pagination: ProviderPaginationParams,
+  ): Promise<PaginatedResult<ProviderEntity>> {
+    const query: FilterQuery<ProviderDocument> = {};
+
+    if (filters.name) {
+      const normalizedName = toNameFilter(filters.name);
+      if (normalizedName) {
+        query.nameFilter = {
+          $regex: escapeRegExp(normalizedName),
+        };
+      }
+    }
+
+    if (filters.active !== undefined) {
+      query.active = filters.active;
+    }
+
+    const skip = (pagination.page - 1) * pagination.limit;
+
+    const [total, providers] = await Promise.all([
+      this.providerModel.countDocuments(query).exec(),
+      this.providerModel
+        .find(query)
+        .sort({ name: 1 })
+        .skip(skip)
+        .limit(pagination.limit)
+        .exec(),
+    ]);
+
+    const totalPages = total === 0 ? 0 : Math.ceil(total / pagination.limit);
+
+    return {
+      data: providers.map((provider) =>
+        ProviderEntity.fromPersistData(provider),
+      ),
+      meta: {
+        page: pagination.page,
+        limit: pagination.limit,
+        total,
+        totalPages,
+      },
+    };
   }
 
   async findById(id: string): Promise<ProviderEntity | null> {

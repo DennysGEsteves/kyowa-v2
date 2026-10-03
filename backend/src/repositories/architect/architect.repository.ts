@@ -1,8 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
 import { ArchitectEntity } from '../../entities/architect';
-import { IArchitectRepository } from './interfaces/i-architect-repository';
+import { PaginatedResult } from '../../types/pagination';
+import { escapeRegExp } from '../../util/string/escape-regexp';
+import { toNameFilter } from '../../util/string/name-filter';
+import {
+  ArchitectListFilters,
+  ArchitectPaginationParams,
+  IArchitectRepository,
+} from './interfaces/i-architect-repository';
 import { Architect, ArchitectDocument } from './schemas/architect.schema';
 
 @Injectable()
@@ -29,6 +36,52 @@ export class ArchitectRepository implements IArchitectRepository {
     return architects.map((architect) =>
       ArchitectEntity.fromPersistData(architect),
     );
+  }
+
+  async findPaginated(
+    filters: ArchitectListFilters,
+    pagination: ArchitectPaginationParams,
+  ): Promise<PaginatedResult<ArchitectEntity>> {
+    const query: FilterQuery<ArchitectDocument> = {};
+
+    if (filters.name) {
+      const normalizedName = toNameFilter(filters.name);
+      if (normalizedName) {
+        query.nameFilter = {
+          $regex: escapeRegExp(normalizedName),
+        };
+      }
+    }
+
+    if (filters.active !== undefined) {
+      query.active = filters.active;
+    }
+
+    const skip = (pagination.page - 1) * pagination.limit;
+
+    const [total, architects] = await Promise.all([
+      this.architectModel.countDocuments(query).exec(),
+      this.architectModel
+        .find(query)
+        .sort({ name: 1 })
+        .skip(skip)
+        .limit(pagination.limit)
+        .exec(),
+    ]);
+
+    const totalPages = total === 0 ? 0 : Math.ceil(total / pagination.limit);
+
+    return {
+      data: architects.map((architect) =>
+        ArchitectEntity.fromPersistData(architect),
+      ),
+      meta: {
+        page: pagination.page,
+        limit: pagination.limit,
+        total,
+        totalPages,
+      },
+    };
   }
 
   async findById(id: string): Promise<ArchitectEntity | null> {

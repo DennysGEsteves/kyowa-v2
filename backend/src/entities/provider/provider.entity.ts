@@ -1,5 +1,6 @@
 import { CreateProviderDto } from '../../controllers/provider/dto/create-provider.dto';
 import { UpdateProviderDto } from '../../controllers/provider/dto/update-provider.dto';
+import { Address, toAddress } from '../../types/address';
 import { ProviderDocument } from '../../repositories/provider/schemas/provider.schema';
 import { resolveNameFilter } from '../../util/string/name-filter';
 import { ProviderType } from './types/provider-type';
@@ -12,11 +13,7 @@ export interface IProviderConstructorParams {
   im?: string | null;
   ie?: string | null;
   email?: string | null;
-  cep?: string | null;
-  address?: string | null;
-  district?: string | null;
-  city?: string | null;
-  region?: string | null;
+  address?: Address | null;
   phone1?: string | null;
   phone2?: string | null;
   obs?: string | null;
@@ -34,11 +31,7 @@ export class ProviderEntity {
   public im: string | null;
   public ie: string | null;
   public email: string | null;
-  public cep: string | null;
-  public address: string | null;
-  public district: string | null;
-  public city: string | null;
-  public region: string | null;
+  public address: Address | null;
   public phone1: string | null;
   public phone2: string | null;
   public obs: string | null;
@@ -55,11 +48,7 @@ export class ProviderEntity {
     this.im = params.im ?? null;
     this.ie = params.ie ?? null;
     this.email = params.email ?? null;
-    this.cep = params.cep ?? null;
     this.address = params.address ?? null;
-    this.district = params.district ?? null;
-    this.city = params.city ?? null;
-    this.region = params.region ?? null;
     this.phone1 = params.phone1 ?? null;
     this.phone2 = params.phone2 ?? null;
     this.obs = params.obs ?? null;
@@ -78,11 +67,7 @@ export class ProviderEntity {
       im: document.im,
       ie: document.ie,
       email: document.email,
-      cep: document.cep,
-      address: document.address,
-      district: document.district,
-      city: document.city,
-      region: document.region,
+      address: document.address ?? null,
       phone1: document.phone1,
       phone2: document.phone2,
       obs: document.obs,
@@ -101,11 +86,7 @@ export class ProviderEntity {
       im: dto.im,
       ie: dto.ie,
       email: dto.email,
-      cep: dto.cep,
-      address: dto.address,
-      district: dto.district,
-      city: dto.city,
-      region: dto.region,
+      address: toAddress(dto.address),
       phone1: dto.phone1,
       phone2: dto.phone2,
       obs: dto.obs,
@@ -132,12 +113,10 @@ export class ProviderEntity {
       im: dto.im !== undefined ? dto.im : oldProvider.im,
       ie: dto.ie !== undefined ? dto.ie : oldProvider.ie,
       email: dto.email !== undefined ? dto.email : oldProvider.email,
-      cep: dto.cep !== undefined ? dto.cep : oldProvider.cep,
-      address: dto.address !== undefined ? dto.address : oldProvider.address,
-      district:
-        dto.district !== undefined ? dto.district : oldProvider.district,
-      city: dto.city !== undefined ? dto.city : oldProvider.city,
-      region: dto.region !== undefined ? dto.region : oldProvider.region,
+      address:
+        dto.address !== undefined
+          ? toAddress(dto.address)
+          : oldProvider.address,
       phone1: dto.phone1 !== undefined ? dto.phone1 : oldProvider.phone1,
       phone2: dto.phone2 !== undefined ? dto.phone2 : oldProvider.phone2,
       obs: dto.obs !== undefined ? dto.obs : oldProvider.obs,

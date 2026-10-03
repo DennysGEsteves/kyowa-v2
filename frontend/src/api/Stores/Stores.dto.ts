@@ -1,11 +1,9 @@
+import type { AddressDTO } from "@/api/types/address.dto";
+
 export type UpsertStoreDTO = {
   name: string;
   email?: string;
-  cep?: string;
-  address?: string;
-  district?: string;
-  city?: string;
-  region?: string;
+  address?: AddressDTO;
   phone1?: string;
   phone2?: string;
   obs?: string;

@@ -10,6 +10,7 @@ import { CreateProductUseCase } from '../../usecases/product/create-product.usec
 import { DeleteProductUseCase } from '../../usecases/product/delete-product.usecase';
 import { GetProductByIdUseCase } from '../../usecases/product/get-product-by-id.usecase';
 import { GetProductsUseCase } from '../../usecases/product/get-products.usecase';
+import { ListProductsPaginatedUseCase } from '../../usecases/product/list-products-paginated.usecase';
 import { UpdateProductUseCase } from '../../usecases/product/update-product.usecase';
 import { ProductController } from './product.controller';
 
@@ -25,6 +26,7 @@ import { ProductController } from './product.controller';
     },
     CreateProductUseCase,
     GetProductsUseCase,
+    ListProductsPaginatedUseCase,
     GetProductByIdUseCase,
     UpdateProductUseCase,
     DeleteProductUseCase,

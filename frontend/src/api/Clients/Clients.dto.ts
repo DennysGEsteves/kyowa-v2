@@ -1,4 +1,10 @@
+import type { AddressDTO } from "@/api/types/address.dto";
+import type { ListNameActiveParams } from "@/types/list-params";
 import type { ClientOrigin, InterestProduct } from "@entities";
+
+export type ListClientsParams = ListNameActiveParams & {
+  cpf?: string;
+};
 
 export type UpsertClientDTO = {
   name: string;
@@ -9,11 +15,7 @@ export type UpsertClientDTO = {
   nasc?: string | null;
   occupation?: string;
   email?: string;
-  cep?: string;
-  address?: string;
-  district?: string;
-  city?: string;
-  region?: string;
+  address?: AddressDTO;
   phone1?: string;
   phone2?: string;
   obs?: string;

@@ -3,10 +3,22 @@ export const formInputClass =
 
 export const formInputErrorClass = "border-red-400 focus:border-red-500";
 
-export function getFieldClassName(hasError: boolean, className?: string) {
+export const formInputLockedClass =
+  "cursor-not-allowed border-kyowa-border/80 bg-kyowa-surface text-kyowa-muted focus:border-kyowa-border/80";
+
+type FieldClassNameOptions = {
+  locked?: boolean;
+};
+
+export function getFieldClassName(
+  hasError: boolean,
+  className?: string,
+  options?: FieldClassNameOptions,
+) {
   return [
     formInputClass,
     hasError ? formInputErrorClass : "",
+    options?.locked ? formInputLockedClass : "",
     className,
   ]
     .filter(Boolean)

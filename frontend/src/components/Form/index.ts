@@ -5,6 +5,11 @@ export { FormField } from "./FormField";
 export { FormFieldError } from "./FormFieldError";
 export { FormInput } from "./FormInput";
 export { FormPhoneInput } from "./FormPhoneInput";
+export { FormAddressFields } from "./FormAddressFields";
+export { FormContactFields } from "./FormContactFields";
+export { FormCepInput } from "./FormCepInput";
+export { FormCpfInput } from "./FormCpfInput";
+export { FormRgInput } from "./FormRgInput";
 export { FormCurrencyInput } from "./FormCurrencyInput";
 export { FormTextarea } from "./FormTextarea";
 export { FormSelect, type FormSelectOption } from "./FormSelect";
@@ -22,8 +27,13 @@ export {
 } from "./formLayout";
 export { FormColumn, FormTwoColumns } from "./FormTwoColumns";
 export {
+  defaultFormAddressAutofillFields,
+  type FormAddressAutofillFields,
+} from "./formAddressAutofill";
+export {
   formInputClass,
   formInputErrorClass,
+  formInputLockedClass,
   formLabelClass,
   getFieldClassName,
 } from "./FieldStyles";

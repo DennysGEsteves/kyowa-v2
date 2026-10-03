@@ -1,4 +1,8 @@
-import { formatPhoneBR } from "@/util/masks";
+import {
+  addressToFormValues,
+  formValuesToAddressPayload,
+} from "@/util/address/formAddress";
+import { formatCpfBR, formatPhoneBR, formatRgBR } from "@/util/masks";
 import type { Client } from "@entities";
 import type { UpsertClientDTO } from "@/api/Clients";
 import type { ClientFormSchema } from "./UpsertClient.schema";
@@ -11,17 +15,13 @@ function toDateInputValue(date: string | null): string {
 export function clientToFormValues(client: Client): ClientFormSchema {
   return {
     name: client.name,
-    cpf: client.cpf ?? "",
-    rg: client.rg ?? "",
+    cpf: formatCpfBR(client.cpf ?? ""),
+    rg: formatRgBR(client.rg ?? ""),
     architectId: client.architectId ?? "",
     nasc: toDateInputValue(client.nasc),
     occupation: client.occupation ?? "",
     email: client.email ?? "",
-    cep: client.cep ?? "",
-    address: client.address ?? "",
-    district: client.district ?? "",
-    city: client.city ?? "",
-    region: client.region ?? "",
+    address: addressToFormValues(client.address),
     phone1: formatPhoneBR(client.phone1 ?? ""),
     phone2: formatPhoneBR(client.phone2 ?? ""),
     obs: client.obs ?? "",
@@ -48,11 +48,7 @@ export function formValuesToUpsertClientDTO(
     nasc: values.nasc ? values.nasc : null,
     occupation: values.occupation,
     email: values.email.toLowerCase(),
-    cep: values.cep,
-    address: values.address,
-    district: values.district,
-    city: values.city,
-    region: values.region.toUpperCase(),
+    address: formValuesToAddressPayload(values.address),
     phone1: values.phone1,
     phone2: values.phone2,
     obs: values.obs,

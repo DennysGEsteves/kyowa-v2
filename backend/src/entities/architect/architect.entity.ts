@@ -1,5 +1,6 @@
 import { CreateArchitectDto } from '../../controllers/architect/dto/create-architect.dto';
 import { UpdateArchitectDto } from '../../controllers/architect/dto/update-architect.dto';
+import { Address, toAddress } from '../../types/address';
 import { ArchitectDocument } from '../../repositories/architect/schemas/architect.schema';
 import { resolveNameFilter } from '../../util/string/name-filter';
 
@@ -10,11 +11,7 @@ export interface IArchitectConstructorParams {
   cpf?: string | null;
   nasc?: Date | null;
   email?: string | null;
-  cep?: string | null;
-  address?: string | null;
-  district?: string | null;
-  city?: string | null;
-  region?: string | null;
+  address?: Address | null;
   phone1?: string | null;
   phone2?: string | null;
   obs?: string | null;
@@ -29,11 +26,7 @@ export class ArchitectEntity {
   public cpf: string | null;
   public nasc: Date | null;
   public email: string | null;
-  public cep: string | null;
-  public address: string | null;
-  public district: string | null;
-  public city: string | null;
-  public region: string | null;
+  public address: Address | null;
   public phone1: string | null;
   public phone2: string | null;
   public obs: string | null;
@@ -47,11 +40,7 @@ export class ArchitectEntity {
     this.cpf = params.cpf ?? null;
     this.nasc = params.nasc ?? null;
     this.email = params.email ?? null;
-    this.cep = params.cep ?? null;
     this.address = params.address ?? null;
-    this.district = params.district ?? null;
-    this.city = params.city ?? null;
-    this.region = params.region ?? null;
     this.phone1 = params.phone1 ?? null;
     this.phone2 = params.phone2 ?? null;
     this.obs = params.obs ?? null;
@@ -67,11 +56,7 @@ export class ArchitectEntity {
       cpf: document.cpf,
       nasc: document.nasc,
       email: document.email,
-      cep: document.cep,
-      address: document.address,
-      district: document.district,
-      city: document.city,
-      region: document.region,
+      address: document.address ?? null,
       phone1: document.phone1,
       phone2: document.phone2,
       obs: document.obs,
@@ -87,11 +72,7 @@ export class ArchitectEntity {
       cpf: dto.cpf,
       nasc: dto.nasc ? new Date(dto.nasc) : null,
       email: dto.email,
-      cep: dto.cep,
-      address: dto.address,
-      district: dto.district,
-      city: dto.city,
-      region: dto.region,
+      address: toAddress(dto.address),
       phone1: dto.phone1,
       phone2: dto.phone2,
       obs: dto.obs,
@@ -122,12 +103,10 @@ export class ArchitectEntity {
             : null
           : oldArchitect.nasc,
       email: dto.email !== undefined ? dto.email : oldArchitect.email,
-      cep: dto.cep !== undefined ? dto.cep : oldArchitect.cep,
-      address: dto.address !== undefined ? dto.address : oldArchitect.address,
-      district:
-        dto.district !== undefined ? dto.district : oldArchitect.district,
-      city: dto.city !== undefined ? dto.city : oldArchitect.city,
-      region: dto.region !== undefined ? dto.region : oldArchitect.region,
+      address:
+        dto.address !== undefined
+          ? toAddress(dto.address)
+          : oldArchitect.address,
       phone1: dto.phone1 !== undefined ? dto.phone1 : oldArchitect.phone1,
       phone2: dto.phone2 !== undefined ? dto.phone2 : oldArchitect.phone2,
       obs: dto.obs !== undefined ? dto.obs : oldArchitect.obs,

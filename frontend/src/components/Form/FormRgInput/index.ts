@@ -1,0 +1,1 @@
+export { FormRgInput } from "./FormRgInput";

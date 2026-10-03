@@ -1,24 +1,33 @@
 "use client";
 
-import { DataTable } from "@/components/Table";
+import { DataTable, TablePagination } from "@/components/Table";
 import { adminRoutes } from "@/routes/adminRoutes";
 import { ListTree, Plus } from "lucide-react";
 import Link from "next/link";
 import { DeleteProductDialog } from "./components/DeleteProductDialog";
+import { ProductsFilters } from "./components/ProductsFilters";
 import { ProductsLogic } from "./Products.logic";
 
 export function AdminProductsView() {
   const { data, methods } = ProductsLogic();
 
+  const totalLabel =
+    data.meta.total === 1
+      ? "1 produto encontrado"
+      : `${data.meta.total} produtos encontrados`;
+
+  const emptyMessage = data.hasActiveFilters ? (
+    <>Nenhum produto encontrado com os filtros aplicados.</>
+  ) : (
+    <>
+      Nenhum produto cadastrado. Use &quot;Novo produto&quot; para adicionar.
+    </>
+  );
+
   return (
     <>
       <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-kyowa-muted">
-          {data.products.length}{" "}
-          {data.products.length === 1
-            ? "produto cadastrado"
-            : "produtos cadastrados"}
-        </p>
+        <p className="text-sm text-kyowa-muted">{totalLabel}</p>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Link
             href={adminRoutes.products.descriptors.list}
@@ -37,16 +46,29 @@ export function AdminProductsView() {
         </div>
       </div>
 
-      <DataTable
-        data={data.products}
-        columns={data.columns}
-        emptyMessage={
-          <>
-            Nenhum produto cadastrado. Use &quot;Novo produto&quot; para
-            adicionar.
-          </>
-        }
-      />
+      <ProductsFilters onChange={methods.onListFiltersChange} />
+
+      {data.isError ? (
+        <p className="text-sm text-red-600">
+          Não foi possível carregar os produtos. Tente novamente.
+        </p>
+      ) : data.isLoading ? (
+        <p className="text-sm text-kyowa-muted">Carregando produtos…</p>
+      ) : (
+        <>
+          <DataTable
+            data={data.products}
+            columns={data.columns}
+            emptyMessage={emptyMessage}
+          />
+          <TablePagination
+            page={data.meta.page}
+            totalPages={data.meta.totalPages}
+            onPageChange={methods.setPage}
+            disabled={data.isFetching}
+          />
+        </>
+      )}
 
       <DeleteProductDialog
         open={Boolean(data.deleteProduct)}

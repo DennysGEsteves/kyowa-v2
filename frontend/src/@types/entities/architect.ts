@@ -1,3 +1,5 @@
+import type { Address } from "./address";
+
 export type Architect = {
   id: string;
   name: string;
@@ -5,11 +7,7 @@ export type Architect = {
   cpf: string | null;
   nasc: string | null;
   email: string | null;
-  cep: string | null;
-  address: string | null;
-  district: string | null;
-  city: string | null;
-  region: string | null;
+  address: Address | null;
   phone1: string | null;
   phone2: string | null;
   obs: string | null;

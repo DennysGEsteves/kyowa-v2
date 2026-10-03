@@ -20,5 +20,6 @@ export { TableMobileCard } from "./TableMobileCard";
 export { TableMobileList } from "./TableMobileList";
 export { TableRoot } from "./TableRoot";
 export { TableRow } from "./TableRow";
+export { TablePagination } from "./TablePagination";
 export { TableStatusBadge } from "./TableStatusBadge";
 export * from "./TableStyles";

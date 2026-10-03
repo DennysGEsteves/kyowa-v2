@@ -1,3 +1,7 @@
+import type { ListNameParams } from "@/types/list-params";
+
+export type ListProductsParams = ListNameParams;
+
 export type CreateProductDTO = {
   name: string;
   fantasyName: string;

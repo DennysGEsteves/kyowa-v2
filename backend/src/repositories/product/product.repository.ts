@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
 import { ProductEntity } from '../../entities/product';
+import { PaginatedResult } from '../../types/pagination';
+import { escapeRegExp } from '../../util/string/escape-regexp';
+import { toNameFilter } from '../../util/string/name-filter';
 import { IProductRepository } from './interfaces/i-product-repository';
 import { Product, ProductDocument } from './schemas/product.schema';
 
@@ -36,6 +39,46 @@ export class ProductRepository implements IProductRepository {
   async findAll(): Promise<ProductEntity[]> {
     const products = await this.productModel.find().sort({ name: 1 }).exec();
     return products.map((product) => ProductEntity.fromPersistData(product));
+  }
+
+  async findPaginated(
+    filters: { name?: string },
+    pagination: { page: number; limit: number },
+  ): Promise<PaginatedResult<ProductEntity>> {
+    const query: FilterQuery<ProductDocument> = {};
+
+    if (filters.name) {
+      const normalizedName = toNameFilter(filters.name);
+      if (normalizedName) {
+        query.nameFilter = {
+          $regex: escapeRegExp(normalizedName),
+        };
+      }
+    }
+
+    const skip = (pagination.page - 1) * pagination.limit;
+
+    const [total, products] = await Promise.all([
+      this.productModel.countDocuments(query).exec(),
+      this.productModel
+        .find(query)
+        .sort({ name: 1 })
+        .skip(skip)
+        .limit(pagination.limit)
+        .exec(),
+    ]);
+
+    const totalPages = total === 0 ? 0 : Math.ceil(total / pagination.limit);
+
+    return {
+      data: products.map((product) => ProductEntity.fromPersistData(product)),
+      meta: {
+        page: pagination.page,
+        limit: pagination.limit,
+        total,
+        totalPages,
+      },
+    };
   }
 
   async findById(id: string): Promise<ProductEntity | null> {

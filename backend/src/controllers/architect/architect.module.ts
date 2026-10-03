@@ -10,6 +10,7 @@ import { CreateArchitectUseCase } from '../../usecases/architect/create-architec
 import { DeleteArchitectUseCase } from '../../usecases/architect/delete-architect.usecase';
 import { GetArchitectByIdUseCase } from '../../usecases/architect/get-architect-by-id.usecase';
 import { GetArchitectsUseCase } from '../../usecases/architect/get-architects.usecase';
+import { ListArchitectsPaginatedUseCase } from '../../usecases/architect/list-architects-paginated.usecase';
 import { UpdateArchitectUseCase } from '../../usecases/architect/update-architect.usecase';
 import { ArchitectController } from './architect.controller';
 
@@ -27,6 +28,7 @@ import { ArchitectController } from './architect.controller';
     },
     CreateArchitectUseCase,
     GetArchitectsUseCase,
+    ListArchitectsPaginatedUseCase,
     GetArchitectByIdUseCase,
     UpdateArchitectUseCase,
     DeleteArchitectUseCase,

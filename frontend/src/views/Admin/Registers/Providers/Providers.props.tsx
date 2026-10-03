@@ -11,10 +11,12 @@ import Link from "next/link";
 export type ProviderTableColumn = TableColumn<Provider>;
 
 function formatLocation(provider: Provider) {
-  if (provider.city && provider.region) {
-    return `${provider.city} / ${provider.region}`;
+  const city = provider.address?.city;
+  const region = provider.address?.region;
+  if (city && region) {
+    return `${city} / ${region}`;
   }
-  return provider.city ?? provider.region ?? "—";
+  return city ?? region ?? "—";
 }
 
 export const getProviderTableColumns = (

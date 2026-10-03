@@ -1,3 +1,8 @@
+import { addressFormValidationSchema } from "@/components/Form/addressValidation";
+import {
+  emptyAddressFormValues,
+  type AddressFormValues,
+} from "@/util/address/formAddress";
 import { providerTypes, type ProviderType } from "@entities";
 import * as Yup from "yup";
 
@@ -7,11 +12,7 @@ export type ProviderFormSchema = {
   im: string;
   ie: string;
   email: string;
-  cep: string;
-  address: string;
-  district: string;
-  city: string;
-  region: string;
+  address: AddressFormValues;
   phone1: string;
   phone2: string;
   obs: string;
@@ -25,11 +26,7 @@ export const emptyProviderFormValues: ProviderFormSchema = {
   im: "",
   ie: "",
   email: "",
-  cep: "",
-  address: "",
-  district: "",
-  city: "",
-  region: "",
+  address: emptyAddressFormValues(),
   phone1: "",
   phone2: "",
   obs: "",
@@ -43,23 +40,15 @@ export const providerValidationSchema = Yup.object<ProviderFormSchema>({
   im: Yup.string().max(20),
   ie: Yup.string().max(20),
   email: Yup.string()
+    .email("E-mail inválido")
     .max(50)
-    .test(
-      "email",
-      "E-mail inválido",
-      (value) => !value || Yup.string().email().isValidSync(value),
-    ),
-  cep: Yup.string().max(10),
-  address: Yup.string().max(255),
-  district: Yup.string().max(50),
-  city: Yup.string().max(50),
-  region: Yup.string().max(2),
+    .required("E-mail é obrigatório"),
+  address: addressFormValidationSchema,
   phone1: Yup.string().max(15),
   phone2: Yup.string().max(15),
   obs: Yup.string(),
-  type: Yup.mixed<ProviderType | "">().oneOf(
-    ["", ...providerTypes],
-    "Tipo inválido",
-  ),
+  type: Yup.mixed<ProviderType | "">()
+    .oneOf([...providerTypes, ""])
+    .required(),
   active: Yup.boolean().required(),
 });

@@ -3,13 +3,13 @@
 import {
   FormActions,
   FormBody,
+  FormAddressFields,
   FormColumn,
+  FormContactFields,
   FormInput,
-  FormPhoneInput,
   FormSelect,
   FormTextarea,
   FormTwoColumns,
-  formAddressGridInColumn,
   formFieldGrid2,
   formSectionStack,
   formSectionTitle,
@@ -67,39 +67,14 @@ export function UpsertStoreForm({ store, listHref }: UpsertStoreFormProps) {
 
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Contato</p>
-                  <div className={formFieldGrid2}>
-                    <FormInput
-                      name="email"
-                      label="E-mail"
-                      id="store-email"
-                      type="email"
-                    />
-                    <FormPhoneInput name="phone1" label="Telefone 1" id="store-phone1" />
-                    <FormPhoneInput name="phone2" label="Telefone 2" id="store-phone2" />
-                  </div>
+                  <FormContactFields idPrefix="store" />
                 </section>
               </FormColumn>
 
               <FormColumn>
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Endereço</p>
-                  <div className={formAddressGridInColumn}>
-                    <FormInput name="cep" label="CEP" id="store-cep" />
-                    <FormInput
-                      name="region"
-                      label="UF"
-                      id="store-region"
-                      placeholder="SP"
-                    />
-                    <FormInput
-                      name="address"
-                      label="Endereço"
-                      id="store-address"
-                      className="sm:col-span-2"
-                    />
-                    <FormInput name="district" label="Bairro" id="store-district" />
-                    <FormInput name="city" label="Cidade" id="store-city" />
-                  </div>
+                  <FormAddressFields idPrefix="store" />
                 </section>
 
                 <FormTextarea name="obs" label="Observações" id="store-obs" />

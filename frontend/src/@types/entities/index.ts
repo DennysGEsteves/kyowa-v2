@@ -1,3 +1,4 @@
+export * from "./address";
 export * from "./architect";
 export * from "./client";
 export * from "./user";

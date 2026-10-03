@@ -4,13 +4,13 @@ import {
   FormActions,
   FormBody,
   FormCheckbox,
+  FormAddressFields,
   FormColumn,
+  FormContactFields,
   FormInput,
-  FormPhoneInput,
   FormSelect,
   FormTextarea,
   FormTwoColumns,
-  formAddressGridInColumn,
   formFieldGrid2,
   formSectionStack,
   formSectionTitle,
@@ -83,39 +83,14 @@ export function UpsertProviderForm({
 
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Contato</p>
-                  <div className={formFieldGrid2}>
-                    <FormInput
-                      name="email"
-                      label="E-mail"
-                      id="provider-email"
-                      type="email"
-                    />
-                    <FormPhoneInput name="phone1" label="Telefone 1" id="provider-phone1" />
-                    <FormPhoneInput name="phone2" label="Telefone 2" id="provider-phone2" />
-                  </div>
+                  <FormContactFields idPrefix="provider" />
                 </section>
               </FormColumn>
 
               <FormColumn>
                 <section className={formSectionStack}>
                   <p className={formSectionTitle}>Endereço</p>
-                  <div className={formAddressGridInColumn}>
-                    <FormInput name="cep" label="CEP" id="provider-cep" />
-                    <FormInput
-                      name="region"
-                      label="UF"
-                      id="provider-region"
-                      placeholder="SP"
-                    />
-                    <FormInput
-                      name="address"
-                      label="Endereço"
-                      id="provider-address"
-                      className="sm:col-span-2"
-                    />
-                    <FormInput name="district" label="Bairro" id="provider-district" />
-                    <FormInput name="city" label="Cidade" id="provider-city" />
-                  </div>
+                  <FormAddressFields idPrefix="provider" />
                 </section>
 
                 <FormTextarea name="obs" label="Observações" id="provider-obs" />

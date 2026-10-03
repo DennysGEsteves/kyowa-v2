@@ -10,6 +10,7 @@ import { CreateClientUseCase } from '../../usecases/client/create-client.usecase
 import { DeleteClientUseCase } from '../../usecases/client/delete-client.usecase';
 import { GetClientByIdUseCase } from '../../usecases/client/get-client-by-id.usecase';
 import { GetClientsUseCase } from '../../usecases/client/get-clients.usecase';
+import { ListClientsPaginatedUseCase } from '../../usecases/client/list-clients-paginated.usecase';
 import { UpdateClientUseCase } from '../../usecases/client/update-client.usecase';
 import { ClientController } from './client.controller';
 
@@ -25,6 +26,7 @@ import { ClientController } from './client.controller';
     },
     CreateClientUseCase,
     GetClientsUseCase,
+    ListClientsPaginatedUseCase,
     GetClientByIdUseCase,
     UpdateClientUseCase,
     DeleteClientUseCase,

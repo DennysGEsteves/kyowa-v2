@@ -1,16 +1,13 @@
 import { CreateStoreDto } from '../../controllers/store/dto/create-store.dto';
 import { UpdateStoreDto } from '../../controllers/store/dto/update-store.dto';
+import { Address, toAddress } from '../../types/address';
 import { StoreDocument } from '../../repositories/store/schemas/store.schema';
 
 export interface IStoreConstructorParams {
   id?: string;
   name: string;
   email?: string | null;
-  cep?: string | null;
-  address?: string | null;
-  district?: string | null;
-  city?: string | null;
-  region?: string | null;
+  address?: Address | null;
   phone1?: string | null;
   phone2?: string | null;
   obs?: string | null;
@@ -21,11 +18,7 @@ export class StoreEntity {
   public id?: string;
   public name: string;
   public email: string | null;
-  public cep: string | null;
-  public address: string | null;
-  public district: string | null;
-  public city: string | null;
-  public region: string | null;
+  public address: Address | null;
   public phone1: string | null;
   public phone2: string | null;
   public obs: string | null;
@@ -35,11 +28,7 @@ export class StoreEntity {
     this.id = params.id;
     this.name = params.name;
     this.email = params.email ?? null;
-    this.cep = params.cep ?? null;
     this.address = params.address ?? null;
-    this.district = params.district ?? null;
-    this.city = params.city ?? null;
-    this.region = params.region ?? null;
     this.phone1 = params.phone1 ?? null;
     this.phone2 = params.phone2 ?? null;
     this.obs = params.obs ?? null;
@@ -51,11 +40,7 @@ export class StoreEntity {
       id: document._id.toString(),
       name: document.name,
       email: document.email,
-      cep: document.cep,
-      address: document.address,
-      district: document.district,
-      city: document.city,
-      region: document.region,
+      address: document.address ?? null,
       phone1: document.phone1,
       phone2: document.phone2,
       obs: document.obs,
@@ -67,11 +52,7 @@ export class StoreEntity {
     return new StoreEntity({
       name: dto.name,
       email: dto.email,
-      cep: dto.cep,
-      address: dto.address,
-      district: dto.district,
-      city: dto.city,
-      region: dto.region,
+      address: toAddress(dto.address),
       phone1: dto.phone1,
       phone2: dto.phone2,
       obs: dto.obs,
@@ -87,11 +68,8 @@ export class StoreEntity {
       id: oldStore.id,
       name: dto.name ?? oldStore.name,
       email: dto.email !== undefined ? dto.email : oldStore.email,
-      cep: dto.cep !== undefined ? dto.cep : oldStore.cep,
-      address: dto.address !== undefined ? dto.address : oldStore.address,
-      district: dto.district !== undefined ? dto.district : oldStore.district,
-      city: dto.city !== undefined ? dto.city : oldStore.city,
-      region: dto.region !== undefined ? dto.region : oldStore.region,
+      address:
+        dto.address !== undefined ? toAddress(dto.address) : oldStore.address,
       phone1: dto.phone1 !== undefined ? dto.phone1 : oldStore.phone1,
       phone2: dto.phone2 !== undefined ? dto.phone2 : oldStore.phone2,
       obs: dto.obs !== undefined ? dto.obs : oldStore.obs,

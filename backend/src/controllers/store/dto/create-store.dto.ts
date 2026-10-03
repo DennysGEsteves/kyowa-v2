@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsMongoId,
@@ -5,7 +6,9 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { StoreAddressDto } from './store-address.dto';
 
 export class CreateStoreDto {
   @IsString()
@@ -19,29 +22,9 @@ export class CreateStoreDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(10)
-  readonly cep?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(255)
-  readonly address?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly district?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(50)
-  readonly city?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(2)
-  readonly region?: string;
+  @ValidateNested()
+  @Type(() => StoreAddressDto)
+  readonly address?: StoreAddressDto;
 
   @IsOptional()
   @IsString()

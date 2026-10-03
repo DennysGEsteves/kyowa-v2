@@ -1,6 +1,11 @@
+import type { PaginatedResult } from "@/types/pagination";
 import type { Product } from "@entities";
 import { Fetch } from "@utils";
-import type { CreateProductDTO, UpdateProductDTO } from "./Products.dto";
+import type {
+  CreateProductDTO,
+  ListProductsParams,
+  UpdateProductDTO,
+} from "./Products.dto";
 
 export const ProductsApi = () => {
   const path = `/products`;
@@ -8,6 +13,17 @@ export const ProductsApi = () => {
   async function getAll(): Promise<Product[]> {
     const response = await Fetch.get<Product[]>({
       url: path,
+    });
+
+    return response.data;
+  }
+
+  async function getPaginated(
+    params: ListProductsParams,
+  ): Promise<PaginatedResult<Product>> {
+    const response = await Fetch.get<PaginatedResult<Product>>({
+      url: `${path}/paginated`,
+      config: { params },
     });
 
     return response.data;
@@ -42,6 +58,7 @@ export const ProductsApi = () => {
 
   return {
     getAll,
+    getPaginated,
     create,
     update,
     remove,

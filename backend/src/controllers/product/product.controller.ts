@@ -8,12 +8,16 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
+import { ListPaginatedNameQueryDto } from '../../dto/list-paginated-name-query.dto';
 import { ProductEntity } from '../../entities/product';
+import { PaginatedResult } from '../../types/pagination';
 import { CreateProductUseCase } from '../../usecases/product/create-product.usecase';
 import { DeleteProductUseCase } from '../../usecases/product/delete-product.usecase';
 import { GetProductByIdUseCase } from '../../usecases/product/get-product-by-id.usecase';
 import { GetProductsUseCase } from '../../usecases/product/get-products.usecase';
+import { ListProductsPaginatedUseCase } from '../../usecases/product/list-products-paginated.usecase';
 import { UpdateProductUseCase } from '../../usecases/product/update-product.usecase';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -23,6 +27,7 @@ export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
     private readonly getProductsUseCase: GetProductsUseCase,
+    private readonly listProductsPaginatedUseCase: ListProductsPaginatedUseCase,
     private readonly getProductByIdUseCase: GetProductByIdUseCase,
     private readonly updateProductUseCase: UpdateProductUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
@@ -36,6 +41,13 @@ export class ProductController {
   @Get()
   findAll(): Promise<ProductEntity[]> {
     return this.getProductsUseCase.execute();
+  }
+
+  @Get('paginated')
+  findPaginated(
+    @Query() query: ListPaginatedNameQueryDto,
+  ): Promise<PaginatedResult<ProductEntity>> {
+    return this.listProductsPaginatedUseCase.execute(query);
   }
 
   @Get(':id([0-9a-fA-F]{24})')

@@ -1,6 +1,7 @@
+import type { PaginatedResult } from "@/types/pagination";
 import type { Client } from "@entities";
 import { Fetch } from "@utils";
-import type { UpsertClientDTO } from "./Clients.dto";
+import type { ListClientsParams, UpsertClientDTO } from "./Clients.dto";
 
 export const ClientsApi = () => {
   const path = `/clients`;
@@ -8,6 +9,17 @@ export const ClientsApi = () => {
   async function getAll(): Promise<Client[]> {
     const response = await Fetch.get<Client[]>({
       url: path,
+    });
+
+    return response.data;
+  }
+
+  async function getPaginated(
+    params: ListClientsParams,
+  ): Promise<PaginatedResult<Client>> {
+    const response = await Fetch.get<PaginatedResult<Client>>({
+      url: `${path}/paginated`,
+      config: { params },
     });
 
     return response.data;
@@ -39,6 +51,7 @@ export const ClientsApi = () => {
 
   return {
     getAll,
+    getPaginated,
     create,
     update,
     remove,

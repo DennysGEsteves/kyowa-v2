@@ -10,6 +10,7 @@ import { CreateProviderUseCase } from '../../usecases/provider/create-provider.u
 import { DeleteProviderUseCase } from '../../usecases/provider/delete-provider.usecase';
 import { GetProviderByIdUseCase } from '../../usecases/provider/get-provider-by-id.usecase';
 import { GetProvidersUseCase } from '../../usecases/provider/get-providers.usecase';
+import { ListProvidersPaginatedUseCase } from '../../usecases/provider/list-providers-paginated.usecase';
 import { UpdateProviderUseCase } from '../../usecases/provider/update-provider.usecase';
 import { ProviderController } from './provider.controller';
 
@@ -27,6 +28,7 @@ import { ProviderController } from './provider.controller';
     },
     CreateProviderUseCase,
     GetProvidersUseCase,
+    ListProvidersPaginatedUseCase,
     GetProviderByIdUseCase,
     UpdateProviderUseCase,
     DeleteProviderUseCase,

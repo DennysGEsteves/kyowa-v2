@@ -1,5 +1,6 @@
 "use client";
 
+import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { useFormikContext } from "formik";
 import type { HTMLInputTypeAttribute } from "react";
 import { FormField } from "../FormField";
@@ -15,6 +16,8 @@ type FormInputProps = {
   className?: string;
   parseValue?: (raw: string) => unknown;
   disabled?: boolean;
+  /** Somente leitura (ex.: preenchido pelo CEP), com aparência de campo travado */
+  locked?: boolean;
 };
 
 export function FormInput({
@@ -27,17 +30,14 @@ export function FormInput({
   className,
   parseValue,
   disabled = false,
+  locked = false,
 }: FormInputProps) {
   const { values, errors, touched, handleChange, handleBlur, setFieldValue } =
     useFormikContext();
 
   const fieldId = id ?? name;
-  const fieldError =
-    touched[name as keyof typeof touched] &&
-    errors[name as keyof typeof errors];
-  const errorMessage = fieldError
-    ? String(errors[name as keyof typeof errors])
-    : undefined;
+  const errorMessage = getFormikFieldError(touched, errors, name);
+  const fieldError = Boolean(errorMessage);
 
   return (
     <FormField
@@ -52,15 +52,22 @@ export function FormInput({
         type={type}
         min={min}
         placeholder={placeholder}
-        value={(values as Record<string, unknown>)[name] as string | number}
+        value={(getFormikFieldValue(values, name) as string | number) ?? ""}
         onChange={
-          parseValue
-            ? (event) => setFieldValue(name, parseValue(event.target.value))
-            : handleChange
+          locked
+            ? () => {}
+            : parseValue
+              ? (event) => setFieldValue(name, parseValue(event.target.value))
+              : handleChange
         }
         onBlur={handleBlur}
         disabled={disabled}
-        className={getFieldClassName(Boolean(fieldError))}
+        readOnly={locked}
+        aria-readonly={locked || undefined}
+        title={locked ? "Preenchido automaticamente pelo CEP" : undefined}
+        className={getFieldClassName(Boolean(fieldError), undefined, {
+          locked,
+        })}
       />
     </FormField>
   );

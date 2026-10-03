@@ -7,10 +7,12 @@ import Link from "next/link";
 export type StoreTableColumn = TableColumn<Store>;
 
 function formatLocation(store: Store) {
-  if (store.city && store.region) {
-    return `${store.city} / ${store.region}`;
+  const city = store.address?.city;
+  const region = store.address?.region;
+  if (city && region) {
+    return `${city} / ${region}`;
   }
-  return store.city ?? store.region ?? "—";
+  return city ?? region ?? "—";
 }
 
 export const getStoreTableColumns = (

@@ -1,6 +1,7 @@
 "use client";
 
 import { formatPhoneBR } from "@/util/masks";
+import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { useFormikContext } from "formik";
 import { FormField } from "../FormField";
 import { getFieldClassName } from "../FieldStyles";
@@ -26,14 +27,10 @@ export function FormPhoneInput({
     useFormikContext();
 
   const fieldId = id ?? name;
-  const fieldError =
-    touched[name as keyof typeof touched] &&
-    errors[name as keyof typeof errors];
-  const errorMessage = fieldError
-    ? String(errors[name as keyof typeof errors])
-    : undefined;
+  const errorMessage = getFormikFieldError(touched, errors, name);
+  const fieldError = Boolean(errorMessage);
 
-  const rawValue = (values as Record<string, unknown>)[name];
+  const rawValue = getFormikFieldValue(values, name);
   const displayValue =
     typeof rawValue === "string" ? formatPhoneBR(rawValue) : "";
 

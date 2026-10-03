@@ -1,4 +1,8 @@
+import type { AddressDTO } from "@/api/types/address.dto";
+import type { ListNameActiveParams } from "@/types/list-params";
 import type { ProviderType } from "@entities";
+
+export type ListProvidersParams = ListNameActiveParams;
 
 export type UpsertProviderDTO = {
   name: string;
@@ -7,11 +11,7 @@ export type UpsertProviderDTO = {
   im?: string;
   ie?: string;
   email?: string;
-  cep?: string;
-  address?: string;
-  district?: string;
-  city?: string;
-  region?: string;
+  address?: AddressDTO;
   phone1?: string;
   phone2?: string;
   obs?: string;

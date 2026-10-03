@@ -1,6 +1,7 @@
+import type { PaginatedResult } from "@/types/pagination";
 import type { Architect } from "@entities";
 import { Fetch } from "@utils";
-import type { UpsertArchitectDTO } from "./Architects.dto";
+import type { ListArchitectsParams, UpsertArchitectDTO } from "./Architects.dto";
 
 export const ArchitectsApi = () => {
   const path = `/architects`;
@@ -8,6 +9,17 @@ export const ArchitectsApi = () => {
   async function getAll(): Promise<Architect[]> {
     const response = await Fetch.get<Architect[]>({
       url: path,
+    });
+
+    return response.data;
+  }
+
+  async function getPaginated(
+    params: ListArchitectsParams,
+  ): Promise<PaginatedResult<Architect>> {
+    const response = await Fetch.get<PaginatedResult<Architect>>({
+      url: `${path}/paginated`,
+      config: { params },
     });
 
     return response.data;
@@ -42,6 +54,7 @@ export const ArchitectsApi = () => {
 
   return {
     getAll,
+    getPaginated,
     create,
     update,
     remove,

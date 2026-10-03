@@ -1,4 +1,8 @@
-import { formatPhoneBR } from "@/util/masks";
+import {
+  addressToFormValues,
+  formValuesToAddressPayload,
+} from "@/util/address/formAddress";
+import { formatCpfBR, formatPhoneBR } from "@/util/masks";
 import type { Architect } from "@entities";
 import type { UpsertArchitectDTO } from "@/api/Architects";
 import type { ArchitectFormSchema } from "./UpsertArchitect.schema";
@@ -13,14 +17,10 @@ export function architectToFormValues(
 ): ArchitectFormSchema {
   return {
     name: architect.name,
-    cpf: architect.cpf ?? "",
+    cpf: formatCpfBR(architect.cpf ?? ""),
     nasc: toDateInputValue(architect.nasc),
     email: architect.email ?? "",
-    cep: architect.cep ?? "",
-    address: architect.address ?? "",
-    district: architect.district ?? "",
-    city: architect.city ?? "",
-    region: architect.region ?? "",
+    address: addressToFormValues(architect.address),
     phone1: formatPhoneBR(architect.phone1 ?? ""),
     phone2: formatPhoneBR(architect.phone2 ?? ""),
     obs: architect.obs ?? "",
@@ -37,11 +37,7 @@ export function formValuesToUpsertArchitectDTO(
     cpf: values.cpf,
     nasc: values.nasc ? values.nasc : null,
     email: values.email.toLowerCase(),
-    cep: values.cep,
-    address: values.address,
-    district: values.district,
-    city: values.city,
-    region: values.region.toUpperCase(),
+    address: formValuesToAddressPayload(values.address),
     phone1: values.phone1,
     phone2: values.phone2,
     obs: values.obs,

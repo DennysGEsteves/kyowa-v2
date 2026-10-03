@@ -8,14 +8,18 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ProviderEntity } from '../../entities/provider';
 import { CreateProviderUseCase } from '../../usecases/provider/create-provider.usecase';
 import { DeleteProviderUseCase } from '../../usecases/provider/delete-provider.usecase';
 import { GetProviderByIdUseCase } from '../../usecases/provider/get-provider-by-id.usecase';
 import { GetProvidersUseCase } from '../../usecases/provider/get-providers.usecase';
+import { ListProvidersPaginatedUseCase } from '../../usecases/provider/list-providers-paginated.usecase';
 import { UpdateProviderUseCase } from '../../usecases/provider/update-provider.usecase';
+import { PaginatedResult } from '../../types/pagination';
 import { CreateProviderDto } from './dto/create-provider.dto';
+import { ListPaginatedNameActiveQueryDto } from '../../dto/list-paginated-name-active-query.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 
 @Controller('providers')
@@ -23,6 +27,7 @@ export class ProviderController {
   constructor(
     private readonly createProviderUseCase: CreateProviderUseCase,
     private readonly getProvidersUseCase: GetProvidersUseCase,
+    private readonly listProvidersPaginatedUseCase: ListProvidersPaginatedUseCase,
     private readonly getProviderByIdUseCase: GetProviderByIdUseCase,
     private readonly updateProviderUseCase: UpdateProviderUseCase,
     private readonly deleteProviderUseCase: DeleteProviderUseCase,
@@ -36,6 +41,13 @@ export class ProviderController {
   @Get()
   findAll(): Promise<ProviderEntity[]> {
     return this.getProvidersUseCase.execute();
+  }
+
+  @Get('paginated')
+  findPaginated(
+    @Query() query: ListPaginatedNameActiveQueryDto,
+  ): Promise<PaginatedResult<ProviderEntity>> {
+    return this.listProvidersPaginatedUseCase.execute(query);
   }
 
   @Get(':id')
