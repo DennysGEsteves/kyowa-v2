@@ -3,10 +3,10 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 export class LoginDto {
   @IsEmail()
   @MaxLength(50)
-  email: string;
+  readonly email: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  password: string;
+  readonly password: string;
 }

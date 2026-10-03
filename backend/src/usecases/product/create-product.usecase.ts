@@ -1,11 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateProductDto } from '../../controllers/product/dto/create-product.dto';
 import { ProductEntity } from '../../entities/product';
 import {
-  CreateProductData,
   IProductRepository,
   PRODUCT_REPOSITORY,
 } from '../../repositories/product/interfaces/i-product-repository';
-import { toNameFilter } from '../../util/string/name-filter';
 
 @Injectable()
 export class CreateProductUseCase {
@@ -14,14 +13,8 @@ export class CreateProductUseCase {
     private readonly productRepository: IProductRepository,
   ) {}
 
-  async execute(data: CreateProductData): Promise<ProductEntity> {
-    const nameFilter = data.nameFilter?.trim()
-      ? data.nameFilter
-      : toNameFilter(data.name);
-
-    return this.productRepository.create({
-      ...data,
-      nameFilter,
-    });
+  async execute(dto: CreateProductDto): Promise<ProductEntity> {
+    const product = ProductEntity.fromCreateProductDto(dto);
+    return this.productRepository.create(product);
   }
 }

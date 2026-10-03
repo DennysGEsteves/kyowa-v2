@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/Auth/auth-provider";
-import { AdminHeader } from "./admin-header";
+import { AdminHeader } from "./Header";
 import type { ReactNode } from "react";
 
 type AdminPageShellProps = {

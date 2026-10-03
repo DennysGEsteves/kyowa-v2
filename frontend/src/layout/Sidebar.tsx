@@ -1,10 +1,10 @@
 "use client";
 
 import { useLogout } from "@/contexts/Auth/auth-provider";
-import { useAdminMobileMenu } from "./admin-mobile-menu";
-import { AdminNavSections } from "./admin-nav-sections";
+import { useAdminMobileMenu } from "./MobileMenu";
+import { AdminNavSections } from "./NavSections";
 import { LogOut, X } from "lucide-react";
-import { KyowaLogo } from "@/components/kyowa-logo";
+import { KyowaLogo } from "@images";
 
 type AdminSidebarProps = {
   onNavigate?: () => void;

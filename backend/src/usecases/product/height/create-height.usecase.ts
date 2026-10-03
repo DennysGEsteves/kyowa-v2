@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateProductHeightDto } from '../../../controllers/product-height/dto/create-product-height.dto';
 import { ProductHeightEntity } from '../../../entities/product';
 import {
-  CreateProductHeightData,
   IProductHeightRepository,
   PRODUCT_HEIGHT_REPOSITORY,
 } from '../../../repositories/product/interfaces/i-product-height-repository';
@@ -13,7 +13,8 @@ export class CreateProductHeightUseCase {
     private readonly repository: IProductHeightRepository,
   ) {}
 
-  async execute(data: CreateProductHeightData): Promise<ProductHeightEntity> {
-    return this.repository.create(data);
+  async execute(dto: CreateProductHeightDto): Promise<ProductHeightEntity> {
+    const entity = ProductHeightEntity.fromCreateProductHeightDto(dto);
+    return this.repository.create(entity);
   }
 }

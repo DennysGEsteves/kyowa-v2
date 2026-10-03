@@ -12,77 +12,77 @@ export class UpdateProviderDto {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  name?: string;
+  readonly name?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(100)
-  nameFilter?: string;
+  readonly nameFilter?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  cnpj?: string;
+  readonly cnpj?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  im?: string;
+  readonly im?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  ie?: string;
+  readonly ie?: string;
 
   @IsOptional()
   @IsEmail()
   @MaxLength(50)
-  email?: string;
+  readonly email?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(10)
-  cep?: string;
+  readonly cep?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  address?: string;
+  readonly address?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  district?: string;
+  readonly district?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  city?: string;
+  readonly city?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(2)
-  region?: string;
+  readonly region?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(15)
-  phone1?: string;
+  readonly phone1?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(15)
-  phone2?: string;
+  readonly phone2?: string;
 
   @IsOptional()
   @IsString()
-  obs?: string;
+  readonly obs?: string;
 
   @IsOptional()
   @IsEnum(ProviderType)
-  type?: ProviderType;
+  readonly type?: ProviderType;
 
   @IsOptional()
   @IsBoolean()
-  active?: boolean;
+  readonly active?: boolean;
 }

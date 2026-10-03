@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PRODUCT_SIZE_REPOSITORY } from '../../repositories/product/interfaces/i-product-size-repository';
 import { ProductSizeRepository } from '../../repositories/product/product-size.repository';
-import { ProductSize, ProductSizeSchema } from '../../repositories/product/schemas/product-size.schema';
+import {
+  ProductSize,
+  ProductSizeSchema,
+} from '../../repositories/product/schemas/product-size.schema';
 import { CreateProductSizeUseCase } from '../../usecases/product/size/create-size.usecase';
 import { DeleteProductSizeUseCase } from '../../usecases/product/size/delete-size.usecase';
 import { GetProductSizeByIdUseCase } from '../../usecases/product/size/get-size-by-id.usecase';

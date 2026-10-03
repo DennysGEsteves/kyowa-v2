@@ -10,7 +10,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: kyowa
     volumes:
-      - mongodb_data:/data/db
+      - ./db:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -30,6 +30,3 @@ services:
       ME_CONFIG_BASICAUTH: "false"
     depends_on:
       - kyowa-mongodb
-
-volumes:
-  mongodb_data:

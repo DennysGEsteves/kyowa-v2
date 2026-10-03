@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateStoreDto } from '../../controllers/store/dto/create-store.dto';
 import { StoreEntity } from '../../entities/store';
 import {
-  CreateStoreData,
   IStoreRepository,
   STORE_REPOSITORY,
 } from '../../repositories/store/interfaces/i-store-repository';
@@ -13,7 +13,8 @@ export class CreateStoreUseCase {
     private readonly storeRepository: IStoreRepository,
   ) {}
 
-  execute(data: CreateStoreData): Promise<StoreEntity> {
-    return this.storeRepository.create(data);
+  execute(dto: CreateStoreDto): Promise<StoreEntity> {
+    const store = StoreEntity.fromCreateStoreDto(dto);
+    return this.storeRepository.create(store);
   }
 }

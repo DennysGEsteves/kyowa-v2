@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateProductOriginDto } from '../../../controllers/product-origin/dto/create-product-origin.dto';
 import { ProductOriginEntity } from '../../../entities/product';
 import {
-  CreateProductOriginData,
   IProductOriginRepository,
   PRODUCT_ORIGIN_REPOSITORY,
 } from '../../../repositories/product/interfaces/i-product-origin-repository';
@@ -13,7 +13,8 @@ export class CreateProductOriginUseCase {
     private readonly repository: IProductOriginRepository,
   ) {}
 
-  async execute(data: CreateProductOriginData): Promise<ProductOriginEntity> {
-    return this.repository.create(data);
+  async execute(dto: CreateProductOriginDto): Promise<ProductOriginEntity> {
+    const entity = ProductOriginEntity.fromCreateProductOriginDto(dto);
+    return this.repository.create(entity);
   }
 }

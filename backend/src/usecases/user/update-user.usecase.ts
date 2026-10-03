@@ -7,9 +7,9 @@ import {
 import { UserEntity } from '../../entities/user';
 import {
   IUserRepository,
-  UpdateUserData,
   USER_REPOSITORY,
 } from '../../repositories/user/interfaces/i-user-repository';
+import { UpdateUserDto } from '../../controllers/user/dto/update-user.dto';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -18,20 +18,21 @@ export class UpdateUserUseCase {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(id: string, data: UpdateUserData): Promise<UserEntity> {
+  async execute(id: string, dto: UpdateUserDto): Promise<UserEntity> {
     const user = await this.userRepository.findById(id);
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
 
-    if (data.email && data.email !== user.email) {
-      const existing = await this.userRepository.findByEmail(data.email);
+    if (dto.email && dto.email !== user.email) {
+      const existing = await this.userRepository.findByEmail(dto.email);
       if (existing) {
         throw new ConflictException('E-mail já cadastrado');
       }
     }
 
-    const updated = await this.userRepository.update(id, data);
+    const newUser = UserEntity.fromUpdateUserDto(user, dto);
+    const updated = await this.userRepository.update(id, newUser);
     if (!updated) {
       throw new NotFoundException('Usuário não encontrado');
     }

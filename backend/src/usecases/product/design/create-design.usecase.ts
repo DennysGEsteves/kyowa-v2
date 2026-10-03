@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateProductDesignDto } from '../../../controllers/product-design/dto/create-product-design.dto';
 import { ProductDesignEntity } from '../../../entities/product';
 import {
-  CreateProductDesignData,
   IProductDesignRepository,
   PRODUCT_DESIGN_REPOSITORY,
 } from '../../../repositories/product/interfaces/i-product-design-repository';
@@ -13,7 +13,8 @@ export class CreateProductDesignUseCase {
     private readonly repository: IProductDesignRepository,
   ) {}
 
-  async execute(data: CreateProductDesignData): Promise<ProductDesignEntity> {
-    return this.repository.create(data);
+  async execute(dto: CreateProductDesignDto): Promise<ProductDesignEntity> {
+    const entity = ProductDesignEntity.fromCreateProductDesignDto(dto);
+    return this.repository.create(entity);
   }
 }

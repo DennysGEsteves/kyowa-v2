@@ -1,4 +1,4 @@
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/Form/ActionButton";
 import type { TableColumn } from "@/components/Table";
 import type { Store, User } from "@entities";
 import { Pencil, Trash } from "lucide-react";

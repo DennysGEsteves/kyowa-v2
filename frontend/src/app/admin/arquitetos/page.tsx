@@ -1,14 +1,12 @@
 "use client";
 
-import {
-  AdminPageShell,
-  AdminPlaceholder,
-} from "@/components/admin/admin-page-shell";
+import { AdminPageShell } from "@/layout/PageShell";
+import { RegistersArchitectsView } from "@/views/Admin/Registers/Architects/Architects.view";
 
 export default function ArquitetosPage() {
   return (
     <AdminPageShell title="Arquitetos">
-      <AdminPlaceholder />
+      <RegistersArchitectsView />
     </AdminPageShell>
   );
 }

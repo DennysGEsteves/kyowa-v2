@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@entities": ["./src/@types/entities"],
-      "@utils": ["./src/utils"]
+      "@utils": ["./src/utils"],
+      "@images": ["./src/assets/images"]
     }
   },
   "include": [

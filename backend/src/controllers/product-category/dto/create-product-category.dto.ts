@@ -4,5 +4,5 @@ export class CreateProductCategoryDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  name: string;
+  readonly name: string;
 }

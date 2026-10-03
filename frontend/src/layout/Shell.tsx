@@ -1,7 +1,7 @@
 "use client";
 
-import { AdminSidebar } from "./admin-sidebar";
-import { useAdminMobileMenu } from "./admin-mobile-menu";
+import { AdminSidebar } from "./Sidebar";
+import { useAdminMobileMenu } from "./MobileMenu";
 import { usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 

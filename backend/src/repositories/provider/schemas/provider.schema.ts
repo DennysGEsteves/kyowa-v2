@@ -24,7 +24,13 @@ export class Provider {
   @Prop({ type: String, trim: true, maxlength: 20, default: null })
   ie!: string | null;
 
-  @Prop({ type: String, trim: true, lowercase: true, maxlength: 50, default: null })
+  @Prop({
+    type: String,
+    trim: true,
+    lowercase: true,
+    maxlength: 50,
+    default: null,
+  })
   email!: string | null;
 
   @Prop({ type: String, trim: true, maxlength: 10, default: null })
@@ -39,7 +45,13 @@ export class Provider {
   @Prop({ type: String, trim: true, maxlength: 50, default: null })
   city!: string | null;
 
-  @Prop({ type: String, trim: true, uppercase: true, maxlength: 2, default: null })
+  @Prop({
+    type: String,
+    trim: true,
+    uppercase: true,
+    maxlength: 2,
+    default: null,
+  })
   region!: string | null;
 
   @Prop({ type: String, trim: true, maxlength: 15, default: null })

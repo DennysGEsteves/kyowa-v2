@@ -1,8 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UpdateProductHeightDto } from '../../../controllers/product-height/dto/update-product-height.dto';
 import { ProductHeightEntity } from '../../../entities/product';
 import {
   IProductHeightRepository,
-  UpdateProductHeightData,
   PRODUCT_HEIGHT_REPOSITORY,
 } from '../../../repositories/product/interfaces/i-product-height-repository';
 
@@ -13,8 +13,20 @@ export class UpdateProductHeightUseCase {
     private readonly repository: IProductHeightRepository,
   ) {}
 
-  async execute(id: string, data: UpdateProductHeightData): Promise<ProductHeightEntity> {
-    const updated = await this.repository.update(id, data);
+  async execute(
+    id: string,
+    dto: UpdateProductHeightDto,
+  ): Promise<ProductHeightEntity> {
+    const existing = await this.repository.findById(id);
+    if (!existing) {
+      throw new NotFoundException('Registro não encontrado');
+    }
+
+    const entity = ProductHeightEntity.fromUpdateProductHeightDto(
+      existing,
+      dto,
+    );
+    const updated = await this.repository.update(id, entity);
     if (!updated) {
       throw new NotFoundException('Registro não encontrado');
     }

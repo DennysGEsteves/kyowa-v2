@@ -4,5 +4,5 @@ export class UpdateProductOriginDto {
   @IsOptional()
   @IsString()
   @MaxLength(100)
-  name?: string;
+  readonly name?: string;
 }

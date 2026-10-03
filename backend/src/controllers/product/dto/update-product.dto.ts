@@ -15,115 +15,109 @@ export class UpdateProductDto {
   @IsOptional()
   @IsString()
   @MaxLength(100)
-  name?: string;
+  readonly name?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(100)
-  fantasyName?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(100)
-  nameFilter?: string;
-
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  ezId?: number | null;
+  readonly fantasyName?: string;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  providerId?: string | null;
+  readonly providerId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  categoryId?: string | null;
+  readonly categoryId?: string | null;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  ref?: string | null;
+  readonly ref?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  unitId?: string | null;
+  readonly unitId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  colorId?: string | null;
+  readonly colorId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  sizeId?: string | null;
+  readonly sizeId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  designId?: string | null;
+  readonly designId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  shapeId?: string | null;
+  readonly shapeId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  originId?: string | null;
+  readonly originId?: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsOptional()
   @IsMongoId()
-  modelId?: string | null;
+  readonly modelId?: string | null;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  ncm?: string | null;
+  readonly ncm?: string | null;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  cst?: string | null;
+  readonly cst?: string | null;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  ean?: string | null;
+  readonly ean?: string | null;
 
   @IsOptional()
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  buyPrice?: number | null;
+  readonly buyPrice?: number | null;
 
   @IsOptional()
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  sellPrice?: number | null;
+  readonly sellPrice?: number | null;
 
   @IsOptional()
   @IsBoolean()
-  hasSeals?: boolean | null;
+  readonly hasSeals?: boolean | null;
 
   @IsOptional()
   @IsInt()
   @Min(0)
   @Max(99999)
-  amountStart?: number | null;
+  readonly amountStart?: number | null;
 
   @IsOptional()
   @IsInt()
   @Min(0)
   @Max(99999)
-  amountSold?: number | null;
+  readonly amountSold?: number | null;
 
   @IsOptional()
   @IsBoolean()
-  amountUnlimited?: boolean;
+  readonly amountUnlimited?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  readonly isEcommerce?: boolean;
 }

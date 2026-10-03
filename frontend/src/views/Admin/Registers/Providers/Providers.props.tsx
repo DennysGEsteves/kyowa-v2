@@ -1,4 +1,4 @@
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/Form/ActionButton";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
 import {
   providerTypeLabels,
@@ -55,8 +55,7 @@ export const getProviderTableColumns = (
     header: "Telefone",
     accessorKey: "phone1",
     mobile: { role: "field", label: "Contato", className: "col-span-2" },
-    cell: ({ row, value }) =>
-      value ? String(value) : (row.email ?? "—"),
+    cell: ({ row, value }) => (value ? String(value) : (row.email ?? "—")),
   },
   {
     id: "active",

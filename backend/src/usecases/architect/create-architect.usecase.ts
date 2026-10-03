@@ -1,11 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateArchitectDto } from '../../controllers/architect/dto/create-architect.dto';
 import { ArchitectEntity } from '../../entities/architect';
 import {
   ARCHITECT_REPOSITORY,
-  CreateArchitectData,
   IArchitectRepository,
 } from '../../repositories/architect/interfaces/i-architect-repository';
-import { toNameFilter } from '../../util/string/name-filter';
 
 @Injectable()
 export class CreateArchitectUseCase {
@@ -14,14 +13,8 @@ export class CreateArchitectUseCase {
     private readonly architectRepository: IArchitectRepository,
   ) {}
 
-  async execute(data: CreateArchitectData): Promise<ArchitectEntity> {
-    const nameFilter = data.nameFilter?.trim()
-      ? data.nameFilter
-      : toNameFilter(data.name);
-
-    return this.architectRepository.create({
-      ...data,
-      nameFilter,
-    });
+  async execute(dto: CreateArchitectDto): Promise<ArchitectEntity> {
+    const architect = ArchitectEntity.fromCreateArchitectDto(dto);
+    return this.architectRepository.create(architect);
   }
 }

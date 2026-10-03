@@ -1,6 +1,6 @@
 "use client";
 
-import { KyowaLogo } from "@/components/kyowa-logo";
+import { KyowaLogo } from "@images";
 import { LoginForm } from "./components/LoginForm";
 import { LoginLogic } from "./Login.logic";
 

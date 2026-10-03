@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateProductCategoryDto } from '../../../controllers/product-category/dto/create-product-category.dto';
 import { ProductCategoryEntity } from '../../../entities/product';
 import {
-  CreateProductCategoryData,
   IProductCategoryRepository,
   PRODUCT_CATEGORY_REPOSITORY,
 } from '../../../repositories/product/interfaces/i-product-category-repository';
@@ -13,7 +13,8 @@ export class CreateProductCategoryUseCase {
     private readonly repository: IProductCategoryRepository,
   ) {}
 
-  async execute(data: CreateProductCategoryData): Promise<ProductCategoryEntity> {
-    return this.repository.create(data);
+  async execute(dto: CreateProductCategoryDto): Promise<ProductCategoryEntity> {
+    const entity = ProductCategoryEntity.fromCreateProductCategoryDto(dto);
+    return this.repository.create(entity);
   }
 }

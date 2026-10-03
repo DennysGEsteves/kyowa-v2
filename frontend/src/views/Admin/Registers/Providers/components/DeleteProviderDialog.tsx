@@ -2,7 +2,7 @@
 
 import { useApi } from "@/api/api.hook";
 import { useInvalidateProvidersQuery } from "@/api/Providers/providers.query";
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/Form/ActionButton";
 import type { Provider } from "@entities";
 import { useEffect } from "react";
 

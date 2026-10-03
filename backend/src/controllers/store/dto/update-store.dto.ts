@@ -10,53 +10,53 @@ export class UpdateStoreDto {
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  name?: string;
+  readonly name?: string;
 
   @IsOptional()
   @IsEmail()
   @MaxLength(50)
-  email?: string;
+  readonly email?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(10)
-  cep?: string;
+  readonly cep?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  address?: string;
+  readonly address?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  district?: string;
+  readonly district?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  city?: string;
+  readonly city?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(2)
-  region?: string;
+  readonly region?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(15)
-  phone1?: string;
+  readonly phone1?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(15)
-  phone2?: string;
+  readonly phone2?: string;
 
   @IsOptional()
   @IsString()
-  obs?: string;
+  readonly obs?: string;
 
   @IsOptional()
   @IsMongoId()
-  managerId?: string | null;
+  readonly managerId?: string | null;
 }

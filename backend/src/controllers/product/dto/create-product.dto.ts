@@ -15,106 +15,97 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  name: string;
+  readonly name: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  fantasyName: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(100)
-  nameFilter?: string;
-
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  ezId?: number;
+  readonly fantasyName: string;
 
   @IsOptional()
   @IsMongoId()
-  providerId?: string;
-
-  @IsOptional()
-  @IsMongoId()
-  categoryId?: string;
+  readonly categoryId?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  ref?: string;
+  readonly ref?: string;
 
   @IsOptional()
   @IsMongoId()
-  unitId?: string;
+  readonly unitId?: string;
 
   @IsOptional()
   @IsMongoId()
-  colorId?: string;
+  readonly colorId?: string;
 
   @IsOptional()
   @IsMongoId()
-  sizeId?: string;
+  readonly sizeId?: string;
 
   @IsOptional()
   @IsMongoId()
-  designId?: string;
+  readonly designId?: string;
 
   @IsOptional()
   @IsMongoId()
-  shapeId?: string;
+  readonly shapeId?: string;
 
   @IsOptional()
   @IsMongoId()
-  originId?: string;
+  readonly originId?: string;
 
   @IsOptional()
   @IsMongoId()
-  modelId?: string;
+  readonly modelId?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  ncm?: string;
+  readonly ncm?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  cst?: string;
+  readonly cst?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  ean?: string;
+  readonly ean?: string;
 
   @IsOptional()
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  buyPrice?: number;
+  readonly buyPrice?: number;
 
   @IsOptional()
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  sellPrice?: number;
+  readonly sellPrice?: number;
 
   @IsOptional()
   @IsBoolean()
-  hasSeals?: boolean;
+  readonly hasSeals?: boolean;
 
   @IsOptional()
   @IsInt()
   @Min(0)
   @Max(99999)
-  amountStart?: number;
+  readonly amountStart?: number;
 
   @IsOptional()
   @IsInt()
   @Min(0)
   @Max(99999)
-  amountSold?: number;
+  readonly amountSold?: number;
 
   @IsOptional()
   @IsBoolean()
-  amountUnlimited?: boolean;
+  readonly amountUnlimited?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @MaxLength(100)
+  readonly isEcommerce?: boolean;
 }

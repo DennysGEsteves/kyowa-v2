@@ -1,8 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UpdateProductColorDto } from '../../../controllers/product-color/dto/update-product-color.dto';
 import { ProductColorEntity } from '../../../entities/product';
 import {
   IProductColorRepository,
-  UpdateProductColorData,
   PRODUCT_COLOR_REPOSITORY,
 } from '../../../repositories/product/interfaces/i-product-color-repository';
 
@@ -13,8 +13,17 @@ export class UpdateProductColorUseCase {
     private readonly repository: IProductColorRepository,
   ) {}
 
-  async execute(id: string, data: UpdateProductColorData): Promise<ProductColorEntity> {
-    const updated = await this.repository.update(id, data);
+  async execute(
+    id: string,
+    dto: UpdateProductColorDto,
+  ): Promise<ProductColorEntity> {
+    const existing = await this.repository.findById(id);
+    if (!existing) {
+      throw new NotFoundException('Registro não encontrado');
+    }
+
+    const entity = ProductColorEntity.fromUpdateProductColorDto(existing, dto);
+    const updated = await this.repository.update(id, entity);
     if (!updated) {
       throw new NotFoundException('Registro não encontrado');
     }

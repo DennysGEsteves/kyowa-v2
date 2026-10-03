@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PRODUCT_ORIGIN_REPOSITORY } from '../../repositories/product/interfaces/i-product-origin-repository';
 import { ProductOriginRepository } from '../../repositories/product/product-origin.repository';
-import { ProductOrigin, ProductOriginSchema } from '../../repositories/product/schemas/product-origin.schema';
+import {
+  ProductOrigin,
+  ProductOriginSchema,
+} from '../../repositories/product/schemas/product-origin.schema';
 import { CreateProductOriginUseCase } from '../../usecases/product/origin/create-origin.usecase';
 import { DeleteProductOriginUseCase } from '../../usecases/product/origin/delete-origin.usecase';
 import { GetProductOriginByIdUseCase } from '../../usecases/product/origin/get-origin-by-id.usecase';

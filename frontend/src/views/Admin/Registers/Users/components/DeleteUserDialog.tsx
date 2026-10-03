@@ -2,7 +2,7 @@
 
 import { useApi } from "@/api/api.hook";
 import { useInvalidateUsersQuery } from "@/api/Users/users.query";
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/Form/ActionButton";
 import type { User } from "@entities";
 import { useEffect } from "react";
 

@@ -4,5 +4,5 @@ export class CreateProductColorDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  name: string;
+  readonly name: string;
 }

@@ -4,5 +4,5 @@ export class CreateProductDesignDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  name: string;
+  readonly name: string;
 }

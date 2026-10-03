@@ -1,11 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UpdateArchitectDto } from '../../controllers/architect/dto/update-architect.dto';
 import { ArchitectEntity } from '../../entities/architect';
 import {
   ARCHITECT_REPOSITORY,
   IArchitectRepository,
-  UpdateArchitectData,
 } from '../../repositories/architect/interfaces/i-architect-repository';
-import { toNameFilter } from '../../util/string/name-filter';
 
 @Injectable()
 export class UpdateArchitectUseCase {
@@ -14,19 +13,17 @@ export class UpdateArchitectUseCase {
     private readonly architectRepository: IArchitectRepository,
   ) {}
 
-  async execute(id: string, data: UpdateArchitectData): Promise<ArchitectEntity> {
+  async execute(id: string, dto: UpdateArchitectDto): Promise<ArchitectEntity> {
     const architect = await this.architectRepository.findById(id);
     if (!architect) {
       throw new NotFoundException('Arquiteto não encontrado');
     }
 
-    const payload: UpdateArchitectData = { ...data };
-
-    if (data.name !== undefined && data.nameFilter === undefined) {
-      payload.nameFilter = toNameFilter(data.name);
-    }
-
-    const updated = await this.architectRepository.update(id, payload);
+    const updatedEntity = ArchitectEntity.fromUpdateArchitectDto(
+      architect,
+      dto,
+    );
+    const updated = await this.architectRepository.update(id, updatedEntity);
     if (!updated) {
       throw new NotFoundException('Arquiteto não encontrado');
     }

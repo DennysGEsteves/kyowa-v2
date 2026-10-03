@@ -10,104 +10,101 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-import {
-  ClientOrigin,
-  InterestProduct,
-} from '../../../entities/client/types';
+import { ClientOrigin, InterestProduct } from '../../../entities/client/types';
 
 export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  name: string;
+  readonly name: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  nameFilter?: string;
+  readonly nameFilter?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  cpf?: string;
+  readonly cpf?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  rg?: string;
+  readonly rg?: string;
 
   @IsOptional()
   @IsMongoId()
-  architectId?: string;
+  readonly architectId?: string;
 
   @IsOptional()
   @IsDateString()
-  nasc?: string;
+  readonly nasc?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  occupation?: string;
+  readonly occupation?: string;
 
   @IsOptional()
   @IsEmail()
   @MaxLength(50)
-  email?: string;
+  readonly email?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(10)
-  cep?: string;
+  readonly cep?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(255)
-  address?: string;
+  readonly address?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  district?: string;
+  readonly district?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  city?: string;
+  readonly city?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(2)
-  region?: string;
+  readonly region?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(15)
-  phone1?: string;
+  readonly phone1?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(15)
-  phone2?: string;
+  readonly phone2?: string;
 
   @IsOptional()
   @IsString()
-  obs?: string;
+  readonly obs?: string;
 
   @IsOptional()
   @IsBoolean()
-  active?: boolean;
+  readonly active?: boolean;
 
   @IsOptional()
   @IsArray()
   @IsEnum(InterestProduct, { each: true })
-  interestProducts?: InterestProduct[];
+  readonly interestProducts?: InterestProduct[];
 
   @IsOptional()
   @IsArray()
   @IsEnum(ClientOrigin, { each: true })
-  origins?: ClientOrigin[];
+  readonly origins?: ClientOrigin[];
 
   @IsOptional()
   @IsDateString()
-  entry?: string;
+  readonly entry?: string;
 }

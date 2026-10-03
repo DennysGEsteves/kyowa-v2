@@ -1,11 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UpdateProductDto } from '../../controllers/product/dto/update-product.dto';
 import { ProductEntity } from '../../entities/product';
 import {
   IProductRepository,
-  UpdateProductData,
   PRODUCT_REPOSITORY,
 } from '../../repositories/product/interfaces/i-product-repository';
-import { toNameFilter } from '../../util/string/name-filter';
 
 @Injectable()
 export class UpdateProductUseCase {
@@ -14,18 +13,14 @@ export class UpdateProductUseCase {
     private readonly productRepository: IProductRepository,
   ) {}
 
-  async execute(id: string, data: UpdateProductData): Promise<ProductEntity> {
+  async execute(id: string, dto: UpdateProductDto): Promise<ProductEntity> {
     const product = await this.productRepository.findById(id);
     if (!product) {
       throw new NotFoundException('Produto não encontrado');
     }
 
-    const payload: UpdateProductData = { ...data };
-    if (data.name !== undefined && data.nameFilter === undefined) {
-      payload.nameFilter = toNameFilter(data.name);
-    }
-
-    const updated = await this.productRepository.update(id, payload);
+    const updatedEntity = ProductEntity.fromUpdateProductDto(product, dto);
+    const updated = await this.productRepository.update(id, updatedEntity);
     if (!updated) {
       throw new NotFoundException('Produto não encontrado');
     }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useAdminMobileMenu } from "./admin-mobile-menu";
-import type { SessionUser } from "@util/auth/session";
+import { useAdminMobileMenu } from "./MobileMenu";
+import type { SessionUser } from "@utils";
 import { Menu } from "lucide-react";
 
 type AdminHeaderProps = {

@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PRODUCT_CATEGORY_REPOSITORY } from '../../repositories/product/interfaces/i-product-category-repository';
 import { ProductCategoryRepository } from '../../repositories/product/product-category.repository';
-import { ProductCategory, ProductCategorySchema } from '../../repositories/product/schemas/product-category.schema';
+import {
+  ProductCategory,
+  ProductCategorySchema,
+} from '../../repositories/product/schemas/product-category.schema';
 import { CreateProductCategoryUseCase } from '../../usecases/product/category/create-category.usecase';
 import { DeleteProductCategoryUseCase } from '../../usecases/product/category/delete-category.usecase';
 import { GetProductCategoryByIdUseCase } from '../../usecases/product/category/get-category-by-id.usecase';

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  AdminPageShell,
-  AdminPlaceholder,
-} from "@/components/admin/admin-page-shell";
+import { AdminPageShell, AdminPlaceholder } from "@/layout/PageShell";
 
 export default function ProdutosPage() {
   return (

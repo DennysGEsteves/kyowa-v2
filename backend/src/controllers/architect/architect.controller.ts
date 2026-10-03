@@ -10,10 +10,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { ArchitectEntity } from '../../entities/architect';
-import {
-  CreateArchitectData,
-  UpdateArchitectData,
-} from '../../repositories/architect/interfaces/i-architect-repository';
 import { CreateArchitectUseCase } from '../../usecases/architect/create-architect.usecase';
 import { DeleteArchitectUseCase } from '../../usecases/architect/delete-architect.usecase';
 import { GetArchitectByIdUseCase } from '../../usecases/architect/get-architect-by-id.usecase';
@@ -34,7 +30,7 @@ export class ArchitectController {
 
   @Post()
   create(@Body() dto: CreateArchitectDto): Promise<ArchitectEntity> {
-    return this.createArchitectUseCase.execute(this.toCreateData(dto));
+    return this.createArchitectUseCase.execute(dto);
   }
 
   @Get()
@@ -52,30 +48,12 @@ export class ArchitectController {
     @Param('id') id: string,
     @Body() dto: UpdateArchitectDto,
   ): Promise<ArchitectEntity> {
-    return this.updateArchitectUseCase.execute(id, this.toUpdateData(dto));
+    return this.updateArchitectUseCase.execute(id, dto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string): Promise<void> {
     await this.deleteArchitectUseCase.execute(id);
-  }
-
-  private toCreateData(dto: CreateArchitectDto): CreateArchitectData {
-    return {
-      ...dto,
-      nasc: dto.nasc ? new Date(dto.nasc) : undefined,
-    };
-  }
-
-  private toUpdateData(dto: UpdateArchitectDto): UpdateArchitectData {
-    const { nasc, ...rest } = dto;
-    const data: UpdateArchitectData = { ...rest };
-
-    if (nasc !== undefined) {
-      data.nasc = nasc ? new Date(nasc) : null;
-    }
-
-    return data;
   }
 }

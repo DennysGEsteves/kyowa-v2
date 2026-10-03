@@ -1,4 +1,4 @@
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/Form/ActionButton";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
 import { permissionLabels, type User } from "@entities";
 import { Pencil, Trash } from "lucide-react";

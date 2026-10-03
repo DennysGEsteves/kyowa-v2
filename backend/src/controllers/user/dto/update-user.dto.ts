@@ -13,37 +13,37 @@ export class UpdateUserDto {
   @IsOptional()
   @IsEmail()
   @MaxLength(50)
-  email?: string;
+  readonly email?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  name?: string;
+  readonly name?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  pass?: string;
+  readonly pass?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  phone?: string;
+  readonly phone?: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(50)
-  login?: string;
+  readonly login?: string;
 
   @IsOptional()
   @IsEnum(UserPermission)
-  permission?: UserPermission;
+  readonly permission?: UserPermission;
 
   @IsOptional()
   @IsMongoId()
-  storeId?: string;
+  readonly storeId?: string;
 
   @IsOptional()
   @IsBoolean()
-  active?: boolean;
+  readonly active?: boolean;
 }

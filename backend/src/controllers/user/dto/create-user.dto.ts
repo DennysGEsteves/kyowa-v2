@@ -11,37 +11,35 @@ import {
 import { UserPermission } from '../../../entities/user/types/user-permission';
 
 export class CreateUserDto {
+  @IsNotEmpty()
   @IsEmail()
   @MaxLength(50)
-  email: string;
+  readonly email: string;
 
-  @IsString()
   @IsNotEmpty()
-  @MaxLength(50)
-  name: string;
-
-  @IsOptional()
   @IsString()
   @MaxLength(50)
-  pass?: string;
+  readonly name: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @MaxLength(50)
-  phone?: string;
+  readonly phone: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @MaxLength(50)
-  login?: string;
+  readonly login: string;
 
+  @IsNotEmpty()
   @IsEnum(UserPermission)
-  permission: UserPermission;
+  readonly permission: UserPermission;
 
-  @IsMongoId()
-  storeId: string;
+  @IsNotEmpty()
+  @IsBoolean()
+  readonly active: boolean;
 
   @IsOptional()
-  @IsBoolean()
-  active?: boolean;
+  @IsMongoId()
+  readonly storeId?: string;
 }

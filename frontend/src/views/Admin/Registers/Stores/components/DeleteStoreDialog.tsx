@@ -2,7 +2,7 @@
 
 import { useApi } from "@/api/api.hook";
 import { useInvalidateStoresQuery } from "@/api/Stores/stores.query";
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/Form/ActionButton";
 import type { Store } from "@entities";
 import { useEffect } from "react";
 
@@ -59,7 +59,10 @@ export function DeleteStoreDialog({
         aria-labelledby="delete-store-title"
         className="relative z-10 w-full max-w-md rounded-t-sm bg-white p-5 shadow-xl sm:rounded-sm sm:p-6"
       >
-        <h2 id="delete-store-title" className="font-serif text-xl text-kyowa-ink">
+        <h2
+          id="delete-store-title"
+          className="font-serif text-xl text-kyowa-ink"
+        >
           Remover loja
         </h2>
         <p className="mt-3 text-sm text-kyowa-muted">

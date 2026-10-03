@@ -1,18 +1,7 @@
-export interface CreateProductLookupData {
-  name: string;
-}
-
-export interface UpdateProductLookupData {
-  name?: string;
-}
-
-export interface IProductLookupRepository<Entity> {
-  create(data: CreateProductLookupData): Promise<Entity>;
+export interface IProductLookupRepository<Entity extends { name: string }> {
+  create(data: Entity): Promise<Entity>;
   findAll(): Promise<Entity[]>;
   findById(id: string): Promise<Entity | null>;
-  update(
-    id: string,
-    data: UpdateProductLookupData,
-  ): Promise<Entity | null>;
+  update(id: string, data: Entity): Promise<Entity | null>;
   delete(id: string): Promise<boolean>;
 }

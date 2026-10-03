@@ -4,5 +4,5 @@ export class UpdateProductDesignDto {
   @IsOptional()
   @IsString()
   @MaxLength(100)
-  name?: string;
+  readonly name?: string;
 }
