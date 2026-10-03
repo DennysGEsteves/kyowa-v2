@@ -28,7 +28,18 @@ function readStoredExpanded(): Record<string, boolean> {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaults;
     const parsed = JSON.parse(raw) as Record<string, boolean>;
-    return { ...defaults, ...parsed };
+    const merged = { ...defaults, ...parsed };
+    const openTitles = adminNavSections
+      .map((section) => section.title)
+      .filter((title) => merged[title]);
+
+    if (openTitles.length <= 1) {
+      return merged;
+    }
+
+    const normalized = buildDefaultExpanded();
+    normalized[openTitles[0]] = true;
+    return normalized;
   } catch {
     return defaults;
   }
@@ -55,8 +66,15 @@ export function AdminNavSections({ onNavigate }: AdminNavSectionsProps) {
 
     setTimeout(() => {
       setExpanded((current) => {
-        if (current[activeSection]) return current;
-        const next = { ...current, [activeSection]: true };
+        const onlyActiveOpen = adminNavSections.every(
+          (section) =>
+            (current[section.title] ?? false) ===
+            (section.title === activeSection),
+        );
+        if (onlyActiveOpen) return current;
+
+        const next = buildDefaultExpanded();
+        next[activeSection] = true;
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
         return next;
       });
@@ -65,7 +83,11 @@ export function AdminNavSections({ onNavigate }: AdminNavSectionsProps) {
 
   const toggleSection = useCallback((title: string) => {
     setExpanded((current) => {
-      const next = { ...current, [title]: !current[title] };
+      const opening = !current[title];
+      const next = buildDefaultExpanded();
+      if (opening) {
+        next[title] = true;
+      }
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       return next;
     });

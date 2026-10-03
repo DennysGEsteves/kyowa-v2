@@ -1,0 +1,33 @@
+"use client";
+
+import { useUsersQuery } from "@/api/Users/users.query";
+import { useEntityFromList } from "@/hooks/useEntityFromList";
+import { adminRoutes } from "@/routes/adminRoutes";
+import {
+  AdminFormLoading,
+  AdminFormNotFound,
+} from "@/views/Admin/components/AdminFormPage";
+import { useParams } from "next/navigation";
+import { UpsertUserForm } from "./UpsertUser.form";
+
+export function UpsertUserView() {
+  const params = useParams();
+  const id = params.id as string | undefined;
+  const { entity: user, isLoading, notFound } = useEntityFromList(
+    id,
+    useUsersQuery,
+  );
+
+  if (id && isLoading) return <AdminFormLoading />;
+  if (notFound) {
+    return (
+      <AdminFormNotFound
+        backHref={adminRoutes.users.list}
+        backLabel="Voltar aos usuários"
+        message="Usuário não encontrado."
+      />
+    );
+  }
+
+  return <UpsertUserForm user={user} />;
+}

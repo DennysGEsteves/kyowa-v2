@@ -1,11 +1,10 @@
 import { useProductsQuery } from "@/api/Products/products.query";
+import { adminRoutes } from "@/routes/adminRoutes";
 import type { Product } from "@entities";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { getProductTableColumns } from "./Products.props";
 
 export function ProductsLogic() {
-  const [formOpen, setFormOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | undefined>();
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
 
   const {
@@ -15,38 +14,25 @@ export function ProductsLogic() {
     refetch,
   } = useProductsQuery();
 
-  const openCreate = useCallback(() => {
-    setEditingProduct(undefined);
-    setFormOpen(true);
-  }, []);
-
-  const openEdit = useCallback((product: Product) => {
-    setEditingProduct(product);
-    setFormOpen(true);
-  }, []);
-
   const columns = useMemo(
     () =>
-      getProductTableColumns(openEdit, (product) => setDeleteProduct(product)),
-    [openEdit],
+      getProductTableColumns(
+        (product) => adminRoutes.products.edit(product.id),
+        (product) => setDeleteProduct(product),
+      ),
+    [],
   );
 
   return {
     data: {
       products,
       columns,
-      formOpen,
-      editingProduct,
       deleteProduct,
       isLoading,
       isError,
     },
     methods: {
-      openCreate,
-      openEdit,
       refetchProducts: refetch,
-      setFormOpen,
-      setEditingProduct,
       setDeleteProduct,
     },
   };

@@ -6,11 +6,12 @@ import {
   type Product,
 } from "@entities";
 import { Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 export type ProductTableColumn = TableColumn<Product>;
 
 export const getProductTableColumns = (
-  onEdit: (product: Product) => void,
+  getEditHref: (product: Product) => string,
   onDelete: (product: Product) => void,
 ): ProductTableColumn[] => [
   {
@@ -54,14 +55,13 @@ export const getProductTableColumns = (
     mobile: { role: "actions" },
     render: (product) => (
       <div className="flex items-center justify-end gap-1">
-        <ActionButton
-          variant="ghost"
-          className="p-2"
-          onClick={() => onEdit(product)}
+        <Link
+          href={getEditHref(product)}
+          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
           aria-label={`Editar ${product.name}`}
         >
           <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
-        </ActionButton>
+        </Link>
         <ActionButton
           variant="ghost"
           className="p-2"

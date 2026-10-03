@@ -7,6 +7,7 @@ import {
   type InterestProduct,
 } from "@entities";
 import { Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 export type ClientTableColumn = TableColumn<Client>;
 
@@ -32,7 +33,7 @@ export function buildArchitectNameLookup(architects: Architect[]) {
 }
 
 export const getClientTableColumns = (
-  onEdit: (client: Client) => void,
+  getEditHref: (client: Client) => string,
   onDelete: (client: Client) => void,
   getArchitectName: (architectId: string | null) => string,
 ): ClientTableColumn[] => [
@@ -91,14 +92,13 @@ export const getClientTableColumns = (
     mobile: { role: "actions" },
     render: (client) => (
       <div className="flex items-center justify-end gap-1">
-        <ActionButton
-          variant="ghost"
-          className="p-2"
-          onClick={() => onEdit(client)}
+        <Link
+          href={getEditHref(client)}
+          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
           aria-label={`Editar ${client.name}`}
         >
           <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
-        </ActionButton>
+        </Link>
         <ActionButton
           variant="ghost"
           className="p-2"

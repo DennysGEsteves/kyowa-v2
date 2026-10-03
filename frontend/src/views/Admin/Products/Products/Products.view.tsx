@@ -1,10 +1,10 @@
 "use client";
 
 import { DataTable } from "@/components/Table";
-import Link from "next/link";
+import { adminRoutes } from "@/routes/adminRoutes";
 import { ListTree, Plus } from "lucide-react";
+import Link from "next/link";
 import { DeleteProductDialog } from "./components/DeleteProductDialog";
-import { UpsertProductModal } from "./components/UpsertProductModal";
 import { ProductsLogic } from "./Products.logic";
 
 export function AdminProductsView() {
@@ -21,20 +21,19 @@ export function AdminProductsView() {
         </p>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Link
-            href="/admin/produtos/descritores"
+            href={adminRoutes.products.descriptors.list}
             className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
           >
             <ListTree className="h-4 w-4" strokeWidth={2} />
             Descritores
           </Link>
-          <button
-            type="button"
-            onClick={methods.openCreate}
+          <Link
+            href={adminRoutes.products.new}
             className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
           >
             <Plus className="h-4 w-4" strokeWidth={2} />
             Novo produto
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -47,15 +46,6 @@ export function AdminProductsView() {
             adicionar.
           </>
         }
-      />
-
-      <UpsertProductModal
-        open={data.formOpen}
-        product={data.editingProduct}
-        onClose={(reload) => {
-          methods.setFormOpen(false);
-          if (reload) methods.refetchProducts();
-        }}
       />
 
       <DeleteProductDialog

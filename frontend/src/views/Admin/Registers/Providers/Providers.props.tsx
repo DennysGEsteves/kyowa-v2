@@ -6,6 +6,7 @@ import {
   type ProviderType,
 } from "@entities";
 import { Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 export type ProviderTableColumn = TableColumn<Provider>;
 
@@ -17,7 +18,7 @@ function formatLocation(provider: Provider) {
 }
 
 export const getProviderTableColumns = (
-  onEdit: (provider: Provider) => void,
+  getEditHref: (provider: Provider) => string,
   onDelete: (provider: Provider) => void,
 ): ProviderTableColumn[] => [
   {
@@ -71,14 +72,13 @@ export const getProviderTableColumns = (
     mobile: { role: "actions" },
     render: (provider) => (
       <div className="flex items-center justify-end gap-1">
-        <ActionButton
-          variant="ghost"
-          className="p-2"
-          onClick={() => onEdit(provider)}
+        <Link
+          href={getEditHref(provider)}
+          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
           aria-label={`Editar ${provider.name}`}
         >
           <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
-        </ActionButton>
+        </Link>
         <ActionButton
           variant="ghost"
           className="p-2"

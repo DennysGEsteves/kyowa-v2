@@ -1,9 +1,10 @@
 "use client";
 
 import { DataTable } from "@/components/Table";
+import { adminRoutes } from "@/routes/adminRoutes";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { DeleteStoreDialog } from "./components/DeleteStoreDialog";
-import { UpsertStoreModal } from "./components/UpsertStoreModal";
 import { StoresLogic } from "./Stores.logic";
 
 export function RegistersStoresView() {
@@ -16,14 +17,13 @@ export function RegistersStoresView() {
           {data.stores.length}{" "}
           {data.stores.length === 1 ? "loja cadastrada" : "lojas cadastradas"}
         </p>
-        <button
-          type="button"
-          onClick={methods.openCreate}
+        <Link
+          href={adminRoutes.stores.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />
           Nova loja
-        </button>
+        </Link>
       </div>
 
       <DataTable
@@ -34,15 +34,6 @@ export function RegistersStoresView() {
             Nenhuma loja cadastrada. Use &quot;Nova loja&quot; para adicionar.
           </>
         }
-      />
-
-      <UpsertStoreModal
-        open={data.formOpen}
-        store={data.editingStore}
-        onClose={(reload) => {
-          methods.setFormOpen(false);
-          if (reload) methods.refetchStores();
-        }}
       />
 
       <DeleteStoreDialog

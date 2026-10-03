@@ -1,12 +1,11 @@
 import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useClientsQuery } from "@/api/Clients/clients.query";
+import { adminRoutes } from "@/routes/adminRoutes";
 import type { Client } from "@entities";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { buildArchitectNameLookup, getClientTableColumns } from "./Clients.props";
 
 export function ClientsLogic() {
-  const [formOpen, setFormOpen] = useState(false);
-  const [editingClient, setEditingClient] = useState<Client | undefined>();
   const [deleteClient, setDeleteClient] = useState<Client | null>(null);
 
   const {
@@ -22,42 +21,26 @@ export function ClientsLogic() {
     [architects],
   );
 
-  const openCreate = useCallback(() => {
-    setEditingClient(undefined);
-    setFormOpen(true);
-  }, []);
-
-  const openEdit = useCallback((client: Client) => {
-    setEditingClient(client);
-    setFormOpen(true);
-  }, []);
-
   const columns = useMemo(
     () =>
       getClientTableColumns(
-        openEdit,
+        (client) => adminRoutes.clients.edit(client.id),
         (client) => setDeleteClient(client),
         getArchitectName,
       ),
-    [openEdit, getArchitectName],
+    [getArchitectName],
   );
 
   return {
     data: {
       clients,
       columns,
-      formOpen,
-      editingClient,
       deleteClient,
       isLoading,
       isError,
     },
     methods: {
-      openCreate,
-      openEdit,
       refetchClients: refetch,
-      setFormOpen,
-      setEditingClient,
       setDeleteClient,
     },
   };

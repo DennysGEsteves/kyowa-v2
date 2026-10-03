@@ -2,6 +2,7 @@ import { ActionButton } from "@/components/Form/ActionButton";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
 import { permissionLabels, type User } from "@entities";
 import { Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 export type UserTableColumn = TableColumn<User>;
 
@@ -12,7 +13,7 @@ export function buildStoreNameLookup(stores: { id: string; name: string }[]) {
 }
 
 export const getUserTableColumns = (
-  onEdit: (user: User) => void,
+  getEditHref: (user: User) => string,
   onDelete: (user: User) => void,
   getStoreName: (storeId: string) => string,
 ): UserTableColumn[] => [
@@ -69,14 +70,13 @@ export const getUserTableColumns = (
     mobile: { role: "actions" },
     render: (user) => (
       <div className="flex items-center justify-end gap-1">
-        <ActionButton
-          variant="ghost"
-          className="p-2"
-          onClick={() => onEdit(user)}
+        <Link
+          href={getEditHref(user)}
+          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
           aria-label={`Editar ${user.name}`}
         >
           <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
-        </ActionButton>
+        </Link>
         <ActionButton
           variant="ghost"
           className="p-2"

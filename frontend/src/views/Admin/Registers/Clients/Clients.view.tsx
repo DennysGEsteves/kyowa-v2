@@ -1,10 +1,11 @@
 "use client";
 
 import { DataTable } from "@/components/Table";
+import { adminRoutes } from "@/routes/adminRoutes";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { ClientsLogic } from "./Clients.logic";
 import { DeleteClientDialog } from "./components/DeleteClientDialog";
-import { UpsertClientModal } from "./components/UpsertClientModal";
 
 export function RegistersClientsView() {
   const { data, methods } = ClientsLogic();
@@ -18,14 +19,13 @@ export function RegistersClientsView() {
             ? "cliente cadastrado"
             : "clientes cadastrados"}
         </p>
-        <button
-          type="button"
-          onClick={methods.openCreate}
+        <Link
+          href={adminRoutes.clients.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />
           Novo cliente
-        </button>
+        </Link>
       </div>
 
       <DataTable
@@ -37,15 +37,6 @@ export function RegistersClientsView() {
             adicionar.
           </>
         }
-      />
-
-      <UpsertClientModal
-        open={data.formOpen}
-        client={data.editingClient}
-        onClose={(reload) => {
-          methods.setFormOpen(false);
-          if (reload) methods.refetchClients();
-        }}
       />
 
       <DeleteClientDialog

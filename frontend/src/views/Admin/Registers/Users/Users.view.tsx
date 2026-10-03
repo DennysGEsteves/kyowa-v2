@@ -1,10 +1,11 @@
 "use client";
 
-import { DeleteUserDialog } from "./components/DeleteUserDialog";
-import { UpsertUserModal } from "./components/UpsertUserModal";
-import { Plus } from "lucide-react";
-import { UsersLogic } from "./Users.logic";
 import { DataTable } from "@/components/Table";
+import { adminRoutes } from "@/routes/adminRoutes";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import { DeleteUserDialog } from "./components/DeleteUserDialog";
+import { UsersLogic } from "./Users.logic";
 
 export function RegistersUsersView() {
   const { data, methods } = UsersLogic();
@@ -18,14 +19,13 @@ export function RegistersUsersView() {
             ? "usuário cadastrado"
             : "usuários cadastrados"}
         </p>
-        <button
-          type="button"
-          onClick={methods.openCreate}
+        <Link
+          href={adminRoutes.users.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />
           Novo usuário
-        </button>
+        </Link>
       </div>
 
       <DataTable
@@ -37,15 +37,6 @@ export function RegistersUsersView() {
             adicionar.
           </>
         }
-      />
-
-      <UpsertUserModal
-        open={data.formOpen}
-        user={data.editingUser}
-        onClose={(reload) => {
-          methods.setFormOpen(false);
-          if (reload) methods.refetchUsers();
-        }}
       />
 
       <DeleteUserDialog

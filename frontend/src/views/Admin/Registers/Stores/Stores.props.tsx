@@ -2,6 +2,7 @@ import { ActionButton } from "@/components/Form/ActionButton";
 import type { TableColumn } from "@/components/Table";
 import type { Store, User } from "@entities";
 import { Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 export type StoreTableColumn = TableColumn<Store>;
 
@@ -13,7 +14,7 @@ function formatLocation(store: Store) {
 }
 
 export const getStoreTableColumns = (
-  onEdit: (store: Store) => void,
+  getEditHref: (store: Store) => string,
   onDelete: (store: Store) => void,
   getManagerName: (managerId: string | null) => string,
 ): StoreTableColumn[] => [
@@ -58,14 +59,13 @@ export const getStoreTableColumns = (
     mobile: { role: "actions" },
     render: (store) => (
       <div className="flex items-center justify-end gap-1">
-        <ActionButton
-          variant="ghost"
-          className="p-2"
-          onClick={() => onEdit(store)}
+        <Link
+          href={getEditHref(store)}
+          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
           aria-label={`Editar ${store.name}`}
         >
           <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
-        </ActionButton>
+        </Link>
         <ActionButton
           variant="ghost"
           className="p-2"

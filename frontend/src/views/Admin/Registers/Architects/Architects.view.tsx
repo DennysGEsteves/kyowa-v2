@@ -1,10 +1,11 @@
 "use client";
 
 import { DataTable } from "@/components/Table";
+import { adminRoutes } from "@/routes/adminRoutes";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { ArchitectsLogic } from "./Architects.logic";
 import { DeleteArchitectDialog } from "./components/DeleteArchitectDialog";
-import { UpsertArchitectModal } from "./components/UpsertArchitectModal";
 
 export function RegistersArchitectsView() {
   const { data, methods } = ArchitectsLogic();
@@ -18,14 +19,13 @@ export function RegistersArchitectsView() {
             ? "arquiteto cadastrado"
             : "arquitetos cadastrados"}
         </p>
-        <button
-          type="button"
-          onClick={methods.openCreate}
+        <Link
+          href={adminRoutes.architects.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />
           Novo arquiteto
-        </button>
+        </Link>
       </div>
 
       <DataTable
@@ -37,15 +37,6 @@ export function RegistersArchitectsView() {
             adicionar.
           </>
         }
-      />
-
-      <UpsertArchitectModal
-        open={data.formOpen}
-        architect={data.editingArchitect}
-        onClose={(reload) => {
-          methods.setFormOpen(false);
-          if (reload) methods.refetchArchitects();
-        }}
       />
 
       <DeleteArchitectDialog

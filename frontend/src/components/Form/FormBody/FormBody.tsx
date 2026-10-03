@@ -8,7 +8,7 @@ type FormBodyProps = {
 export function FormBody({ children, className = "" }: FormBodyProps) {
   return (
     <div
-      className={`flex-1 space-y-4 overflow-y-auto px-5 py-5 sm:px-6 ${className}`}
+      className={`flex-1 overflow-y-auto px-5 py-5 sm:px-6 ${className ?? "space-y-4"}`}
     >
       {children}
     </div>
