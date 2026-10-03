@@ -41,13 +41,11 @@ export function useUpsertClientLogic({
   }, [router, listHref]);
 
   const architectOptions = useMemo(
-    () => [
-      { value: "", label: "Nenhum" },
-      ...architects.map((architect) => ({
+    () =>
+      architects.map((architect) => ({
         value: architect.id,
         label: architect.name,
       })),
-    ],
     [architects],
   );
 

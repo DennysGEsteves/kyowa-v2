@@ -25,7 +25,11 @@ export function FormEnumCheckboxGroup<T extends string>({
 
   return (
     <fieldset>
-      <legend className="mb-2 text-sm font-medium text-kyowa-ink">{label}</legend>
+      {label ? (
+        <legend className="mb-2 text-sm font-medium text-kyowa-ink">
+          {label}
+        </legend>
+      ) : null}
       <div className="grid gap-2 sm:grid-cols-2">
         {options.map((option) => (
           <label

@@ -4,15 +4,14 @@ import {
   FormActions,
   FormBody,
   FormAddressFields,
-  FormColumn,
   FormContactFields,
   FormInput,
+  FormSection,
+  FormSectionsColumn,
+  FormSectionsGrid,
   FormSelect,
   FormTextarea,
-  FormTwoColumns,
   formFieldGrid2,
-  formSectionStack,
-  formSectionTitle,
 } from "@/components/Form";
 import { AdminFormLayout } from "@/layout/AdminFormLayout";
 import type { Store } from "@entities";
@@ -50,10 +49,9 @@ export function UpsertStoreForm({ store, listHref }: UpsertStoreFormProps) {
           noValidate
         >
           <FormBody>
-            <FormTwoColumns>
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Dados gerais</p>
+            <FormSectionsGrid>
+              <FormSectionsColumn>
+                <FormSection title="Dados gerais">
                   <div className={formFieldGrid2}>
                     <FormInput name="name" label="Nome da loja" id="store-name" />
                     <FormSelect
@@ -63,23 +61,23 @@ export function UpsertStoreForm({ store, listHref }: UpsertStoreFormProps) {
                       options={managerOptions}
                     />
                   </div>
-                </section>
+                </FormSection>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Contato</p>
-                  <FormContactFields idPrefix="store" />
-                </section>
-              </FormColumn>
-
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Endereço</p>
+                <FormSection title="Endereço">
                   <FormAddressFields idPrefix="store" />
-                </section>
+                </FormSection>
+              </FormSectionsColumn>
 
-                <FormTextarea name="obs" label="Observações" id="store-obs" />
-              </FormColumn>
-            </FormTwoColumns>
+              <FormSectionsColumn>
+                <FormSection title="Contato">
+                  <FormContactFields idPrefix="store" />
+                </FormSection>
+
+                <FormSection title="Observações">
+                  <FormTextarea name="obs" label="Observações" id="store-obs" />
+                </FormSection>
+              </FormSectionsColumn>
+            </FormSectionsGrid>
           </FormBody>
 
           <FormActions

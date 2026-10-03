@@ -24,10 +24,7 @@ type UseUpsertProductLogicParams = {
 };
 
 function lookupSelectOptions(items: ProductLookup[]) {
-  return [
-    { value: "", label: "Selecione" },
-    ...items.map((item) => ({ value: item.id, label: item.name })),
-  ];
+  return items.map((item) => ({ value: item.id, label: item.name }));
 }
 
 export function useUpsertProductLogic({
@@ -83,13 +80,11 @@ export function useUpsertProductLogic({
   }, [sealsEnabled, setFieldValue]);
 
   const providerOptions = useMemo(
-    () => [
-      { value: "", label: "Selecione" },
-      ...providers.map((provider) => ({
+    () =>
+      providers.map((provider) => ({
         value: provider.id,
         label: provider.name,
       })),
-    ],
     [providers],
   );
 

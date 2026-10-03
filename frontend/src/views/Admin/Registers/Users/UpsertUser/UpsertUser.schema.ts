@@ -6,7 +6,7 @@ export type UserFormSchema = {
   email: string;
   phone: string;
   login: string;
-  permission: UserPermission;
+  permission: UserPermission | "";
   storeId: string;
   active: boolean;
 };
@@ -16,7 +16,7 @@ export const emptyUserFormValues: UserFormSchema = {
   email: "",
   phone: "",
   login: "",
-  permission: "sales",
+  permission: "",
   storeId: "",
   active: true,
 };
@@ -29,9 +29,9 @@ export const userValidationSchema = Yup.object<UserFormSchema>({
     .required("E-mail é obrigatório"),
   phone: Yup.string().max(50).required("Telefone é obrigatório"),
   login: Yup.string().max(50).required("Login é obrigatório"),
-  permission: Yup.mixed<UserPermission>()
-    .oneOf([...userPermissions], "Permissão inválida")
-    .required("Permissão é obrigatória"),
+  permission: Yup.mixed<UserPermission | "">()
+    .oneOf([...userPermissions, ""], "Permissão inválida")
+    .test("required", "Permissão é obrigatória", (value) => value !== ""),
   storeId: Yup.string(),
   active: Yup.boolean().required("Status é obrigatório"),
 });

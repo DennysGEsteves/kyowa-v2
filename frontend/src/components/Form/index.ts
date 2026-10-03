@@ -3,6 +3,7 @@ export { FormBody } from "./FormBody";
 export { FormCheckbox } from "./FormCheckbox";
 export { FormField } from "./FormField";
 export { FormFieldError } from "./FormFieldError";
+export { FormImagePicker } from "./FormImagePicker";
 export { FormInput } from "./FormInput";
 export { FormPhoneInput } from "./FormPhoneInput";
 export { FormAddressFields } from "./FormAddressFields";
@@ -12,7 +13,15 @@ export { FormCpfInput } from "./FormCpfInput";
 export { FormRgInput } from "./FormRgInput";
 export { FormCurrencyInput } from "./FormCurrencyInput";
 export { FormTextarea } from "./FormTextarea";
-export { FormSelect, type FormSelectOption } from "./FormSelect";
+export { FormSection } from "./FormSection";
+export { FormSectionsColumn } from "./FormSectionsColumn";
+export { FormSectionsGrid } from "./FormSectionsGrid";
+export {
+  FORM_SELECT_EMPTY_VALUE,
+  FormSelect,
+  formSelectEmptyOption,
+  type FormSelectOption,
+} from "./FormSelect";
 export {
   formAddressGrid,
   formAddressGridInColumn,
@@ -20,7 +29,10 @@ export {
   formFieldGrid2,
   formFieldGrid3,
   formFieldGrid4,
+  formSectionBlock,
   formSectionStack,
+  formSectionsColumn,
+  formSectionsGrid,
   formSectionsTwoColumns,
   formSectionTitle,
   formTwoColumns,

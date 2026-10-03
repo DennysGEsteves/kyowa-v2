@@ -35,16 +35,14 @@ export function useUpsertStoreLogic({
   }, [router, listHref]);
 
   const managerOptions = useMemo(
-    () => [
-      { value: "", label: "Nenhum" },
-      ...users
+    () =>
+      users
         .filter((user) => user.active)
         .filter((user) => user.permission === "manager")
         .map((user) => ({
           value: user.id,
           label: `${user.name} (${permissionLabels[user.permission]})`,
         })),
-    ],
     [users],
   );
 

@@ -45,16 +45,14 @@ export function useUpsertUserLogic({
     [],
   );
 
-  const storeOptions = useMemo(() => {
-    if (stores.length === 0) {
-      return [{ value: "", label: "Nenhuma loja cadastrada" }];
-    }
-
-    return stores.map((store) => ({
-      value: store.id,
-      label: store.name,
-    }));
-  }, [stores]);
+  const storeOptions = useMemo(
+    () =>
+      stores.map((store) => ({
+        value: store.id,
+        label: store.name,
+      })),
+    [stores],
+  );
 
   const onSubmit = useCallback(
     (values: UserFormSchema) => {
@@ -79,7 +77,7 @@ export function useUpsertUserLogic({
     enableReinitialize: true,
     initialValues: user
       ? userToFormValues(user, defaultStoreId)
-      : { ...emptyUserFormValues, storeId: defaultStoreId },
+      : emptyUserFormValues,
     validationSchema: userValidationSchema,
     onSubmit,
   });

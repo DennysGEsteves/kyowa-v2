@@ -5,17 +5,16 @@ import {
   FormBody,
   FormCheckbox,
   FormAddressFields,
-  FormColumn,
   FormContactFields,
   FormCpfInput,
   FormInput,
   FormRgInput,
+  FormSection,
+  FormSectionsColumn,
+  FormSectionsGrid,
   FormSelect,
   FormTextarea,
-  FormTwoColumns,
   formFieldGrid2,
-  formSectionStack,
-  formSectionTitle,
 } from "@/components/Form";
 import { AdminFormLayout } from "@/layout/AdminFormLayout";
 import type { Client, ClientOrigin, InterestProduct } from "@entities";
@@ -56,10 +55,9 @@ export function UpsertClientForm({ client, listHref }: UpsertClientFormProps) {
           noValidate
         >
           <FormBody>
-            <FormTwoColumns>
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Dados gerais</p>
+            <FormSectionsGrid>
+              <FormSectionsColumn>
+                <FormSection title="Dados gerais">
                   <div className={formFieldGrid2}>
                     <FormInput name="name" label="Nome" id="client-name" />
                     <FormCpfInput name="cpf" label="CPF" id="client-cpf" />
@@ -88,37 +86,47 @@ export function UpsertClientForm({ client, listHref }: UpsertClientFormProps) {
                     id="client-architect"
                     options={architectOptions}
                   />
-                </section>
+                </FormSection>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Contato</p>
-                  <FormContactFields idPrefix="client" />
-                </section>
-
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Endereço</p>
+                <FormSection title="Endereço">
                   <FormAddressFields idPrefix="client" />
-                </section>
-              </FormColumn>
+                </FormSection>
 
-              <FormColumn>
-                <FormEnumCheckboxGroup<InterestProduct>
-                  name="interestProducts"
-                  label="Produtos de interesse"
-                  options={interestOptions}
-                />
+                <FormSection title="Status">
+                  <FormCheckbox
+                    name="active"
+                    label="Cliente ativo"
+                    id="client-active"
+                  />
+                </FormSection>
+              </FormSectionsColumn>
 
-                <FormEnumCheckboxGroup<ClientOrigin>
-                  name="origins"
-                  label="Como nos conheceu"
-                  options={originOptions}
-                />
+              <FormSectionsColumn>
+                <FormSection title="Contato">
+                  <FormContactFields idPrefix="client" />
+                </FormSection>
 
-                <FormTextarea name="obs" label="Observações" id="client-obs" />
+                <FormSection title="Produtos de interesse">
+                  <FormEnumCheckboxGroup<InterestProduct>
+                    name="interestProducts"
+                    label=""
+                    options={interestOptions}
+                  />
+                </FormSection>
 
-                <FormCheckbox name="active" label="Cliente ativo" id="client-active" />
-              </FormColumn>
-            </FormTwoColumns>
+                <FormSection title="Como nos conheceu">
+                  <FormEnumCheckboxGroup<ClientOrigin>
+                    name="origins"
+                    label=""
+                    options={originOptions}
+                  />
+                </FormSection>
+
+                <FormSection title="Observações">
+                  <FormTextarea name="obs" label="Observações" id="client-obs" />
+                </FormSection>
+              </FormSectionsColumn>
+            </FormSectionsGrid>
           </FormBody>
 
           <FormActions

@@ -1,6 +1,15 @@
 import * as Yup from "yup";
 
+const IMAGE_MAX_SIZE_BYTES = 5 * 1024 * 1024;
+const IMAGE_MIME_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+];
+
 export type ProductFormSchema = {
+  imageFile: File | null;
   name: string;
   fantasyName: string;
   providerId: string;
@@ -25,6 +34,7 @@ export type ProductFormSchema = {
 };
 
 export const emptyProductFormValues: ProductFormSchema = {
+  imageFile: null,
   name: "",
   fantasyName: "",
   providerId: "",
@@ -49,6 +59,16 @@ export const emptyProductFormValues: ProductFormSchema = {
 };
 
 export const productValidationSchema = Yup.object<ProductFormSchema>({
+  imageFile: Yup.mixed()
+    .nullable()
+    .test("fileType", "Formato de imagem inválido", (file) => {
+      if (!file || !(file instanceof File)) return true;
+      return IMAGE_MIME_TYPES.includes(file.type);
+    })
+    .test("fileSize", "Imagem muito grande (máx. 5 MB)", (file) => {
+      if (!file || !(file instanceof File)) return true;
+      return file.size <= IMAGE_MAX_SIZE_BYTES;
+    }),
   name: Yup.string().max(100).required("Nome é obrigatório"),
   fantasyName: Yup.string().max(100).required("Nome fantasia é obrigatório"),
   providerId: Yup.string(),

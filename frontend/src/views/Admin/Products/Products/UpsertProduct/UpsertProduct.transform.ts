@@ -21,6 +21,7 @@ function optionalRelationId(
 
 export function productToFormValues(product: Product): ProductFormSchema {
   return {
+    imageFile: null,
     name: product.name,
     fantasyName: product.fantasyName,
     providerId: product.providerId ?? "",

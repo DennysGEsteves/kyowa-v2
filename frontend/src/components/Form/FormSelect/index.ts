@@ -1,1 +1,6 @@
-export { FormSelect, type FormSelectOption } from "./FormSelect";
+export {
+  FORM_SELECT_EMPTY_VALUE,
+  FormSelect,
+  formSelectEmptyOption,
+  type FormSelectOption,
+} from "./FormSelect";

@@ -5,16 +5,15 @@ import {
   FormBody,
   FormCheckbox,
   FormAddressFields,
-  FormColumn,
   FormContactFields,
   FormCpfInput,
   FormInput,
+  FormSection,
+  FormSectionsColumn,
+  FormSectionsGrid,
   FormSelect,
   FormTextarea,
-  FormTwoColumns,
   formFieldGrid2,
-  formSectionStack,
-  formSectionTitle,
 } from "@/components/Form";
 import { AdminFormLayout } from "@/layout/AdminFormLayout";
 import type { Architect } from "@entities";
@@ -55,10 +54,9 @@ export function UpsertArchitectForm({
           noValidate
         >
           <FormBody>
-            <FormTwoColumns>
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Dados gerais</p>
+            <FormSectionsGrid>
+              <FormSectionsColumn>
+                <FormSection title="Dados gerais">
                   <div className={formFieldGrid2}>
                     <FormInput name="name" label="Nome" id="architect-name" />
                     <FormCpfInput name="cpf" label="CPF" id="architect-cpf" />
@@ -75,29 +73,35 @@ export function UpsertArchitectForm({
                     id="architect-seller"
                     options={sellerOptions}
                   />
-                </section>
+                </FormSection>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Contato</p>
-                  <FormContactFields idPrefix="architect" />
-                </section>
-              </FormColumn>
-
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Endereço</p>
+                <FormSection title="Endereço">
                   <FormAddressFields idPrefix="architect" />
-                </section>
+                </FormSection>
 
-                <FormTextarea name="obs" label="Observações" id="architect-obs" />
+                <FormSection title="Status">
+                  <FormCheckbox
+                    name="active"
+                    label="Arquiteto ativo"
+                    id="architect-active"
+                  />
+                </FormSection>
+              </FormSectionsColumn>
 
-                <FormCheckbox
-                  name="active"
-                  label="Arquiteto ativo"
-                  id="architect-active"
-                />
-              </FormColumn>
-            </FormTwoColumns>
+              <FormSectionsColumn>
+                <FormSection title="Contato">
+                  <FormContactFields idPrefix="architect" />
+                </FormSection>
+
+                <FormSection title="Observações">
+                  <FormTextarea
+                    name="obs"
+                    label="Observações"
+                    id="architect-obs"
+                  />
+                </FormSection>
+              </FormSectionsColumn>
+            </FormSectionsGrid>
           </FormBody>
 
           <FormActions

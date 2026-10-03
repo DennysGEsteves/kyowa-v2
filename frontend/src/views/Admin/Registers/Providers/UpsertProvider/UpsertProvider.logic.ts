@@ -33,13 +33,11 @@ export function useUpsertProviderLogic({
   }, [router, listHref]);
 
   const typeOptions = useMemo(
-    () => [
-      { value: "", label: "Selecione" },
-      ...providerTypes.map((type) => ({
+    () =>
+      providerTypes.map((type) => ({
         value: type,
         label: providerTypeLabels[type],
       })),
-    ],
     [],
   );
 

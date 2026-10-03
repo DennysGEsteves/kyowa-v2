@@ -4,14 +4,14 @@ import {
   FormActions,
   FormBody,
   FormCheckbox,
-  FormColumn,
   FormCurrencyInput,
+  FormImagePicker,
   FormInput,
+  FormSection,
+  FormSectionsColumn,
+  FormSectionsGrid,
   FormSelect,
-  FormTwoColumns,
   formFieldGrid2,
-  formSectionStack,
-  formSectionTitle,
 } from "@/components/Form";
 import { AdminFormLayout } from "@/layout/AdminFormLayout";
 import type { Product } from "@entities";
@@ -23,7 +23,10 @@ type UpsertProductFormProps = {
   listHref?: string;
 };
 
-export function UpsertProductForm({ product, listHref }: UpsertProductFormProps) {
+export function UpsertProductForm({
+  product,
+  listHref,
+}: UpsertProductFormProps) {
   const {
     formik,
     sealsEnabled,
@@ -58,10 +61,17 @@ export function UpsertProductForm({ product, listHref }: UpsertProductFormProps)
           noValidate
         >
           <FormBody>
-            <FormTwoColumns>
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Identificação</p>
+            <FormSectionsGrid>
+              <FormSectionsColumn>
+                <FormSection title="Imagem">
+                  <FormImagePicker
+                    name="imageFile"
+                    label="Foto do produto"
+                    id="product-image"
+                  />
+                </FormSection>
+
+                <FormSection title="Identificação">
                   <div className={formFieldGrid2}>
                     <FormInput name="name" label="Nome" id="product-name" />
                     <FormInput
@@ -79,75 +89,9 @@ export function UpsertProductForm({ product, listHref }: UpsertProductFormProps)
                       />
                     ) : null}
                   </div>
-                </section>
+                </FormSection>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Classificação</p>
-                  <div className={formFieldGrid2}>
-                    <FormSelect
-                      name="categoryId"
-                      label="Categoria"
-                      id="product-category"
-                      options={categoryOptions}
-                    />
-                    <FormSelect
-                      name="unitId"
-                      label="Unidade"
-                      id="product-unit"
-                      options={unitOptions}
-                    />
-                    <FormSelect
-                      name="colorId"
-                      label="Cor"
-                      id="product-color"
-                      options={colorOptions}
-                    />
-                    <FormSelect
-                      name="sizeId"
-                      label="Tamanho"
-                      id="product-size"
-                      options={sizeOptions}
-                    />
-                    <FormSelect
-                      name="designId"
-                      label="Desenho"
-                      id="product-design"
-                      options={designOptions}
-                    />
-                    <FormSelect
-                      name="shapeId"
-                      label="Formato"
-                      id="product-shape"
-                      options={shapeOptions}
-                    />
-                    <FormSelect
-                      name="originId"
-                      label="Origem"
-                      id="product-origin"
-                      options={originOptions}
-                    />
-                    <FormSelect
-                      name="modelId"
-                      label="Modelo"
-                      id="product-model"
-                      options={modelOptions}
-                    />
-                  </div>
-                </section>
-              </FormColumn>
-
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Fiscal</p>
-                  <div className={formFieldGrid2}>
-                    <FormInput name="ncm" label="NCM" id="product-ncm" />
-                    <FormInput name="cst" label="CST" id="product-cst" />
-                    <FormInput name="ean" label="EAN" id="product-ean" />
-                  </div>
-                </section>
-
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Preços</p>
+                <FormSection title="Preços">
                   <div className={formFieldGrid2}>
                     <FormCurrencyInput
                       name="buyPrice"
@@ -160,10 +104,17 @@ export function UpsertProductForm({ product, listHref }: UpsertProductFormProps)
                       id="product-sell-price"
                     />
                   </div>
-                </section>
+                </FormSection>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Estoque e lacres</p>
+                <FormSection title="Fiscal">
+                  <div className={formFieldGrid2}>
+                    <FormInput name="ncm" label="NCM" id="product-ncm" />
+                    <FormInput name="cst" label="CST" id="product-cst" />
+                    <FormInput name="ean" label="EAN" id="product-ean" />
+                  </div>
+                </FormSection>
+
+                <FormSection title="Estoque e lacres">
                   <FormCheckbox
                     name="hasSeals"
                     label="Possui lacres"
@@ -183,10 +134,62 @@ export function UpsertProductForm({ product, listHref }: UpsertProductFormProps)
                       />
                     </div>
                   ) : null}
-                </section>
+                </FormSection>
+              </FormSectionsColumn>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>E-commerce</p>
+              <FormSectionsColumn>
+                <FormSection title="Classificação">
+                  <FormSelect
+                    name="categoryId"
+                    label="Categoria"
+                    id="product-category"
+                    options={categoryOptions}
+                  />
+                  <FormSelect
+                    name="unitId"
+                    label="Unidade"
+                    id="product-unit"
+                    options={unitOptions}
+                  />
+                  <FormSelect
+                    name="colorId"
+                    label="Cor"
+                    id="product-color"
+                    options={colorOptions}
+                  />
+                  <FormSelect
+                    name="sizeId"
+                    label="Tamanho"
+                    id="product-size"
+                    options={sizeOptions}
+                  />
+                  <FormSelect
+                    name="designId"
+                    label="Desenho"
+                    id="product-design"
+                    options={designOptions}
+                  />
+                  <FormSelect
+                    name="shapeId"
+                    label="Formato"
+                    id="product-shape"
+                    options={shapeOptions}
+                  />
+                  <FormSelect
+                    name="originId"
+                    label="Origem"
+                    id="product-origin"
+                    options={originOptions}
+                  />
+                  <FormSelect
+                    name="modelId"
+                    label="Modelo"
+                    id="product-model"
+                    options={modelOptions}
+                  />
+                </FormSection>
+
+                <FormSection title="E-commerce">
                   <FormCheckbox
                     name="isEcommerce"
                     label="Disponível no e-commerce"
@@ -195,9 +198,9 @@ export function UpsertProductForm({ product, listHref }: UpsertProductFormProps)
                       product?.ezId !== null && product?.ezId !== undefined
                     }
                   />
-                </section>
-              </FormColumn>
-            </FormTwoColumns>
+                </FormSection>
+              </FormSectionsColumn>
+            </FormSectionsGrid>
           </FormBody>
 
           <FormActions

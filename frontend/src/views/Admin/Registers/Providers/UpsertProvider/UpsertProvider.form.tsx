@@ -5,15 +5,14 @@ import {
   FormBody,
   FormCheckbox,
   FormAddressFields,
-  FormColumn,
   FormContactFields,
   FormInput,
+  FormSection,
+  FormSectionsColumn,
+  FormSectionsGrid,
   FormSelect,
   FormTextarea,
-  FormTwoColumns,
   formFieldGrid2,
-  formSectionStack,
-  formSectionTitle,
 } from "@/components/Form";
 import { AdminFormLayout } from "@/layout/AdminFormLayout";
 import type { Provider } from "@entities";
@@ -54,10 +53,9 @@ export function UpsertProviderForm({
           noValidate
         >
           <FormBody>
-            <FormTwoColumns>
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Dados gerais</p>
+            <FormSectionsGrid>
+              <FormSectionsColumn>
+                <FormSection title="Dados gerais">
                   <FormInput
                     name="name"
                     label="Nome / Razão social"
@@ -76,32 +74,46 @@ export function UpsertProviderForm({
                       id="provider-type"
                       options={typeOptions}
                     />
-                    <FormInput name="ie" label="Inscrição estadual" id="provider-ie" />
-                    <FormInput name="im" label="Inscrição municipal" id="provider-im" />
+                    <FormInput
+                      name="ie"
+                      label="Inscrição estadual"
+                      id="provider-ie"
+                    />
+                    <FormInput
+                      name="im"
+                      label="Inscrição municipal"
+                      id="provider-im"
+                    />
                   </div>
-                </section>
+                </FormSection>
 
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Contato</p>
-                  <FormContactFields idPrefix="provider" />
-                </section>
-              </FormColumn>
-
-              <FormColumn>
-                <section className={formSectionStack}>
-                  <p className={formSectionTitle}>Endereço</p>
+                <FormSection title="Endereço">
                   <FormAddressFields idPrefix="provider" />
-                </section>
+                </FormSection>
 
-                <FormTextarea name="obs" label="Observações" id="provider-obs" />
+                <FormSection title="Status">
+                  <FormCheckbox
+                    name="active"
+                    label="Fornecedor ativo"
+                    id="provider-active"
+                  />
+                </FormSection>
+              </FormSectionsColumn>
 
-                <FormCheckbox
-                  name="active"
-                  label="Fornecedor ativo"
-                  id="provider-active"
-                />
-              </FormColumn>
-            </FormTwoColumns>
+              <FormSectionsColumn>
+                <FormSection title="Contato">
+                  <FormContactFields idPrefix="provider" />
+                </FormSection>
+
+                <FormSection title="Observações">
+                  <FormTextarea
+                    name="obs"
+                    label="Observações"
+                    id="provider-obs"
+                  />
+                </FormSection>
+              </FormSectionsColumn>
+            </FormSectionsGrid>
           </FormBody>
 
           <FormActions

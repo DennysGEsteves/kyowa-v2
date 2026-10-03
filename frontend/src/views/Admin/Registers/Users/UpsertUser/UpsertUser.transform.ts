@@ -1,5 +1,5 @@
 import { formatPhoneBR } from "@/util/masks";
-import type { User } from "@entities";
+import type { User, UserPermission } from "@entities";
 import type { UpsertUserDTO } from "@/api/Users";
 import type { UserFormSchema } from "./UpsertUser.schema";
 
@@ -26,7 +26,7 @@ export function formValuesToUpsertUserDTO(
     email: values.email.toLowerCase(),
     phone: values.phone,
     login: values.login,
-    permission: values.permission,
+    permission: values.permission as UserPermission,
     storeId: values.storeId || undefined,
     active: values.active,
   };

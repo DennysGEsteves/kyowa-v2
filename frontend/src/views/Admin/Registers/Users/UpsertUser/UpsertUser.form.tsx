@@ -6,8 +6,10 @@ import {
   FormCheckbox,
   FormInput,
   FormPhoneInput,
+  FormSection,
+  FormSectionsColumn,
+  FormSectionsGrid,
   FormSelect,
-  formColumn,
   formFieldGrid2,
 } from "@/components/Form";
 import { AdminFormLayout } from "@/layout/AdminFormLayout";
@@ -47,36 +49,51 @@ export function UpsertUserForm({ user, listHref }: UpsertUserFormProps) {
           noValidate
         >
           <FormBody>
-            <div className={formColumn}>
-              <div className={formFieldGrid2}>
-                <FormInput name="name" label="Nome" id="user-name" />
-                <FormInput
-                  name="email"
-                  label="E-mail"
-                  id="user-email"
-                  type="email"
-                />
-                <FormPhoneInput name="phone" label="Telefone" id="user-phone" />
-                <FormInput name="login" label="Login" id="user-login" />
-                <FormSelect
-                  name="permission"
-                  label="Permissão"
-                  id="user-permission"
-                  options={permissionOptions}
-                />
-                <FormSelect
-                  name="storeId"
-                  label="Loja"
-                  id="user-store"
-                  options={storeOptions}
-                />
-              </div>
-              <FormCheckbox
-                name="active"
-                label="Usuário ativo"
-                id="user-active"
-              />
-            </div>
+            <FormSectionsGrid>
+              <FormSectionsColumn>
+                <FormSection title="Dados pessoais">
+                  <div className={formFieldGrid2}>
+                    <FormInput name="name" label="Nome" id="user-name" />
+                    <FormInput
+                      name="email"
+                      label="E-mail"
+                      id="user-email"
+                      type="email"
+                    />
+                    <FormPhoneInput
+                      name="phone"
+                      label="Telefone"
+                      id="user-phone"
+                    />
+                    <FormInput name="login" label="Login" id="user-login" />
+                  </div>
+                </FormSection>
+              </FormSectionsColumn>
+
+              <FormSectionsColumn>
+                <FormSection title="Acesso">
+                  <div className={formFieldGrid2}>
+                    <FormSelect
+                      name="permission"
+                      label="Permissão"
+                      id="user-permission"
+                      options={permissionOptions}
+                    />
+                    <FormSelect
+                      name="storeId"
+                      label="Loja"
+                      id="user-store"
+                      options={storeOptions}
+                    />
+                  </div>
+                  <FormCheckbox
+                    name="active"
+                    label="Usuário ativo"
+                    id="user-active"
+                  />
+                </FormSection>
+              </FormSectionsColumn>
+            </FormSectionsGrid>
           </FormBody>
 
           <FormActions
