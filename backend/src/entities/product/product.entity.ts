@@ -1,7 +1,7 @@
 import { CreateProductDto } from '../../controllers/product/dto/create-product.dto';
 import { UpdateProductDto } from '../../controllers/product/dto/update-product.dto';
 import { ProductDocument } from '../../repositories/product/schemas/product.schema';
-import { resolveNameFilter } from '../../util/string/name-filter';
+import { resolveNameFilter } from '../../shared/util/string/name-filter';
 
 export interface IProductConstructorParams {
   id?: string;

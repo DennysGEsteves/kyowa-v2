@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  adminNavSections,
-  getActiveNavSectionTitle,
-} from "@/layout/navigation";
+import { getActiveNavSectionTitle } from "@/layout/navigation";
+import { navSections } from "@/routes/adminRoutes";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,7 +11,7 @@ const STORAGE_KEY = "kyowa_admin_nav_sections";
 
 function buildDefaultExpanded(): Record<string, boolean> {
   return Object.fromEntries(
-    adminNavSections.map((section) => [section.title, false]),
+    navSections().map((section) => [section.title, false]),
   );
 }
 
@@ -29,7 +27,7 @@ function readStoredExpanded(): Record<string, boolean> {
     if (!raw) return defaults;
     const parsed = JSON.parse(raw) as Record<string, boolean>;
     const merged = { ...defaults, ...parsed };
-    const openTitles = adminNavSections
+    const openTitles = navSections()
       .map((section) => section.title)
       .filter((title) => merged[title]);
 
@@ -66,7 +64,7 @@ export function AdminNavSections({ onNavigate }: AdminNavSectionsProps) {
 
     setTimeout(() => {
       setExpanded((current) => {
-        const onlyActiveOpen = adminNavSections.every(
+        const onlyActiveOpen = navSections().every(
           (section) =>
             (current[section.title] ?? false) ===
             (section.title === activeSection),
@@ -95,7 +93,7 @@ export function AdminNavSections({ onNavigate }: AdminNavSectionsProps) {
 
   return (
     <>
-      {adminNavSections.map((section) => {
+      {navSections().map((section) => {
         const isOpen = expanded[section.title] ?? false;
         const sectionHasActiveItem = section.items.some((item) =>
           pathname.startsWith(item.href),

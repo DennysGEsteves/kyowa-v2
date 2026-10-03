@@ -1,5 +1,5 @@
 import { ClientEntity } from '../../../entities/client';
-import { PaginatedResult } from '../../../types/pagination';
+import { PaginatedResult } from '../../../shared/types/pagination';
 
 export const CLIENT_REPOSITORY = Symbol('CLIENT_REPOSITORY');
 

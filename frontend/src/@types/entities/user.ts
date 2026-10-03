@@ -10,11 +10,11 @@ export type User = {
   email: string;
   name: string;
   pass?: string;
-  phone: string | null;
-  login: string | null;
-  permission: UserPermission;
-  storeId: string;
-  active: boolean;
+  phone?: string | null;
+  login?: string | null;
+  permission?: UserPermission | null;
+  storeId?: string | null;
+  active?: boolean | null;
   createdAt?: string;
   updatedAt?: string;
 };

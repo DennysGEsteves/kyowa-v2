@@ -10,7 +10,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ListPaginatedNameActiveQueryDto } from '../../dto/list-paginated-name-active-query.dto';
+import { ListArchitectsPaginatedQueryDto } from './dto/list-architects-query.dto';
 import { ArchitectEntity } from '../../entities/architect';
 import { CreateArchitectUseCase } from '../../usecases/architect/create-architect.usecase';
 import { DeleteArchitectUseCase } from '../../usecases/architect/delete-architect.usecase';
@@ -18,7 +18,7 @@ import { GetArchitectByIdUseCase } from '../../usecases/architect/get-architect-
 import { GetArchitectsUseCase } from '../../usecases/architect/get-architects.usecase';
 import { ListArchitectsPaginatedUseCase } from '../../usecases/architect/list-architects-paginated.usecase';
 import { UpdateArchitectUseCase } from '../../usecases/architect/update-architect.usecase';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateArchitectDto } from './dto/create-architect.dto';
 import { UpdateArchitectDto } from './dto/update-architect.dto';
 
@@ -45,7 +45,7 @@ export class ArchitectController {
 
   @Get('paginated')
   findPaginated(
-    @Query() query: ListPaginatedNameActiveQueryDto,
+    @Query() query: ListArchitectsPaginatedQueryDto,
   ): Promise<PaginatedResult<ArchitectEntity>> {
     return this.listArchitectsPaginatedUseCase.execute(query);
   }

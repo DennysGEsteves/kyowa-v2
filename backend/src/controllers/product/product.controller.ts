@@ -10,9 +10,9 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ListPaginatedNameQueryDto } from '../../dto/list-paginated-name-query.dto';
+import { ListProductsPaginatedQueryDto } from './dto/list-products-query.dto';
 import { ProductEntity } from '../../entities/product';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateProductUseCase } from '../../usecases/product/create-product.usecase';
 import { DeleteProductUseCase } from '../../usecases/product/delete-product.usecase';
 import { GetProductByIdUseCase } from '../../usecases/product/get-product-by-id.usecase';
@@ -45,7 +45,7 @@ export class ProductController {
 
   @Get('paginated')
   findPaginated(
-    @Query() query: ListPaginatedNameQueryDto,
+    @Query() query: ListProductsPaginatedQueryDto,
   ): Promise<PaginatedResult<ProductEntity>> {
     return this.listProductsPaginatedUseCase.execute(query);
   }

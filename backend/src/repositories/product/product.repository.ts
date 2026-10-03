@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, Types } from 'mongoose';
 import { ProductEntity } from '../../entities/product';
-import { PaginatedResult } from '../../types/pagination';
-import { escapeRegExp } from '../../util/string/escape-regexp';
-import { toNameFilter } from '../../util/string/name-filter';
+import { PaginatedResult } from '../../shared/types/pagination';
+import { escapeRegExp } from '../../shared/util/string/escape-regexp';
+import { toNameFilter } from '../../shared/util/string/name-filter';
 import { IProductRepository } from './interfaces/i-product-repository';
 import { Product, ProductDocument } from './schemas/product.schema';
 

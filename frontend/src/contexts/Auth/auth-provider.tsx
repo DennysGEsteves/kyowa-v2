@@ -1,6 +1,6 @@
 "use client";
 
-import { clearClientSession, getClientSession, type SessionUser } from "@utils";
+import { clearClientSession, getSessionUser, type SessionUser } from "@utils";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -29,7 +29,7 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   const [user, setUser] = useState<SessionUser | null>(null);
 
   useEffect(() => {
-    const session = getClientSession();
+    const session = getSessionUser();
     if (!session) {
       router.replace("/login");
       return;

@@ -1,5 +1,5 @@
 import { ProviderEntity } from '../../../entities/provider';
-import { PaginatedResult } from '../../../types/pagination';
+import { PaginatedResult } from '../../../shared/types/pagination';
 
 export const PROVIDER_REPOSITORY = Symbol('PROVIDER_REPOSITORY');
 

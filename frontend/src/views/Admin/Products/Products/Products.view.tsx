@@ -19,9 +19,7 @@ export function AdminProductsView() {
   const emptyMessage = data.hasActiveFilters ? (
     <>Nenhum produto encontrado com os filtros aplicados.</>
   ) : (
-    <>
-      Nenhum produto cadastrado. Use &quot;Novo produto&quot; para adicionar.
-    </>
+    <>Nenhum produto cadastrado. Use &quot;Novo produto&quot; para adicionar.</>
   );
 
   return (
@@ -30,7 +28,7 @@ export function AdminProductsView() {
         <p className="text-sm text-kyowa-muted">{totalLabel}</p>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Link
-            href={adminRoutes.products.descriptors.list}
+            href={adminRoutes.products.descriptors.href}
             className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
           >
             <ListTree className="h-4 w-4" strokeWidth={2} />

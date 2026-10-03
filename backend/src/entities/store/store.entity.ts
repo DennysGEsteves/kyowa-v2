@@ -1,6 +1,6 @@
 import { CreateStoreDto } from '../../controllers/store/dto/create-store.dto';
 import { UpdateStoreDto } from '../../controllers/store/dto/update-store.dto';
-import { Address, toAddress } from '../../types/address';
+import { Address, toAddress } from '../../shared/types/address';
 import { StoreDocument } from '../../repositories/store/schemas/store.schema';
 
 export interface IStoreConstructorParams {

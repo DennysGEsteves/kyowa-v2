@@ -1,8 +1,8 @@
 import { CreateProviderDto } from '../../controllers/provider/dto/create-provider.dto';
 import { UpdateProviderDto } from '../../controllers/provider/dto/update-provider.dto';
-import { Address, toAddress } from '../../types/address';
+import { Address, toAddress } from '../../shared/types/address';
 import { ProviderDocument } from '../../repositories/provider/schemas/provider.schema';
-import { resolveNameFilter } from '../../util/string/name-filter';
+import { resolveNameFilter } from '../../shared/util/string/name-filter';
 import { ProviderType } from './types/provider-type';
 
 export interface IProviderConstructorParams {

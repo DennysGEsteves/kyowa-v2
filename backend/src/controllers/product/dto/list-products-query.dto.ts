@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, IsString, Max, MaxLength, Min } from 'class-validator';
 
-export class ListPaginatedNameQueryDto {
+export class ListProductsPaginatedQueryDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()

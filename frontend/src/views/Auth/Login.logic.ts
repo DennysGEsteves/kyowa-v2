@@ -1,5 +1,5 @@
 import { useApi } from "@/api/api.hook";
-import { getClientSession, setClientSession } from "@utils";
+import { getAuthToken, setAuthToken } from "@utils";
 import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -18,8 +18,8 @@ export function LoginLogic() {
       setIsPending(true);
 
       try {
-        const user = await authApi.login(formValuesToLoginRequest(values));
-        setClientSession(user);
+        const token = await authApi.login(formValuesToLoginRequest(values));
+        setAuthToken(token);
         router.push("/admin/usuarios");
       } catch (error) {
         if (isAxiosError(error)) {
@@ -35,7 +35,7 @@ export function LoginLogic() {
   );
 
   useEffect(() => {
-    if (getClientSession()) {
+    if (getAuthToken()) {
       router.replace("/admin/usuarios");
     }
   }, [router]);

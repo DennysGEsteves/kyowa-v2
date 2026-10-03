@@ -10,7 +10,7 @@ import {
 } from 'class-validator';
 import { parseOptionalBoolean } from '../../../shared/util/query/parse-optional-boolean';
 
-export class ListClientsPaginatedQueryDto {
+export class ListProvidersPaginatedQueryDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
@@ -33,9 +33,4 @@ export class ListClientsPaginatedQueryDto {
   @Transform(({ value }) => parseOptionalBoolean(value))
   @IsBoolean()
   active?: boolean;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(20)
-  cpf?: string;
 }

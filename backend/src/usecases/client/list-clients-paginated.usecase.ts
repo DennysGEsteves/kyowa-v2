@@ -5,7 +5,7 @@ import {
   CLIENT_REPOSITORY,
   IClientRepository,
 } from '../../repositories/client/interfaces/i-client-repository';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;

@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ListPaginatedNameQueryDto } from '../../dto/list-paginated-name-query.dto';
+import { ListProductsPaginatedQueryDto } from '../../controllers/product/dto/list-products-query.dto';
 import { ProductEntity } from '../../entities/product';
 import {
   IProductRepository,
   PRODUCT_REPOSITORY,
 } from '../../repositories/product/interfaces/i-product-repository';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
@@ -18,7 +18,7 @@ export class ListProductsPaginatedUseCase {
   ) {}
 
   async execute(
-    query: ListPaginatedNameQueryDto,
+    query: ListProductsPaginatedQueryDto,
   ): Promise<PaginatedResult<ProductEntity>> {
     const page = query.page ?? DEFAULT_PAGE;
     const limit = query.limit ?? DEFAULT_LIMIT;

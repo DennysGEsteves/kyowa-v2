@@ -17,9 +17,9 @@ import { GetProviderByIdUseCase } from '../../usecases/provider/get-provider-by-
 import { GetProvidersUseCase } from '../../usecases/provider/get-providers.usecase';
 import { ListProvidersPaginatedUseCase } from '../../usecases/provider/list-providers-paginated.usecase';
 import { UpdateProviderUseCase } from '../../usecases/provider/update-provider.usecase';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateProviderDto } from './dto/create-provider.dto';
-import { ListPaginatedNameActiveQueryDto } from '../../dto/list-paginated-name-active-query.dto';
+import { ListProvidersPaginatedQueryDto } from './dto/list-providers-query.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 
 @Controller('providers')
@@ -45,7 +45,7 @@ export class ProviderController {
 
   @Get('paginated')
   findPaginated(
-    @Query() query: ListPaginatedNameActiveQueryDto,
+    @Query() query: ListProvidersPaginatedQueryDto,
   ): Promise<PaginatedResult<ProviderEntity>> {
     return this.listProvidersPaginatedUseCase.execute(query);
   }

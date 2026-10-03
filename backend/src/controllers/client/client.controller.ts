@@ -18,7 +18,7 @@ import { GetClientByIdUseCase } from '../../usecases/client/get-client-by-id.use
 import { GetClientsUseCase } from '../../usecases/client/get-clients.usecase';
 import { ListClientsPaginatedUseCase } from '../../usecases/client/list-clients-paginated.usecase';
 import { UpdateClientUseCase } from '../../usecases/client/update-client.usecase';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 

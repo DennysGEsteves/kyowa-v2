@@ -1,8 +1,8 @@
 import { CreateArchitectDto } from '../../controllers/architect/dto/create-architect.dto';
 import { UpdateArchitectDto } from '../../controllers/architect/dto/update-architect.dto';
-import { Address, toAddress } from '../../types/address';
+import { Address, toAddress } from '../../shared/types/address';
 import { ArchitectDocument } from '../../repositories/architect/schemas/architect.schema';
-import { resolveNameFilter } from '../../util/string/name-filter';
+import { resolveNameFilter } from '../../shared/util/string/name-filter';
 
 export interface IArchitectConstructorParams {
   id?: string;

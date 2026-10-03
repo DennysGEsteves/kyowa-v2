@@ -1,5 +1,5 @@
 import { ProductEntity } from '../../../entities/product';
-import { PaginatedResult } from '../../../types/pagination';
+import { PaginatedResult } from '../../../shared/types/pagination';
 
 export const PRODUCT_REPOSITORY = Symbol('PRODUCT_REPOSITORY');
 

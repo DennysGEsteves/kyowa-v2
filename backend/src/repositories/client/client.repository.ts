@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, Types } from 'mongoose';
 import { ClientEntity } from '../../entities/client';
-import { PaginatedResult } from '../../types/pagination';
-import { buildCpfPartialRegex } from '../../util/string/cpf-filter';
-import { escapeRegExp } from '../../util/string/escape-regexp';
-import { toNameFilter } from '../../util/string/name-filter';
+import { PaginatedResult } from '../../shared/types/pagination';
+import { buildCpfPartialRegex } from '../../shared/util/string/cpf-filter';
+import { escapeRegExp } from '../../shared/util/string/escape-regexp';
+import { toNameFilter } from '../../shared/util/string/name-filter';
 import {
   ClientListFilters,
   ClientPaginationParams,

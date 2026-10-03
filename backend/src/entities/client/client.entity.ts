@@ -1,8 +1,8 @@
 import { CreateClientDto } from '../../controllers/client/dto/create-client.dto';
 import { UpdateClientDto } from '../../controllers/client/dto/update-client.dto';
-import { Address, toAddress } from '../../types/address';
+import { Address, toAddress } from '../../shared/types/address';
 import { ClientDocument } from '../../repositories/client/schemas/client.schema';
-import { resolveNameFilter } from '../../util/string/name-filter';
+import { resolveNameFilter } from '../../shared/util/string/name-filter';
 import { ClientOrigin, InterestProduct } from './types';
 
 export interface IClientConstructorParams {

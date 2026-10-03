@@ -1,5 +1,5 @@
 import { ArchitectEntity } from '../../../entities/architect';
-import { PaginatedResult } from '../../../types/pagination';
+import { PaginatedResult } from '../../../shared/types/pagination';
 
 export const ARCHITECT_REPOSITORY = Symbol('ARCHITECT_REPOSITORY');
 

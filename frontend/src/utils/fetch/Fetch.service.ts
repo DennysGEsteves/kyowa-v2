@@ -1,3 +1,4 @@
+import { getAuthToken } from "../auth/session";
 import axios from "axios";
 import {
   IGet,
@@ -12,14 +13,19 @@ const httpService = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "Application/json",
-    "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
-    "x-sandbox": "false",
   },
 });
 
-function configureSandbox(isSandbox: boolean) {
-  httpService.defaults.headers["x-sandbox"] = String(isSandbox);
-}
+httpService.interceptors.request.use((config) => {
+  const token = getAuthToken();
+
+  if (!token) {
+    throw new Error("No authorization token provided");
+  }
+
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
 function get<T>(props: IGet): Promise<httpResponse<T>> {
   return httpService.get<T>(props.url, props.config);
@@ -52,7 +58,6 @@ const httpModule = {
   patch,
   delete: deletes,
   setDefaultParams,
-  configureSandbox,
   instance: httpService,
 };
 export default httpModule;

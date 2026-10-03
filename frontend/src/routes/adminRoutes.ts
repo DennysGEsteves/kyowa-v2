@@ -1,35 +1,119 @@
+import { UserPermission } from "@/@types/entities";
+import { AdminNavSection } from "@/layout/navigation";
+import { getSessionUser } from "@/utils";
+import {
+  HardHat,
+  Store,
+  Truck,
+  UserRound,
+  Users,
+  Package,
+  Stamp,
+} from "lucide-react";
+
+export type UserPermissionModules = {
+  CADASTROS?: ModuleId[];
+  PRODUTOS?: ModuleId[];
+};
+
+export type ModuleId =
+  | "stores"
+  | "providers"
+  | "architects"
+  | "clients"
+  | "users"
+  | "products";
+
 export const adminRoutes = {
   stores: {
-    list: "/admin/nossas-lojas",
+    href: "/admin/nossas-lojas",
+    label: "Nossas Lojas",
+    icon: Store,
     new: "/admin/nossas-lojas/novo",
     edit: (id: string) => `/admin/nossas-lojas/${id}`,
   },
   providers: {
-    list: "/admin/fornecedores",
+    href: "/admin/fornecedores",
+    label: "Fornecedores",
+    icon: Truck,
     new: "/admin/fornecedores/novo",
     edit: (id: string) => `/admin/fornecedores/${id}`,
   },
   architects: {
-    list: "/admin/arquitetos",
+    href: "/admin/arquitetos",
+    label: "Arquitetos",
+    icon: HardHat,
     new: "/admin/arquitetos/novo",
     edit: (id: string) => `/admin/arquitetos/${id}`,
   },
   clients: {
-    list: "/admin/clientes",
+    href: "/admin/clientes",
+    label: "Clientes",
+    icon: UserRound,
     new: "/admin/clientes/novo",
     edit: (id: string) => `/admin/clientes/${id}`,
   },
   users: {
-    list: "/admin/usuarios",
+    href: "/admin/usuarios",
+    label: "Usuários",
+    icon: Users,
     new: "/admin/usuarios/novo",
     edit: (id: string) => `/admin/usuarios/${id}`,
   },
   products: {
-    list: "/admin/produtos",
+    href: "/admin/produtos",
+    label: "Produtos",
+    icon: Package,
     new: "/admin/produtos/novo",
     edit: (id: string) => `/admin/produtos/${id}`,
     descriptors: {
-      list: "/admin/produtos/descritores",
+      href: "/admin/produtos/descritores",
+      label: "Descritores",
+      icon: Stamp,
+      new: "/admin/produtos/descritores/novo",
+      edit: (id: string) => `/admin/produtos/descritores/${id}`,
     },
   },
 } as const;
+
+export const userPermissionModules: Record<
+  UserPermission,
+  UserPermissionModules
+> = {
+  admin: {
+    CADASTROS: ["users", "stores", "providers", "architects", "clients"],
+    PRODUTOS: ["products"],
+  },
+  manager: {
+    CADASTROS: ["users", "stores", "providers", "architects", "clients"],
+    PRODUTOS: ["products"],
+  },
+  sales: {},
+  operational: {},
+  finance: {},
+};
+
+export const navSections = (): AdminNavSection[] => {
+  const { permission } = getSessionUser() ?? {};
+
+  return [
+    {
+      title: "Cadastros",
+      items:
+        userPermissionModules[permission!].CADASTROS?.map((module) => ({
+          href: adminRoutes[module].href,
+          label: adminRoutes[module].label,
+          icon: adminRoutes[module].icon,
+        })) ?? [],
+    },
+    {
+      title: "Produtos",
+      items:
+        userPermissionModules[permission!].PRODUTOS?.map((module) => ({
+          href: adminRoutes[module].href,
+          label: adminRoutes[module].label,
+          icon: adminRoutes[module].icon,
+        })) ?? [],
+    },
+  ] as const;
+};

@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ListPaginatedNameActiveQueryDto } from '../../dto/list-paginated-name-active-query.dto';
+import { ListArchitectsPaginatedQueryDto } from '../../controllers/architect/dto/list-architects-query.dto';
 import { ArchitectEntity } from '../../entities/architect';
 import {
   ARCHITECT_REPOSITORY,
   IArchitectRepository,
 } from '../../repositories/architect/interfaces/i-architect-repository';
-import { PaginatedResult } from '../../types/pagination';
+import { PaginatedResult } from '../../shared/types/pagination';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
@@ -18,7 +18,7 @@ export class ListArchitectsPaginatedUseCase {
   ) {}
 
   async execute(
-    query: ListPaginatedNameActiveQueryDto,
+    query: ListArchitectsPaginatedQueryDto,
   ): Promise<PaginatedResult<ArchitectEntity>> {
     const page = query.page ?? DEFAULT_PAGE;
     const limit = query.limit ?? DEFAULT_LIMIT;
