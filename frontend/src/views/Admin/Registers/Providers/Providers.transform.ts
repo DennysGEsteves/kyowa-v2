@@ -1,3 +1,4 @@
+import { formatPhoneBR } from "@/util/masks";
 import type { Provider } from "@entities";
 import type { UpsertProviderDTO } from "@/api/Providers";
 import type { ProviderFormSchema } from "./Providers.schema";
@@ -14,8 +15,8 @@ export function providerToFormValues(provider: Provider): ProviderFormSchema {
     district: provider.district ?? "",
     city: provider.city ?? "",
     region: provider.region ?? "",
-    phone1: provider.phone1 ?? "",
-    phone2: provider.phone2 ?? "",
+    phone1: formatPhoneBR(provider.phone1 ?? ""),
+    phone2: formatPhoneBR(provider.phone2 ?? ""),
     obs: provider.obs ?? "",
     type: provider.type ?? "",
     active: provider.active,

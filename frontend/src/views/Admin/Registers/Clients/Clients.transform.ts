@@ -1,3 +1,4 @@
+import { formatPhoneBR } from "@/util/masks";
 import type { Client } from "@entities";
 import type { UpsertClientDTO } from "@/api/Clients";
 import type { ClientFormSchema } from "./Clients.schema";
@@ -21,8 +22,8 @@ export function clientToFormValues(client: Client): ClientFormSchema {
     district: client.district ?? "",
     city: client.city ?? "",
     region: client.region ?? "",
-    phone1: client.phone1 ?? "",
-    phone2: client.phone2 ?? "",
+    phone1: formatPhoneBR(client.phone1 ?? ""),
+    phone2: formatPhoneBR(client.phone2 ?? ""),
     obs: client.obs ?? "",
     active: client.active,
     interestProducts: client.interestProducts ?? [],

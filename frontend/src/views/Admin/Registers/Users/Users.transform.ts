@@ -1,3 +1,4 @@
+import { formatPhoneBR } from "@/util/masks";
 import type { User } from "@entities";
 import type { UpsertUserDTO } from "@/api/Users";
 import type { UserFormSchema } from "./Users.schema";
@@ -9,7 +10,7 @@ export function userToFormValues(
   return {
     name: user.name,
     email: user.email,
-    phone: user.phone ?? "",
+    phone: formatPhoneBR(user.phone ?? ""),
     login: user.login ?? "",
     permission: user.permission,
     storeId: user.storeId ?? defaultStoreId,

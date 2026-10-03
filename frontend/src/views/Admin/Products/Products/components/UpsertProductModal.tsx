@@ -8,6 +8,7 @@ import {
   FormActions,
   FormBody,
   FormCheckbox,
+  FormCurrencyInput,
   FormInput,
   FormSelect,
 } from "@/components/Form";
@@ -266,12 +267,12 @@ function UpsertProductModalBody({
               </p>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <FormInput
+                <FormCurrencyInput
                   name="buyPrice"
                   label="Preço de compra"
                   id="product-buy-price"
                 />
-                <FormInput
+                <FormCurrencyInput
                   name="sellPrice"
                   label="Preço de venda"
                   id="product-sell-price"

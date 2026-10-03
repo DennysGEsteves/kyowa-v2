@@ -4,6 +4,8 @@ export { FormCheckbox } from "./FormCheckbox";
 export { FormField } from "./FormField";
 export { FormFieldError } from "./FormFieldError";
 export { FormInput } from "./FormInput";
+export { FormPhoneInput } from "./FormPhoneInput";
+export { FormCurrencyInput } from "./FormCurrencyInput";
 export { FormTextarea } from "./FormTextarea";
 export { FormSelect, type FormSelectOption } from "./FormSelect";
 export {

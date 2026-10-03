@@ -1,12 +1,10 @@
 import type { Product } from "@entities";
 import type { CreateProductDTO, UpdateProductDTO } from "@/api/Products";
+import { formatCurrencyBRLFromNumber, parseCurrencyBRL } from "@/util/masks";
 import type { ProductFormSchema } from "./Products.schema";
 
 function parseOptionalNumber(value: string): number | undefined {
-  const normalized = value.replace(",", ".");
-  if (!normalized) return undefined;
-  const parsed = Number(normalized);
-  return Number.isFinite(parsed) ? parsed : undefined;
+  return parseCurrencyBRL(value);
 }
 
 function parseOptionalInt(value: string): number | undefined {
@@ -40,11 +38,11 @@ export function productToFormValues(product: Product): ProductFormSchema {
     ean: product.ean ?? "",
     buyPrice:
       product.buyPrice !== null && product.buyPrice !== undefined
-        ? String(product.buyPrice)
+        ? formatCurrencyBRLFromNumber(product.buyPrice)
         : "",
     sellPrice:
       product.sellPrice !== null && product.sellPrice !== undefined
-        ? String(product.sellPrice)
+        ? formatCurrencyBRLFromNumber(product.sellPrice)
         : "",
     hasSeals: product.hasSeals ?? false,
     amountStart:

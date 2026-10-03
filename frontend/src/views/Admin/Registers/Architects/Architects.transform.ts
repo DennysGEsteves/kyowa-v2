@@ -1,3 +1,4 @@
+import { formatPhoneBR } from "@/util/masks";
 import type { Architect } from "@entities";
 import type { UpsertArchitectDTO } from "@/api/Architects";
 import type { ArchitectFormSchema } from "./Architects.schema";
@@ -20,8 +21,8 @@ export function architectToFormValues(
     district: architect.district ?? "",
     city: architect.city ?? "",
     region: architect.region ?? "",
-    phone1: architect.phone1 ?? "",
-    phone2: architect.phone2 ?? "",
+    phone1: formatPhoneBR(architect.phone1 ?? ""),
+    phone2: formatPhoneBR(architect.phone2 ?? ""),
     obs: architect.obs ?? "",
     active: architect.active,
     sellerId: architect.sellerId,

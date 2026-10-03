@@ -8,6 +8,7 @@ import {
   FormBody,
   FormCheckbox,
   FormInput,
+  FormPhoneInput,
   FormSelect,
 } from "@/components/Form";
 import { permissionLabels, User, userPermissions } from "@entities";
@@ -140,12 +141,7 @@ function UpsertUserModalBody({
               />
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <FormInput
-                  name="phone"
-                  label="Telefone"
-                  id="user-phone"
-                  placeholder="(11) 99999-9999"
-                />
+                <FormPhoneInput name="phone" label="Telefone" id="user-phone" />
                 <FormInput name="login" label="Login" id="user-login" />
               </div>
 

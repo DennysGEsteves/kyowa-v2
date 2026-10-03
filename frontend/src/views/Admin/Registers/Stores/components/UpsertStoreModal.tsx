@@ -7,6 +7,7 @@ import {
   FormActions,
   FormBody,
   FormInput,
+  FormPhoneInput,
   FormSelect,
   FormTextarea,
 } from "@/components/Form";
@@ -144,8 +145,8 @@ function UpsertStoreModalBody({
               />
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <FormInput name="phone1" label="Telefone 1" id="store-phone1" />
-                <FormInput name="phone2" label="Telefone 2" id="store-phone2" />
+                <FormPhoneInput name="phone1" label="Telefone 1" id="store-phone1" />
+                <FormPhoneInput name="phone2" label="Telefone 2" id="store-phone2" />
               </div>
 
               <p className="pt-2 text-xs font-semibold uppercase tracking-wider text-kyowa-muted">
