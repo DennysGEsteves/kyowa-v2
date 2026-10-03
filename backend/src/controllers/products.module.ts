@@ -12,7 +12,6 @@ import { ProductHeightModule } from './product-height/product-height.module';
 
 @Module({
   imports: [
-    ProductModule,
     ProductCategoryModule,
     ProductUnitModule,
     ProductColorModule,
@@ -22,6 +21,7 @@ import { ProductHeightModule } from './product-height/product-height.module';
     ProductOriginModule,
     ProductModelModule,
     ProductHeightModule,
+    ProductModule,
   ],
 })
 export class ProductsModule {}

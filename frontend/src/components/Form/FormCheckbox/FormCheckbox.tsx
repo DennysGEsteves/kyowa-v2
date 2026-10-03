@@ -8,6 +8,7 @@ type FormCheckboxProps<T extends Record<string, unknown>> = {
   label: string;
   id?: string;
   className?: string;
+  disabled?: boolean;
 };
 
 export function FormCheckbox<T extends Record<string, unknown>>({
@@ -15,6 +16,7 @@ export function FormCheckbox<T extends Record<string, unknown>>({
   label,
   id,
   className = "",
+  disabled = false,
 }: FormCheckboxProps<T>) {
   const { values, errors, touched, handleChange, handleBlur } =
     useFormikContext<T>();
@@ -27,7 +29,9 @@ export function FormCheckbox<T extends Record<string, unknown>>({
     <div className={className}>
       <label
         htmlFor={fieldId}
-        className="flex cursor-pointer items-center gap-3 text-sm text-kyowa-ink"
+        className={`flex items-center gap-3 text-sm text-kyowa-ink ${
+          disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+        }`}
       >
         <input
           id={fieldId}
@@ -36,7 +40,8 @@ export function FormCheckbox<T extends Record<string, unknown>>({
           checked={Boolean(values[name])}
           onChange={handleChange}
           onBlur={handleBlur}
-          className="h-4 w-4 rounded border-kyowa-border text-kyowa-maroon focus:ring-kyowa-maroon"
+          disabled={disabled}
+          className="h-4 w-4 rounded border-kyowa-border text-kyowa-maroon focus:ring-kyowa-maroon disabled:cursor-not-allowed"
         />
         {label}
       </label>

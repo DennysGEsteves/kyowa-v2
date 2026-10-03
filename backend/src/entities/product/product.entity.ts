@@ -28,7 +28,6 @@ export interface IProductConstructorParams {
   amountStart?: number | null;
   amountSold?: number | null;
   amountUnlimited?: boolean;
-  isEcommerce?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -58,7 +57,6 @@ export class ProductEntity {
   public amountStart: number | null;
   public amountSold: number | null;
   public amountUnlimited: boolean;
-  public isEcommerce?: boolean;
   public createdAt?: Date;
   public updatedAt?: Date;
 
@@ -87,7 +85,6 @@ export class ProductEntity {
     this.amountStart = params.amountStart ?? null;
     this.amountSold = params.amountSold ?? null;
     this.amountUnlimited = params.amountUnlimited ?? false;
-    this.isEcommerce = params.isEcommerce;
     this.createdAt = params.createdAt;
     this.updatedAt = params.updatedAt;
   }
@@ -144,9 +141,7 @@ export class ProductEntity {
       sellPrice: dto.sellPrice,
       hasSeals: dto.hasSeals,
       amountStart: dto.amountStart,
-      amountSold: dto.amountSold,
       amountUnlimited: dto.amountUnlimited,
-      isEcommerce: dto.isEcommerce,
     });
   }
 
@@ -188,16 +183,10 @@ export class ProductEntity {
         dto.amountStart !== undefined
           ? dto.amountStart
           : oldProduct.amountStart,
-      amountSold:
-        dto.amountSold !== undefined ? dto.amountSold : oldProduct.amountSold,
       amountUnlimited:
         dto.amountUnlimited !== undefined
           ? dto.amountUnlimited
           : oldProduct.amountUnlimited,
-      isEcommerce:
-        dto.isEcommerce !== undefined
-          ? dto.isEcommerce
-          : oldProduct.isEcommerce,
       createdAt: oldProduct.createdAt,
       updatedAt: oldProduct.updatedAt,
     });

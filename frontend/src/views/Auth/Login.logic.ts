@@ -4,6 +4,7 @@ import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import type { LoginFormSchema } from "./Login.schema";
+import { formValuesToLoginRequest } from "./Login.transform";
 
 export function LoginLogic() {
   const router = useRouter();
@@ -17,10 +18,7 @@ export function LoginLogic() {
       setIsPending(true);
 
       try {
-        const user = await authApi.login({
-          email: values.email.trim().toLowerCase(),
-          password: values.password,
-        });
+        const user = await authApi.login(formValuesToLoginRequest(values));
         setClientSession(user);
         router.push("/admin/usuarios");
       } catch (error) {

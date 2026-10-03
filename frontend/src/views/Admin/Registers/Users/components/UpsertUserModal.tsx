@@ -2,7 +2,6 @@
 
 import { useApi } from "@/api/api.hook";
 import { useStoresQuery } from "@/api/Stores/stores.query";
-import { UpsertUserDTO } from "@/api/Users";
 import { useInvalidateUsersQuery } from "@/api/Users/users.query";
 import {
   FormActions,
@@ -13,9 +12,14 @@ import {
 } from "@/components/Form";
 import { permissionLabels, User, userPermissions } from "@entities";
 import {
-  formSchema,
+  emptyUserFormValues,
   userValidationSchema,
+  type UserFormSchema,
 } from "@/views/Admin/Registers/Users/Users.schema";
+import {
+  formValuesToUpsertUserDTO,
+  userToFormValues,
+} from "@/views/Admin/Registers/Users/Users.transform";
 import { FormikProvider, useFormik } from "formik";
 import { useEffect, useMemo } from "react";
 
@@ -33,19 +37,13 @@ function UpsertUserModalBody({
   const invalidateUsers = useInvalidateUsersQuery();
   const { data: stores = [] } = useStoresQuery();
 
-  const defaultStoreId = user?.storeId ?? stores[0]?.id ?? "";
+  const defaultStoreId = stores[0]?.id ?? "";
 
-  const formik = useFormik<formSchema>({
+  const formik = useFormik<UserFormSchema>({
     enableReinitialize: true,
-    initialValues: {
-      name: user?.name ?? "",
-      email: user?.email ?? "",
-      phone: user?.phone ?? "",
-      login: user?.login ?? "",
-      permission: user?.permission ?? "sales",
-      storeId: defaultStoreId,
-      active: user?.active ?? true,
-    },
+    initialValues: user
+      ? userToFormValues(user, defaultStoreId)
+      : { ...emptyUserFormValues, storeId: defaultStoreId },
     validationSchema: userValidationSchema,
     onSubmit: (values) => onSubmit(values),
   });
@@ -70,17 +68,8 @@ function UpsertUserModalBody({
     }));
   }, [stores]);
 
-  const onSubmit = (values: formSchema) => {
-    console.log(values);
-    const userData: UpsertUserDTO = {
-      name: values.name,
-      email: values.email,
-      phone: values.phone,
-      login: values.login,
-      permission: values.permission,
-      storeId: values.storeId,
-      active: values.active,
-    };
+  const onSubmit = (values: UserFormSchema) => {
+    const userData = formValuesToUpsertUserDTO(values);
 
     if (user) {
       usersApi.update(user.id, userData).then(() => {

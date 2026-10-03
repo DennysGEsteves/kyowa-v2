@@ -15,12 +15,14 @@ import { permissionLabels, type Architect } from "@entities";
 import { FormikProvider, useFormik } from "formik";
 import { useEffect, useMemo } from "react";
 import {
-  architectToFormValues,
   architectValidationSchema,
   emptyArchitectFormValues,
-  formValuesToUpsertArchitectDTO,
   type ArchitectFormSchema,
 } from "../Architects.schema";
+import {
+  architectToFormValues,
+  formValuesToUpsertArchitectDTO,
+} from "../Architects.transform";
 
 type UpsertArchitectModalProps = {
   open: boolean;

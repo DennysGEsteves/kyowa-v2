@@ -14,6 +14,7 @@ type FormInputProps = {
   min?: number;
   className?: string;
   parseValue?: (raw: string) => unknown;
+  disabled?: boolean;
 };
 
 export function FormInput({
@@ -25,6 +26,7 @@ export function FormInput({
   min,
   className,
   parseValue,
+  disabled = false,
 }: FormInputProps) {
   const { values, errors, touched, handleChange, handleBlur, setFieldValue } =
     useFormikContext();
@@ -57,6 +59,7 @@ export function FormInput({
             : handleChange
         }
         onBlur={handleBlur}
+        disabled={disabled}
         className={getFieldClassName(Boolean(fieldError))}
       />
     </FormField>

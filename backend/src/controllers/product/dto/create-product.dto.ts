@@ -95,17 +95,10 @@ export class CreateProductDto {
   readonly amountStart?: number;
 
   @IsOptional()
-  @IsInt()
-  @Min(0)
-  @Max(99999)
-  readonly amountSold?: number;
-
-  @IsOptional()
   @IsBoolean()
   readonly amountUnlimited?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  @MaxLength(100)
   readonly isEcommerce?: boolean;
 }
