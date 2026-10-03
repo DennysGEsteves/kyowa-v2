@@ -36,7 +36,7 @@ export function AdminShell({ children }: AdminShellProps) {
         <AdminSidebar onNavigate={closeMenu} />
       </div>
 
-      <div className="flex min-h-screen min-h-dvh min-w-0 flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         {children}
       </div>
     </div>
