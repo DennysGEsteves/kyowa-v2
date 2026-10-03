@@ -18,7 +18,7 @@ export function AdminShell({ children }: AdminShellProps) {
   }, [pathname, closeMenu]);
 
   return (
-    <div className="flex min-h-screen min-h-dvh bg-kyowa-surface">
+    <div className="flex min-h-screen bg-kyowa-surface">
       {open ? (
         <button
           type="button"
