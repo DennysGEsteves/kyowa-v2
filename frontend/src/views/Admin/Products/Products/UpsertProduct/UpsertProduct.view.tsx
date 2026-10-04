@@ -13,16 +13,17 @@ import { UpsertProductForm } from "./UpsertProduct.form";
 export function UpsertProductView() {
   const params = useParams();
   const id = params.id as string | undefined;
-  const { entity: product, isLoading, notFound } = useEntityFromList(
-    id,
-    useProductsQuery,
-  );
+  const {
+    entity: product,
+    isLoading,
+    notFound,
+  } = useEntityFromList(id, useProductsQuery);
 
   if (id && isLoading) return <AdminFormLoading />;
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.products.list}
+        backHref={adminRoutes.products.href}
         backLabel="Voltar aos produtos"
         message="Produto não encontrado."
       />

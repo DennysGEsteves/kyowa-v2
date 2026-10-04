@@ -23,7 +23,7 @@ type UseUpsertStoreLogicParams = {
 
 export function useUpsertStoreLogic({
   store,
-  listHref = adminRoutes.stores.list,
+  listHref = adminRoutes.stores.href,
 }: UseUpsertStoreLogicParams) {
   const { storesApi } = useApi();
   const invalidateStores = useInvalidateStoresQuery();

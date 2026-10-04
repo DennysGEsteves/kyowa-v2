@@ -6,6 +6,8 @@ export * from './design';
 export * from './get-product-by-id.usecase';
 export * from './get-products.usecase';
 export * from './list-products-paginated.usecase';
+export * from './list-update-prices-products.usecase';
+export * from './search-products-by-name.usecase';
 export * from './height';
 export * from './model';
 export * from './origin';

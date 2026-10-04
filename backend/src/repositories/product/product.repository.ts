@@ -81,6 +81,77 @@ export class ProductRepository implements IProductRepository {
     };
   }
 
+  async findPaginatedForPriceUpdate(
+    filters: {
+      name?: string;
+      providerIds?: string[];
+      categoryId?: string;
+    },
+    pagination: { page: number; limit: number },
+  ): Promise<PaginatedResult<ProductEntity>> {
+    const query: FilterQuery<ProductDocument> = {};
+
+    if (filters.name) {
+      const normalizedName = toNameFilter(filters.name);
+      if (normalizedName) {
+        query.nameFilter = {
+          $regex: escapeRegExp(normalizedName),
+        };
+      }
+    }
+
+    if (filters.providerIds !== undefined) {
+      query.providerId = {
+        $in: filters.providerIds.map((id) => new Types.ObjectId(id)),
+      };
+    }
+
+    if (filters.categoryId) {
+      query.categoryId = new Types.ObjectId(filters.categoryId);
+    }
+
+    const skip = (pagination.page - 1) * pagination.limit;
+
+    const [total, products] = await Promise.all([
+      this.productModel.countDocuments(query).exec(),
+      this.productModel
+        .find(query)
+        .sort({ name: 1 })
+        .skip(skip)
+        .limit(pagination.limit)
+        .exec(),
+    ]);
+
+    const totalPages = total === 0 ? 0 : Math.ceil(total / pagination.limit);
+
+    return {
+      data: products.map((product) => ProductEntity.fromPersistData(product)),
+      meta: {
+        page: pagination.page,
+        limit: pagination.limit,
+        total,
+        totalPages,
+      },
+    };
+  }
+
+  async searchByName(name: string, limit: number): Promise<ProductEntity[]> {
+    const normalizedName = toNameFilter(name);
+    if (!normalizedName) {
+      return [];
+    }
+
+    const products = await this.productModel
+      .find({
+        nameFilter: { $regex: escapeRegExp(normalizedName) },
+      })
+      .sort({ name: 1 })
+      .limit(limit)
+      .exec();
+
+    return products.map((product) => ProductEntity.fromPersistData(product));
+  }
+
   async findById(id: string): Promise<ProductEntity | null> {
     const product = await this.productModel.findById(id).exec();
     return product ? ProductEntity.fromPersistData(product) : null;

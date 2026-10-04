@@ -1,6 +1,6 @@
 "use client";
 
-import { formInputClass, formLabelClass } from "@/components/Form/FieldStyles";
+import { ProductNameAutocomplete } from "@/components/ProductNameAutocomplete";
 import { useEffect, useState } from "react";
 
 const NAME_DEBOUNCE_MS = 300;
@@ -36,17 +36,11 @@ export function ProductsFilters({ onChange }: ProductsFiltersProps) {
   return (
     <div className="mb-4 rounded-sm border border-kyowa-border bg-white p-4">
       <div className="max-w-md">
-        <label htmlFor="products-filter-name" className={formLabelClass}>
-          Nome
-        </label>
-        <input
+        <ProductNameAutocomplete
           id="products-filter-name"
-          type="search"
+          label="Nome"
           value={nameInput}
-          onChange={(event) => setNameInput(event.target.value)}
-          placeholder="Buscar por nome"
-          className={formInputClass}
-          autoComplete="off"
+          onChange={setNameInput}
         />
       </div>
     </div>

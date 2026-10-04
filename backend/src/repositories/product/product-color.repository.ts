@@ -30,6 +30,11 @@ export class ProductColorRepository implements IProductColorRepository {
     return item ? ProductColorEntity.fromPersistData(item) : null;
   }
 
+  async findIdByName(name: string): Promise<string | null> {
+    const item = await this.model.findOne({ name }).exec();
+    return item ? item._id.toString() : null;
+  }
+
   async update(
     id: string,
     data: ProductColorEntity,

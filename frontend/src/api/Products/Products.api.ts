@@ -4,6 +4,9 @@ import { Fetch } from "@utils";
 import type {
   CreateProductDTO,
   ListProductsParams,
+  ListUpdatePricesProductsParams,
+  ProductNameSuggestion,
+  ProductPriceUpdateListItem,
   UpdateProductDTO,
 } from "./Products.dto";
 
@@ -23,6 +26,29 @@ export const ProductsApi = () => {
   ): Promise<PaginatedResult<Product>> {
     const response = await Fetch.get<PaginatedResult<Product>>({
       url: `${path}/paginated`,
+      config: { params },
+    });
+
+    return response.data;
+  }
+
+  async function searchByName(
+    name: string,
+    limit = 10,
+  ): Promise<ProductNameSuggestion[]> {
+    const response = await Fetch.get<ProductNameSuggestion[]>({
+      url: `${path}/search-by-name`,
+      config: { params: { name, limit } },
+    });
+
+    return response.data;
+  }
+
+  async function getPaginatedForPriceUpdate(
+    params: ListUpdatePricesProductsParams,
+  ): Promise<PaginatedResult<ProductPriceUpdateListItem>> {
+    const response = await Fetch.get<PaginatedResult<ProductPriceUpdateListItem>>({
+      url: `${path}/update-prices/products`,
       config: { params },
     });
 
@@ -59,6 +85,8 @@ export const ProductsApi = () => {
   return {
     getAll,
     getPaginated,
+    searchByName,
+    getPaginatedForPriceUpdate,
     create,
     update,
     remove,

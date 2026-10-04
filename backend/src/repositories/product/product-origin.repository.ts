@@ -30,6 +30,11 @@ export class ProductOriginRepository implements IProductOriginRepository {
     return item ? ProductOriginEntity.fromPersistData(item) : null;
   }
 
+  async findIdByName(name: string): Promise<string | null> {
+    const item = await this.model.findOne({ name }).exec();
+    return item ? item._id.toString() : null;
+  }
+
   async update(
     id: string,
     data: ProductOriginEntity,

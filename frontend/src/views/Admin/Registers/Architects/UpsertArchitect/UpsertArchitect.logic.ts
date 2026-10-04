@@ -23,7 +23,7 @@ type UseUpsertArchitectLogicParams = {
 
 export function useUpsertArchitectLogic({
   architect,
-  listHref = adminRoutes.architects.list,
+  listHref = adminRoutes.architects.href,
 }: UseUpsertArchitectLogicParams) {
   const { architectsApi } = useApi();
   const invalidateArchitects = useInvalidateArchitectsQuery();

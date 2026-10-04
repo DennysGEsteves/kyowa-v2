@@ -2,7 +2,7 @@
 
 import { DataTable, TablePagination } from "@/components/Table";
 import { adminRoutes } from "@/routes/adminRoutes";
-import { ListTree, Plus } from "lucide-react";
+import { CircleDollarSign, ListTree, Plus } from "lucide-react";
 import Link from "next/link";
 import { DeleteProductDialog } from "./components/DeleteProductDialog";
 import { ProductsFilters } from "./components/ProductsFilters";
@@ -33,6 +33,13 @@ export function AdminProductsView() {
           >
             <ListTree className="h-4 w-4" strokeWidth={2} />
             Descritores
+          </Link>
+          <Link
+            href={adminRoutes.products.updatePrices.href}
+            className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
+          >
+            <CircleDollarSign className="h-4 w-4" strokeWidth={2} />
+            Atualizar Preços
           </Link>
           <Link
             href={adminRoutes.products.new}

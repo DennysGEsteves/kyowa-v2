@@ -13,16 +13,17 @@ import { UpsertArchitectForm } from "./UpsertArchitect.form";
 export function UpsertArchitectView() {
   const params = useParams();
   const id = params.id as string | undefined;
-  const { entity: architect, isLoading, notFound } = useEntityFromList(
-    id,
-    useArchitectsQuery,
-  );
+  const {
+    entity: architect,
+    isLoading,
+    notFound,
+  } = useEntityFromList(id, useArchitectsQuery);
 
   if (id && isLoading) return <AdminFormLoading />;
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.architects.list}
+        backHref={adminRoutes.architects.href}
         backLabel="Voltar aos arquitetos"
         message="Arquiteto não encontrado."
       />

@@ -31,5 +31,6 @@ import { ProductCategoryController } from './product-category.controller';
     UpdateProductCategoryUseCase,
     DeleteProductCategoryUseCase,
   ],
+  exports: [PRODUCT_CATEGORY_REPOSITORY],
 })
 export class ProductCategoryModule {}

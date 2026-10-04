@@ -2,6 +2,8 @@ import { CreateProductDto } from '../../controllers/product/dto/create-product.d
 import { UpdateProductDto } from '../../controllers/product/dto/update-product.dto';
 import { ProductDocument } from '../../repositories/product/schemas/product.schema';
 import { resolveNameFilter } from '../../shared/util/string/name-filter';
+import { ProviderEntity } from '../provider';
+import { ProductCategoryEntity } from './product-category-entity';
 
 export interface IProductConstructorParams {
   id?: string;
@@ -30,6 +32,9 @@ export interface IProductConstructorParams {
   amountUnlimited?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+
+  category?: ProductCategoryEntity;
+  provider?: ProviderEntity;
 }
 
 export class ProductEntity {
@@ -60,6 +65,9 @@ export class ProductEntity {
   public createdAt?: Date;
   public updatedAt?: Date;
 
+  public category?: ProductCategoryEntity;
+  public provider?: ProviderEntity;
+
   constructor(params: IProductConstructorParams) {
     this.id = params.id;
     this.name = params.name;
@@ -87,6 +95,9 @@ export class ProductEntity {
     this.amountUnlimited = params.amountUnlimited ?? false;
     this.createdAt = params.createdAt;
     this.updatedAt = params.updatedAt;
+
+    this.category = params.category;
+    this.provider = params.provider;
   }
 
   static fromPersistData(document: ProductDocument): ProductEntity {

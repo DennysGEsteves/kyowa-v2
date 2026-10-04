@@ -23,7 +23,7 @@ type UseUpsertUserLogicParams = {
 
 export function useUpsertUserLogic({
   user,
-  listHref = adminRoutes.users.list,
+  listHref = adminRoutes.users.href,
 }: UseUpsertUserLogicParams) {
   const { usersApi } = useApi();
   const invalidateUsers = useInvalidateUsersQuery();

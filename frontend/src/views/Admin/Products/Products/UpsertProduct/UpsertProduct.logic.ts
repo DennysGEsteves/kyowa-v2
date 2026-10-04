@@ -29,7 +29,7 @@ function lookupSelectOptions(items: ProductLookup[]) {
 
 export function useUpsertProductLogic({
   product,
-  listHref = adminRoutes.products.list,
+  listHref = adminRoutes.products.href,
 }: UseUpsertProductLogicParams) {
   const { productsApi } = useApi();
   const invalidateProducts = useInvalidateProductsQuery();

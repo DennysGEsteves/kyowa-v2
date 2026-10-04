@@ -13,16 +13,17 @@ import { UpsertStoreForm } from "./UpsertStore.form";
 export function UpsertStoreView() {
   const params = useParams();
   const id = params.id as string | undefined;
-  const { entity: store, isLoading, notFound } = useEntityFromList(
-    id,
-    useStoresQuery,
-  );
+  const {
+    entity: store,
+    isLoading,
+    notFound,
+  } = useEntityFromList(id, useStoresQuery);
 
   if (id && isLoading) return <AdminFormLoading />;
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.stores.list}
+        backHref={adminRoutes.stores.href}
         backLabel="Voltar às lojas"
         message="Loja não encontrada."
       />

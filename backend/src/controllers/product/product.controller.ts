@@ -11,6 +11,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ListProductsPaginatedQueryDto } from './dto/list-products-query.dto';
+import { ListUpdatePricesProductsQueryDto } from './dto/list-update-prices-products-query.dto';
+import { SearchProductsByNameQueryDto } from './dto/search-products-by-name-query.dto';
 import { ProductEntity } from '../../entities/product';
 import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateProductUseCase } from '../../usecases/product/create-product.usecase';
@@ -18,9 +20,15 @@ import { DeleteProductUseCase } from '../../usecases/product/delete-product.usec
 import { GetProductByIdUseCase } from '../../usecases/product/get-product-by-id.usecase';
 import { GetProductsUseCase } from '../../usecases/product/get-products.usecase';
 import { ListProductsPaginatedUseCase } from '../../usecases/product/list-products-paginated.usecase';
+import { ListUpdatePricesProductsUseCase } from '../../usecases/product/list-update-prices-products.usecase';
+import { SearchProductsByNameUseCase } from '../../usecases/product/search-products-by-name.usecase';
 import { UpdateProductUseCase } from '../../usecases/product/update-product.usecase';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import {
+  GetByNameResponse,
+  toGetByNameResponse,
+} from './dto/presenters/get-by-name-response';
 
 @Controller('products')
 export class ProductController {
@@ -31,6 +39,8 @@ export class ProductController {
     private readonly getProductByIdUseCase: GetProductByIdUseCase,
     private readonly updateProductUseCase: UpdateProductUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
+    private readonly listUpdatePricesProductsUseCase: ListUpdatePricesProductsUseCase,
+    private readonly searchProductsByNameUseCase: SearchProductsByNameUseCase,
   ) {}
 
   @Post()
@@ -50,12 +60,27 @@ export class ProductController {
     return this.listProductsPaginatedUseCase.execute(query);
   }
 
-  @Get(':id([0-9a-fA-F]{24})')
+  @Get('update-prices/products')
+  listForPriceUpdate(
+    @Query() query: ListUpdatePricesProductsQueryDto,
+  ): Promise<PaginatedResult<ProductEntity>> {
+    return this.listUpdatePricesProductsUseCase.execute(query);
+  }
+
+  @Get('search-by-name')
+  async searchByName(
+    @Query() query: SearchProductsByNameQueryDto,
+  ): Promise<GetByNameResponse[]> {
+    const products = await this.searchProductsByNameUseCase.execute(query);
+    return toGetByNameResponse(products);
+  }
+
+  @Get(':id')
   findOne(@Param('id') id: string): Promise<ProductEntity> {
     return this.getProductByIdUseCase.execute(id);
   }
 
-  @Patch(':id([0-9a-fA-F]{24})')
+  @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() dto: UpdateProductDto,
@@ -63,7 +88,7 @@ export class ProductController {
     return this.updateProductUseCase.execute(id, dto);
   }
 
-  @Delete(':id([0-9a-fA-F]{24})')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string): Promise<void> {
     await this.deleteProductUseCase.execute(id);

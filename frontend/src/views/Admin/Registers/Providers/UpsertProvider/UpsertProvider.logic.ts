@@ -22,7 +22,7 @@ type UseUpsertProviderLogicParams = {
 
 export function useUpsertProviderLogic({
   provider,
-  listHref = adminRoutes.providers.list,
+  listHref = adminRoutes.providers.href,
 }: UseUpsertProviderLogicParams) {
   const { providersApi } = useApi();
   const invalidateProviders = useInvalidateProvidersQuery();

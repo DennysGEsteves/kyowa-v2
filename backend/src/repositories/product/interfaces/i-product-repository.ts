@@ -7,6 +7,12 @@ export interface ProductListFilters {
   name?: string;
 }
 
+export interface ProductUpdatePricesListFilters {
+  name?: string;
+  providerIds?: string[];
+  categoryId?: string;
+}
+
 export interface ProductPaginationParams {
   page: number;
   limit: number;
@@ -19,6 +25,11 @@ export interface IProductRepository {
     filters: ProductListFilters,
     pagination: ProductPaginationParams,
   ): Promise<PaginatedResult<ProductEntity>>;
+  findPaginatedForPriceUpdate(
+    filters: ProductUpdatePricesListFilters,
+    pagination: ProductPaginationParams,
+  ): Promise<PaginatedResult<ProductEntity>>;
+  searchByName(name: string, limit: number): Promise<ProductEntity[]>;
   findById(id: string): Promise<ProductEntity | null>;
   update(id: string, data: ProductEntity): Promise<ProductEntity | null>;
   delete(id: string): Promise<boolean>;

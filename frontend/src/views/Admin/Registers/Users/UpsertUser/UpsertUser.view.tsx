@@ -13,16 +13,17 @@ import { UpsertUserForm } from "./UpsertUser.form";
 export function UpsertUserView() {
   const params = useParams();
   const id = params.id as string | undefined;
-  const { entity: user, isLoading, notFound } = useEntityFromList(
-    id,
-    useUsersQuery,
-  );
+  const {
+    entity: user,
+    isLoading,
+    notFound,
+  } = useEntityFromList(id, useUsersQuery);
 
   if (id && isLoading) return <AdminFormLoading />;
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.users.list}
+        backHref={adminRoutes.users.href}
         backLabel="Voltar aos usuários"
         message="Usuário não encontrado."
       />

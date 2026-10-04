@@ -73,6 +73,10 @@ export const adminRoutes = {
       new: "/admin/produtos/descritores/novo",
       edit: (id: string) => `/admin/produtos/descritores/${id}`,
     },
+    updatePrices: {
+      href: "/admin/produtos/atualizar-precos",
+      label: "Atualizar Preços",
+    },
   },
 } as const;
 

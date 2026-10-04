@@ -33,5 +33,6 @@ import { ProviderController } from './provider.controller';
     UpdateProviderUseCase,
     DeleteProviderUseCase,
   ],
+  exports: [PROVIDER_REPOSITORY],
 })
 export class ProviderModule {}

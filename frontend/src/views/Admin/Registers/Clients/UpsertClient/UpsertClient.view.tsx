@@ -13,16 +13,17 @@ import { UpsertClientForm } from "./UpsertClient.form";
 export function UpsertClientView() {
   const params = useParams();
   const id = params.id as string | undefined;
-  const { entity: client, isLoading, notFound } = useEntityFromList(
-    id,
-    useClientsQuery,
-  );
+  const {
+    entity: client,
+    isLoading,
+    notFound,
+  } = useEntityFromList(id, useClientsQuery);
 
   if (id && isLoading) return <AdminFormLoading />;
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.clients.list}
+        backHref={adminRoutes.clients.href}
         backLabel="Voltar aos clientes"
         message="Cliente não encontrado."
       />

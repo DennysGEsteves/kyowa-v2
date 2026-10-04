@@ -17,6 +17,10 @@ const httpService = axios.create({
 });
 
 httpService.interceptors.request.use((config) => {
+  if (config.url?.includes("login")) {
+    return config;
+  }
+
   const token = getAuthToken();
 
   if (!token) {

@@ -1,6 +1,26 @@
 import type { ListNameParams } from "@/types/list-params";
+import type { Product } from "@entities";
 
 export type ListProductsParams = ListNameParams;
+
+export type ProductNameSuggestion = {
+  id: string;
+  name: string;
+  fantasyName: string;
+};
+
+export type ProductPriceUpdateListItem = Product & {
+  category?: { id: string; name: string } | null;
+  provider?: { id: string; name: string } | null;
+};
+
+export type ListUpdatePricesProductsParams = {
+  page?: number;
+  limit?: number;
+  name?: string;
+  providerName?: string;
+  categoryId?: string;
+};
 
 export type CreateProductDTO = {
   name: string;

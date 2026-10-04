@@ -13,16 +13,17 @@ import { UpsertProviderForm } from "./UpsertProvider.form";
 export function UpsertProviderView() {
   const params = useParams();
   const id = params.id as string | undefined;
-  const { entity: provider, isLoading, notFound } = useEntityFromList(
-    id,
-    useProvidersQuery,
-  );
+  const {
+    entity: provider,
+    isLoading,
+    notFound,
+  } = useEntityFromList(id, useProvidersQuery);
 
   if (id && isLoading) return <AdminFormLoading />;
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.providers.list}
+        backHref={adminRoutes.providers.href}
         backLabel="Voltar aos fornecedores"
         message="Fornecedor não encontrado."
       />

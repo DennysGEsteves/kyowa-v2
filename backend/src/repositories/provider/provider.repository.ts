@@ -34,6 +34,22 @@ export class ProviderRepository implements IProviderRepository {
     );
   }
 
+  async findIdsByNameFilter(name: string): Promise<string[]> {
+    const normalizedName = toNameFilter(name);
+    if (!normalizedName) {
+      return [];
+    }
+
+    const providers = await this.providerModel
+      .find({
+        nameFilter: { $regex: escapeRegExp(normalizedName) },
+      })
+      .select('_id')
+      .exec();
+
+    return providers.map((provider) => provider._id.toString());
+  }
+
   async findPaginated(
     filters: ProviderListFilters,
     pagination: ProviderPaginationParams,

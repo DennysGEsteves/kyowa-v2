@@ -29,7 +29,7 @@ type UseUpsertClientLogicParams = {
 
 export function useUpsertClientLogic({
   client,
-  listHref = adminRoutes.clients.list,
+  listHref = adminRoutes.clients.href,
 }: UseUpsertClientLogicParams) {
   const { clientsApi } = useApi();
   const invalidateClients = useInvalidateClientsQuery();
@@ -88,9 +88,7 @@ export function useUpsertClientLogic({
 
   const formik = useFormik<ClientFormSchema>({
     enableReinitialize: true,
-    initialValues: client
-      ? clientToFormValues(client)
-      : emptyClientFormValues,
+    initialValues: client ? clientToFormValues(client) : emptyClientFormValues,
     validationSchema: clientValidationSchema,
     onSubmit,
   });
