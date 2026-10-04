@@ -4,6 +4,8 @@ import { Fetch } from "@utils";
 import type {
   CreateProductDTO,
   ListProductsParams,
+  ApplyProductPriceAdjustmentParams,
+  ApplyProductPriceAdjustmentResult,
   ListUpdatePricesProductsParams,
   ProductNameSuggestion,
   ProductPriceUpdateListItem,
@@ -55,6 +57,17 @@ export const ProductsApi = () => {
     return response.data;
   }
 
+  async function applyPriceAdjustment(
+    data: ApplyProductPriceAdjustmentParams,
+  ): Promise<ApplyProductPriceAdjustmentResult> {
+    const response = await Fetch.put<ApplyProductPriceAdjustmentResult>({
+      url: `${path}/update-prices/apply`,
+      data,
+    });
+
+    return response.data;
+  }
+
   async function create(data: CreateProductDTO): Promise<Product> {
     const response = await Fetch.post<Product>({
       url: path,
@@ -87,6 +100,7 @@ export const ProductsApi = () => {
     getPaginated,
     searchByName,
     getPaginatedForPriceUpdate,
+    applyPriceAdjustment,
     create,
     update,
     remove,

@@ -22,6 +22,17 @@ export type ListUpdatePricesProductsParams = {
   categoryId?: string;
 };
 
+export type ApplyProductPriceAdjustmentParams = {
+  adjustmentPercent: number;
+  name?: string;
+  providerName?: string;
+  categoryId?: string;
+};
+
+export type ApplyProductPriceAdjustmentResult = {
+  updatedCount: number;
+};
+
 export type CreateProductDTO = {
   name: string;
   fantasyName: string;

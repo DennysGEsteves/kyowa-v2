@@ -17,6 +17,7 @@ import { ListUpdatePricesProductsUseCase } from '../../usecases/product/list-upd
 import { SearchProductsByNameUseCase } from '../../usecases/product/search-products-by-name.usecase';
 import { UpdateProductUseCase } from '../../usecases/product/update-product.usecase';
 import { ProductController } from './product.controller';
+import { UpdateProductsPriceUseCase } from '../../usecases/product/update-product-price.usecase';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ProductController } from './product.controller';
     GetProductsUseCase,
     ListProductsPaginatedUseCase,
     ListUpdatePricesProductsUseCase,
+    UpdateProductsPriceUseCase,
     SearchProductsByNameUseCase,
     GetProductByIdUseCase,
     UpdateProductUseCase,

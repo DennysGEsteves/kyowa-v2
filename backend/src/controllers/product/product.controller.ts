@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ListProductsPaginatedQueryDto } from './dto/list-products-query.dto';
@@ -20,6 +21,7 @@ import { DeleteProductUseCase } from '../../usecases/product/delete-product.usec
 import { GetProductByIdUseCase } from '../../usecases/product/get-product-by-id.usecase';
 import { GetProductsUseCase } from '../../usecases/product/get-products.usecase';
 import { ListProductsPaginatedUseCase } from '../../usecases/product/list-products-paginated.usecase';
+import { UpdateProductsPriceUseCase } from '../../usecases/product/update-product-price.usecase';
 import { ListUpdatePricesProductsUseCase } from '../../usecases/product/list-update-prices-products.usecase';
 import { SearchProductsByNameUseCase } from '../../usecases/product/search-products-by-name.usecase';
 import { UpdateProductUseCase } from '../../usecases/product/update-product.usecase';
@@ -29,6 +31,11 @@ import {
   GetByNameResponse,
   toGetByNameResponse,
 } from './dto/presenters/get-by-name-response';
+import { UpdateProductsPriceUseCaseDto } from './dto/update-product-price.dto';
+import {
+  toUpdateProductsPriceResponse,
+  UpdateProductsPriceResponse,
+} from './dto/presenters/update-product-price-response.dto';
 
 @Controller('products')
 export class ProductController {
@@ -40,6 +47,7 @@ export class ProductController {
     private readonly updateProductUseCase: UpdateProductUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
     private readonly listUpdatePricesProductsUseCase: ListUpdatePricesProductsUseCase,
+    private readonly updateProductsPriceUseCase: UpdateProductsPriceUseCase,
     private readonly searchProductsByNameUseCase: SearchProductsByNameUseCase,
   ) {}
 
@@ -65,6 +73,14 @@ export class ProductController {
     @Query() query: ListUpdatePricesProductsQueryDto,
   ): Promise<PaginatedResult<ProductEntity>> {
     return this.listUpdatePricesProductsUseCase.execute(query);
+  }
+
+  @Put('update-prices/apply')
+  async updateProductsPrice(
+    @Body() dto: UpdateProductsPriceUseCaseDto,
+  ): Promise<UpdateProductsPriceResponse> {
+    const updatedCount = await this.updateProductsPriceUseCase.execute(dto);
+    return toUpdateProductsPriceResponse(updatedCount);
   }
 
   @Get('search-by-name')

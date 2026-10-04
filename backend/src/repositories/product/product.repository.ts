@@ -89,26 +89,7 @@ export class ProductRepository implements IProductRepository {
     },
     pagination: { page: number; limit: number },
   ): Promise<PaginatedResult<ProductEntity>> {
-    const query: FilterQuery<ProductDocument> = {};
-
-    if (filters.name) {
-      const normalizedName = toNameFilter(filters.name);
-      if (normalizedName) {
-        query.nameFilter = {
-          $regex: escapeRegExp(normalizedName),
-        };
-      }
-    }
-
-    if (filters.providerIds !== undefined) {
-      query.providerId = {
-        $in: filters.providerIds.map((id) => new Types.ObjectId(id)),
-      };
-    }
-
-    if (filters.categoryId) {
-      query.categoryId = new Types.ObjectId(filters.categoryId);
-    }
+    const query = this.buildPriceUpdateFilterQuery(filters);
 
     const skip = (pagination.page - 1) * pagination.limit;
 
@@ -133,6 +114,34 @@ export class ProductRepository implements IProductRepository {
         totalPages,
       },
     };
+  }
+
+  async updateProducsSellPrice(
+    filters: {
+      name?: string;
+      providerIds?: string[];
+      categoryId?: string;
+    },
+    value: number,
+  ): Promise<number> {
+    const query = this.buildPriceUpdateFilterQuery(filters);
+    const multiplier = 1 + value / 100;
+
+    const result = await this.productModel.updateMany(
+      {
+        ...query,
+        sellPrice: { $ne: null, $exists: true },
+      },
+      [
+        {
+          $set: {
+            sellPrice: { $multiply: ['$sellPrice', multiplier] },
+          },
+        },
+      ],
+    );
+
+    return result.modifiedCount;
   }
 
   async searchByName(name: string, limit: number): Promise<ProductEntity[]> {
@@ -171,6 +180,35 @@ export class ProductRepository implements IProductRepository {
   async delete(id: string): Promise<boolean> {
     const result = await this.productModel.findByIdAndDelete(id).exec();
     return result !== null;
+  }
+
+  private buildPriceUpdateFilterQuery(filters: {
+    name?: string;
+    providerIds?: string[];
+    categoryId?: string;
+  }): FilterQuery<ProductDocument> {
+    const query: FilterQuery<ProductDocument> = {};
+
+    if (filters.name) {
+      const normalizedName = toNameFilter(filters.name);
+      if (normalizedName) {
+        query.nameFilter = {
+          $regex: escapeRegExp(normalizedName),
+        };
+      }
+    }
+
+    if (filters.providerIds !== undefined) {
+      query.providerId = {
+        $in: filters.providerIds.map((id) => new Types.ObjectId(id)),
+      };
+    }
+
+    if (filters.categoryId) {
+      query.categoryId = new Types.ObjectId(filters.categoryId);
+    }
+
+    return query;
   }
 
   private omitRelationStrings(data: ProductEntity): Record<string, unknown> {

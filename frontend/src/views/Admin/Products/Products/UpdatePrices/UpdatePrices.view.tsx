@@ -11,8 +11,9 @@ import { UpdatePricesLogic } from "./UpdatePrices.logic";
 export function UpdatePricesView() {
   const { data, methods } = UpdatePricesLogic();
 
-  const totalLabel =
-    data.meta.total === 1
+  const totalLabel = !data.hasSearched
+    ? "Nenhuma busca realizada"
+    : data.meta.total === 1
       ? "1 produto encontrado"
       : `${data.meta.total} produtos encontrados`;
 
@@ -41,10 +42,18 @@ export function UpdatePricesView() {
       </div>
 
       <UpdatePricesFilters
+        key={data.filtersResetKey}
         categories={data.categories}
         onSearch={methods.onSearch}
         isSearching={data.isFetching}
       />
+
+      {data.confirmSuccessMessage ? (
+        <p className="mb-4 text-sm text-green-700">{data.confirmSuccessMessage}</p>
+      ) : null}
+      {data.confirmErrorMessage ? (
+        <p className="mb-4 text-sm text-red-600">{data.confirmErrorMessage}</p>
+      ) : null}
 
       {data.isError ? (
         <p className="text-sm text-red-600">
@@ -58,6 +67,9 @@ export function UpdatePricesView() {
             <UpdatePricesAdjustmentField
               value={data.adjustmentPercent}
               onChange={methods.setAdjustmentPercent}
+              onConfirm={methods.onConfirmAdjustment}
+              canConfirm={data.canConfirmAdjustment}
+              isConfirming={data.isConfirming}
             />
           ) : null}
           <DataTable

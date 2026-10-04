@@ -47,7 +47,7 @@ export function UpdatePricesFilters({
         submit();
       }}
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <ProductNameAutocomplete
             id="update-prices-filter-name"
@@ -94,15 +94,18 @@ export function UpdatePricesFilters({
             ))}
           </select>
         </div>
-      </div>
-      <div className="mt-4 flex justify-end">
-        <button
-          type="submit"
-          disabled={isSearching}
-          className="inline-flex items-center justify-center bg-kyowa-maroon px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          Buscar
-        </button>
+        <div>
+          <span className={`${formLabelClass} invisible`} aria-hidden="true">
+            Buscar
+          </span>
+          <button
+            type="submit"
+            disabled={isSearching}
+            className={`${formInputClass} border-kyowa-maroon bg-kyowa-maroon font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark focus:border-kyowa-maroon disabled:cursor-not-allowed disabled:opacity-60`}
+          >
+            Buscar
+          </button>
+        </div>
       </div>
     </form>
   );
