@@ -4,6 +4,11 @@ import type { ProviderType } from "@entities";
 
 export type ListProvidersParams = ListNameActiveParams;
 
+export type ProviderNameSuggestion = {
+  id: string;
+  name: string;
+};
+
 export type UpsertProviderDTO = {
   name: string;
   nameFilter?: string;

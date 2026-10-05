@@ -1,7 +1,11 @@
 import { Provider } from "@entities";
 import type { PaginatedResult } from "@/types/pagination";
 import { Fetch } from "@utils";
-import type { ListProvidersParams, UpsertProviderDTO } from "./Providers.dto";
+import type {
+  ListProvidersParams,
+  ProviderNameSuggestion,
+  UpsertProviderDTO,
+} from "./Providers.dto";
 
 export const ProvidersApi = () => {
   const path = `/providers`;
@@ -20,6 +24,18 @@ export const ProvidersApi = () => {
     const response = await Fetch.get<PaginatedResult<Provider>>({
       url: `${path}/paginated`,
       config: { params },
+    });
+
+    return response.data;
+  }
+
+  async function searchByName(
+    name: string,
+    limit = 10,
+  ): Promise<ProviderNameSuggestion[]> {
+    const response = await Fetch.get<ProviderNameSuggestion[]>({
+      url: `${path}/search-by-name`,
+      config: { params: { name, limit } },
     });
 
     return response.data;
@@ -55,6 +71,7 @@ export const ProvidersApi = () => {
   return {
     getAll,
     getPaginated,
+    searchByName,
     create,
     update,
     remove,

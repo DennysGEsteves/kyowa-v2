@@ -6,6 +6,8 @@ export const providersQueryKeys = {
   all: ["providers"] as const,
   paginated: (params: ListProvidersParams) =>
     [...providersQueryKeys.all, "paginated", params] as const,
+  searchByName: (name: string, limit: number) =>
+    [...providersQueryKeys.all, "search-by-name", name, limit] as const,
 };
 
 export function useProvidersQuery() {
@@ -14,6 +16,17 @@ export function useProvidersQuery() {
   return useQuery({
     queryKey: [...providersQueryKeys.all, "list"] as const,
     queryFn: () => providersApi.getAll(),
+  });
+}
+
+export function useProviderNameSuggestionsQuery(name: string, limit = 10) {
+  const { providersApi } = useApi();
+  const trimmed = name.trim();
+
+  return useQuery({
+    queryKey: providersQueryKeys.searchByName(trimmed, limit),
+    queryFn: () => providersApi.searchByName(trimmed, limit),
+    enabled: trimmed.length > 0,
   });
 }
 

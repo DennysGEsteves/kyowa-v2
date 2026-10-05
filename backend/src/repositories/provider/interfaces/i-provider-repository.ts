@@ -17,6 +17,7 @@ export interface IProviderRepository {
   create(data: ProviderEntity): Promise<ProviderEntity>;
   findAll(): Promise<ProviderEntity[]>;
   findIdsByNameFilter(name: string): Promise<string[]>;
+  searchByName(name: string, limit: number): Promise<ProviderEntity[]>;
   findPaginated(
     filters: ProviderListFilters,
     pagination: ProviderPaginationParams,

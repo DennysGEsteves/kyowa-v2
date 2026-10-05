@@ -20,7 +20,13 @@ import { UpdateProviderUseCase } from '../../usecases/provider/update-provider.u
 import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { ListProvidersPaginatedQueryDto } from './dto/list-providers-query.dto';
+import { SearchProvidersByNameQueryDto } from './dto/search-providers-by-name-query.dto';
+import {
+  SearchProvidersByNameResponse,
+  toSearchProvidersByNameResponse,
+} from './dto/presenters/search-providers-by-name-response';
 import { UpdateProviderDto } from './dto/update-provider.dto';
+import { SearchProvidersByNameUseCase } from '../../usecases/provider/search-providers-by-name.usecase';
 
 @Controller('providers')
 export class ProviderController {
@@ -31,6 +37,7 @@ export class ProviderController {
     private readonly getProviderByIdUseCase: GetProviderByIdUseCase,
     private readonly updateProviderUseCase: UpdateProviderUseCase,
     private readonly deleteProviderUseCase: DeleteProviderUseCase,
+    private readonly searchProvidersByNameUseCase: SearchProvidersByNameUseCase,
   ) {}
 
   @Post()
@@ -48,6 +55,14 @@ export class ProviderController {
     @Query() query: ListProvidersPaginatedQueryDto,
   ): Promise<PaginatedResult<ProviderEntity>> {
     return this.listProvidersPaginatedUseCase.execute(query);
+  }
+
+  @Get('search-by-name')
+  async searchByName(
+    @Query() query: SearchProvidersByNameQueryDto,
+  ): Promise<SearchProvidersByNameResponse[]> {
+    const providers = await this.searchProvidersByNameUseCase.execute(query);
+    return toSearchProvidersByNameResponse(providers);
   }
 
   @Get(':id')

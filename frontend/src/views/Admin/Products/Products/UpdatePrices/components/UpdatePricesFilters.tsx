@@ -2,6 +2,7 @@
 
 import { formInputClass, formLabelClass } from "@/components/Form/FieldStyles";
 import { ProductNameAutocomplete } from "@/components/Form/ProductNameAutocomplete";
+import { ProviderNameAutocomplete } from "@/components/Form/ProviderNameAutocomplete";
 import type { ProductLookup } from "@entities";
 import { useCallback, useState } from "react";
 
@@ -57,20 +58,11 @@ export function UpdatePricesFilters({
           />
         </div>
         <div>
-          <label
-            htmlFor="update-prices-filter-provider"
-            className={formLabelClass}
-          >
-            Nome do fornecedor
-          </label>
-          <input
+          <ProviderNameAutocomplete
             id="update-prices-filter-provider"
-            type="search"
+            label="Nome do fornecedor"
             value={providerNameInput}
-            onChange={(event) => setProviderNameInput(event.target.value)}
-            placeholder="Buscar por fornecedor"
-            className={formInputClass}
-            autoComplete="off"
+            onChange={setProviderNameInput}
           />
         </div>
         <div>
