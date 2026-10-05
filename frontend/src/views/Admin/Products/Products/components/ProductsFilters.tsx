@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductNameAutocomplete } from "@/components/ProductNameAutocomplete";
+import { ProductNameAutocomplete } from "@/components/Form/ProductNameAutocomplete";
 import { useEffect, useState } from "react";
 
 const NAME_DEBOUNCE_MS = 300;

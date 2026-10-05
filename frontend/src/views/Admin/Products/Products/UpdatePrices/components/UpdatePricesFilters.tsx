@@ -1,7 +1,7 @@
 "use client";
 
 import { formInputClass, formLabelClass } from "@/components/Form/FieldStyles";
-import { ProductNameAutocomplete } from "@/components/ProductNameAutocomplete";
+import { ProductNameAutocomplete } from "@/components/Form/ProductNameAutocomplete";
 import type { ProductLookup } from "@entities";
 import { useCallback, useState } from "react";
 
