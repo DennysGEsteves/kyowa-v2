@@ -2,7 +2,7 @@
 
 import { useUsersQuery } from "@/api/Users/users.query";
 import { useEntityFromList } from "@/hooks/useEntityFromList";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
@@ -23,7 +23,7 @@ export function UpsertUserView() {
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.users.href}
+        backHref={routes.users.href}
         backLabel="Voltar aos usuários"
         message="Usuário não encontrado."
       />

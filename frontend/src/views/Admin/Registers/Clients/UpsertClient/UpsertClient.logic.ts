@@ -1,7 +1,7 @@
 import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useApi } from "@/api/api.hook";
 import { useInvalidateClientsQuery } from "@/api/Clients/clients.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   clientOriginLabels,
   clientOrigins,
@@ -29,7 +29,7 @@ type UseUpsertClientLogicParams = {
 
 export function useUpsertClientLogic({
   client,
-  listHref = adminRoutes.clients.href,
+  listHref = routes.clients.href,
 }: UseUpsertClientLogicParams) {
   const { clientsApi } = useApi();
   const invalidateClients = useInvalidateClientsQuery();

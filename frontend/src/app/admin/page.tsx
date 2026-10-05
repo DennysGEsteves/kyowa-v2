@@ -1,6 +1,6 @@
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import { redirect } from "next/navigation";
 
 export default function AdminPage() {
-  redirect(adminRoutes.dashboard.href);
+  redirect(routes.dashboard.href);
 }

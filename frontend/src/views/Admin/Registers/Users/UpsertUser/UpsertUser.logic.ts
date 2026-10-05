@@ -1,7 +1,7 @@
 import { useApi } from "@/api/api.hook";
 import { useStoresQuery } from "@/api/Stores/stores.query";
 import { useInvalidateUsersQuery } from "@/api/Users/users.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import { permissionLabels, type User, userPermissions } from "@entities";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ type UseUpsertUserLogicParams = {
 
 export function useUpsertUserLogic({
   user,
-  listHref = adminRoutes.users.href,
+  listHref = routes.users.href,
 }: UseUpsertUserLogicParams) {
   const { usersApi } = useApi();
   const invalidateUsers = useInvalidateUsersQuery();

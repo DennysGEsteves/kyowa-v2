@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable, TablePagination } from "@/components/Table";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import { ArchitectsFilters } from "./components/ArchitectsFilters";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -30,7 +30,7 @@ export function RegistersArchitectsView() {
       <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-kyowa-muted">{totalLabel}</p>
         <Link
-          href={adminRoutes.architects.new}
+          href={routes.architects.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />

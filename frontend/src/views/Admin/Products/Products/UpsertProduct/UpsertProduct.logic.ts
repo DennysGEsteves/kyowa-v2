@@ -2,7 +2,7 @@ import { useApi } from "@/api/api.hook";
 import { useProductLookupsQuery } from "@/api/ProductLookups/product-lookups.query";
 import { useInvalidateProductsQuery } from "@/api/Products/products.query";
 import { useProvidersQuery } from "@/api/Providers/providers.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import type { Product, ProductLookup } from "@entities";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,7 @@ function lookupSelectOptions(items: ProductLookup[]) {
 
 export function useUpsertProductLogic({
   product,
-  listHref = adminRoutes.products.href,
+  listHref = routes.products.href,
 }: UseUpsertProductLogicParams) {
   const { productsApi } = useApi();
   const invalidateProducts = useInvalidateProductsQuery();

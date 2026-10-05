@@ -1,5 +1,5 @@
-import { UserPermission } from "@/@types/entities";
 import { AdminNavSection } from "@/layout/navigation";
+import { userPermissionModules } from "./definitions";
 import { getSessionUser } from "@/utils";
 import {
   HardHat,
@@ -13,20 +13,7 @@ import {
 } from "lucide-react";
 import type { AdminNavItem } from "@/layout/navigation";
 
-export type UserPermissionModules = {
-  CADASTROS?: ModuleId[];
-  PRODUTOS?: ModuleId[];
-};
-
-export type ModuleId =
-  | "stores"
-  | "providers"
-  | "architects"
-  | "clients"
-  | "users"
-  | "products";
-
-export const adminRoutes = {
+export const routes = {
   dashboard: {
     href: "/admin/dashboard",
     label: "Dashboard",
@@ -87,28 +74,11 @@ export const adminRoutes = {
   },
 } as const;
 
-export const userPermissionModules: Record<
-  UserPermission,
-  UserPermissionModules
-> = {
-  admin: {
-    CADASTROS: ["users", "stores", "providers", "architects", "clients"],
-    PRODUTOS: ["products"],
-  },
-  manager: {
-    CADASTROS: ["users", "stores", "providers", "architects", "clients"],
-    PRODUTOS: ["products"],
-  },
-  sales: {},
-  operational: {},
-  finance: {},
-};
-
 export const navStandaloneItems = (): AdminNavItem[] => [
   {
-    href: adminRoutes.dashboard.href,
-    label: adminRoutes.dashboard.label,
-    icon: adminRoutes.dashboard.icon,
+    href: routes.dashboard.href,
+    label: routes.dashboard.label,
+    icon: routes.dashboard.icon,
   },
 ];
 
@@ -120,18 +90,18 @@ export const navSections = (): AdminNavSection[] => {
       title: "Cadastros",
       items:
         userPermissionModules[permission!].CADASTROS?.map((module) => ({
-          href: adminRoutes[module].href,
-          label: adminRoutes[module].label,
-          icon: adminRoutes[module].icon,
+          href: routes[module].href,
+          label: routes[module].label,
+          icon: routes[module].icon,
         })) ?? [],
     },
     {
       title: "Produtos",
       items:
         userPermissionModules[permission!].PRODUTOS?.map((module) => ({
-          href: adminRoutes[module].href,
-          label: adminRoutes[module].label,
-          icon: adminRoutes[module].icon,
+          href: routes[module].href,
+          label: routes[module].label,
+          icon: routes[module].icon,
         })) ?? [],
     },
   ] as const;

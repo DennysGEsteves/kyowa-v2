@@ -1,7 +1,7 @@
 import { useApi } from "@/api/api.hook";
 import { useInvalidateArchitectsQuery } from "@/api/Architects/architects.query";
 import { useUsersQuery } from "@/api/Users/users.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import { permissionLabels, type Architect } from "@entities";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ type UseUpsertArchitectLogicParams = {
 
 export function useUpsertArchitectLogic({
   architect,
-  listHref = adminRoutes.architects.href,
+  listHref = routes.architects.href,
 }: UseUpsertArchitectLogicParams) {
   const { architectsApi } = useApi();
   const invalidateArchitects = useInvalidateArchitectsQuery();

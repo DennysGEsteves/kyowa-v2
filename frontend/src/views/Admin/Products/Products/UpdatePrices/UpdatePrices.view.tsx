@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable, TablePagination } from "@/components/Table";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { UpdatePricesAdjustmentField } from "./components/UpdatePricesAdjustmentField";
@@ -33,7 +33,7 @@ export function UpdatePricesView() {
       <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-kyowa-muted">{totalLabel}</p>
         <Link
-          href={adminRoutes.products.href}
+          href={routes.products.href}
           className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={2} />
@@ -49,7 +49,9 @@ export function UpdatePricesView() {
       />
 
       {data.confirmSuccessMessage ? (
-        <p className="mb-4 text-sm text-green-700">{data.confirmSuccessMessage}</p>
+        <p className="mb-4 text-sm text-green-700">
+          {data.confirmSuccessMessage}
+        </p>
       ) : null}
       {data.confirmErrorMessage ? (
         <p className="mb-4 text-sm text-red-600">{data.confirmErrorMessage}</p>

@@ -2,7 +2,7 @@
 
 import { useProvidersQuery } from "@/api/Providers/providers.query";
 import { useEntityFromList } from "@/hooks/useEntityFromList";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
@@ -23,7 +23,7 @@ export function UpsertProviderView() {
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.providers.href}
+        backHref={routes.providers.href}
         backLabel="Voltar aos fornecedores"
         message="Fornecedor não encontrado."
       />

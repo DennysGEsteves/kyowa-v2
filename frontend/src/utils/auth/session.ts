@@ -1,18 +1,49 @@
 import type { User, UserPermission } from "@/@types/entities";
+import { AUTH_TOKEN_COOKIE_NAME } from "./auth-token";
+import { getTokenCookieMaxAgeSeconds, parseJwtPayload } from "./jwt";
+
 const SESSION_USER_KEY = "kyowa_session";
-const AUTH_TOKEN_KEY = "kyowa_auth_token";
+export const AUTH_TOKEN_STORAGE_KEY = "kyowa_auth_token";
+
+function writeAuthTokenCookie(token: string): void {
+  if (typeof document === "undefined") return;
+
+  const maxAge = getTokenCookieMaxAgeSeconds(token);
+  const secure =
+    typeof window !== "undefined" && window.location.protocol === "https:"
+      ? "; Secure"
+      : "";
+
+  document.cookie = `${AUTH_TOKEN_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; Max-Age=${maxAge}; SameSite=Lax${secure}`;
+}
+
+function clearAuthTokenCookie(): void {
+  if (typeof document === "undefined") return;
+
+  document.cookie = `${AUTH_TOKEN_COOKIE_NAME}=; Path=/; Max-Age=0; SameSite=Lax`;
+}
 
 export function getAuthToken(): string | null {
   if (typeof window === "undefined") return null;
-  return window.sessionStorage.getItem(AUTH_TOKEN_KEY);
+  return window.sessionStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
 }
 
 export function setAuthToken(token: string): void {
-  window.sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+  window.sessionStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
+  writeAuthTokenCookie(token);
 }
 
 export function clearAuthToken(): void {
-  window.sessionStorage.removeItem(AUTH_TOKEN_KEY);
+  window.sessionStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+  clearAuthTokenCookie();
+}
+
+/** Garante cookie para o middleware quando só há token no sessionStorage. */
+export function syncAuthTokenCookieFromSession(): void {
+  const token = getAuthToken();
+  if (token) {
+    writeAuthTokenCookie(token);
+  }
 }
 
 export function getClientSession(): User | null {
@@ -35,17 +66,6 @@ export function setClientSession(user: User): void {
 export function clearClientSession(): void {
   window.localStorage.removeItem(SESSION_USER_KEY);
   clearAuthToken();
-}
-
-function parseJwtPayload(token: string): Record<string, unknown> | null {
-  try {
-    const segment = token.split(".")[1];
-    if (!segment) return null;
-    const json = atob(segment.replace(/-/g, "+").replace(/_/g, "/"));
-    return JSON.parse(json) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
 }
 
 /** Usuário derivado do JWT salvo no sessionStorage (após login). */

@@ -2,7 +2,7 @@
 
 import { useClientsQuery } from "@/api/Clients/clients.query";
 import { useEntityFromList } from "@/hooks/useEntityFromList";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
@@ -23,7 +23,7 @@ export function UpsertClientView() {
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.clients.href}
+        backHref={routes.clients.href}
         backLabel="Voltar aos clientes"
         message="Cliente não encontrado."
       />

@@ -1,6 +1,6 @@
 import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useClientsPaginatedQuery } from "@/api/Clients/clients.query";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import type { Client } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ClientsListFilters } from "./components/ClientsFilters";
@@ -64,7 +64,7 @@ export function ClientsLogic() {
   const columns = useMemo(
     () =>
       getClientTableColumns(
-        (client) => adminRoutes.clients.edit(client.id),
+        (client) => routes.clients.edit(client.id),
         (client) => setDeleteClient(client),
         getArchitectName,
       ),

@@ -2,7 +2,7 @@
 
 import { useProductsQuery } from "@/api/Products/products.query";
 import { useEntityFromList } from "@/hooks/useEntityFromList";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
@@ -23,7 +23,7 @@ export function UpsertProductView() {
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.products.href}
+        backHref={routes.products.href}
         backLabel="Voltar aos produtos"
         message="Produto não encontrado."
       />

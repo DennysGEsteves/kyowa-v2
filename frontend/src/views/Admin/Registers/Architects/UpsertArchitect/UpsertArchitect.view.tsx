@@ -2,7 +2,7 @@
 
 import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useEntityFromList } from "@/hooks/useEntityFromList";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
@@ -23,7 +23,7 @@ export function UpsertArchitectView() {
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.architects.href}
+        backHref={routes.architects.href}
         backLabel="Voltar aos arquitetos"
         message="Arquiteto não encontrado."
       />

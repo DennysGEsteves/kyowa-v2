@@ -1,6 +1,6 @@
 import { useArchitectsPaginatedQuery } from "@/api/Architects/architects.query";
 import { useUsersQuery } from "@/api/Users/users.query";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import type { Architect } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ArchitectsListFilters } from "./components/ArchitectsFilters";
@@ -62,7 +62,7 @@ export function ArchitectsLogic() {
   const columns = useMemo(
     () =>
       getArchitectTableColumns(
-        (architect) => adminRoutes.architects.edit(architect.id),
+        (architect) => routes.architects.edit(architect.id),
         (architect) => setDeleteArchitect(architect),
         getSellerName,
       ),

@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable, TablePagination } from "@/components/Table";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import { CircleDollarSign, ListTree, Plus } from "lucide-react";
 import Link from "next/link";
 import { DeleteProductDialog } from "./components/DeleteProductDialog";
@@ -28,21 +28,21 @@ export function AdminProductsView() {
         <p className="text-sm text-kyowa-muted">{totalLabel}</p>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Link
-            href={adminRoutes.products.descriptors.href}
+            href={routes.products.descriptors.href}
             className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
           >
             <ListTree className="h-4 w-4" strokeWidth={2} />
             Descritores
           </Link>
           <Link
-            href={adminRoutes.products.updatePrices.href}
+            href={routes.products.updatePrices.href}
             className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
           >
             <CircleDollarSign className="h-4 w-4" strokeWidth={2} />
             Atualizar Preços
           </Link>
           <Link
-            href={adminRoutes.products.new}
+            href={routes.products.new}
             className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
           >
             <Plus className="h-4 w-4" strokeWidth={2} />

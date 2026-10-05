@@ -1,5 +1,5 @@
 import { useProvidersPaginatedQuery } from "@/api/Providers/providers.query";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import type { Provider } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ProvidersListFilters } from "./components/ProvidersFilters";
@@ -53,7 +53,7 @@ export function ProvidersLogic() {
   const columns = useMemo(
     () =>
       getProviderTableColumns(
-        (provider) => adminRoutes.providers.edit(provider.id),
+        (provider) => routes.providers.edit(provider.id),
         (provider) => setDeleteProvider(provider),
       ),
     [],

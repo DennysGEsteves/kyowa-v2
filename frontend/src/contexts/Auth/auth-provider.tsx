@@ -1,6 +1,11 @@
 "use client";
 
-import { clearClientSession, getSessionUser, type SessionUser } from "@utils";
+import {
+  clearClientSession,
+  getSessionUser,
+  syncAuthTokenCookieFromSession,
+  type SessionUser,
+} from "@utils";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -29,6 +34,8 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
   const [user, setUser] = useState<SessionUser | null>(null);
 
   useEffect(() => {
+    syncAuthTokenCookieFromSession();
+
     const session = getSessionUser();
     if (!session) {
       router.replace("/login");

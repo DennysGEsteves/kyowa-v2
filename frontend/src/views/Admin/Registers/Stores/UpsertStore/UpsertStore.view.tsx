@@ -2,7 +2,7 @@
 
 import { useStoresQuery } from "@/api/Stores/stores.query";
 import { useEntityFromList } from "@/hooks/useEntityFromList";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
@@ -23,7 +23,7 @@ export function UpsertStoreView() {
   if (notFound) {
     return (
       <AdminFormNotFound
-        backHref={adminRoutes.stores.href}
+        backHref={routes.stores.href}
         backLabel="Voltar às lojas"
         message="Loja não encontrada."
       />

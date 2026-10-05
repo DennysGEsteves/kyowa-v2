@@ -1,6 +1,6 @@
 import { useApi } from "@/api/api.hook";
 import { useInvalidateProvidersQuery } from "@/api/Providers/providers.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import { providerTypeLabels, providerTypes, type Provider } from "@entities";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ type UseUpsertProviderLogicParams = {
 
 export function useUpsertProviderLogic({
   provider,
-  listHref = adminRoutes.providers.href,
+  listHref = routes.providers.href,
 }: UseUpsertProviderLogicParams) {
   const { providersApi } = useApi();
   const invalidateProviders = useInvalidateProvidersQuery();

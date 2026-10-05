@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/Table";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { DeleteUserDialog } from "./components/DeleteUserDialog";
@@ -20,7 +20,7 @@ export function RegistersUsersView() {
             : "usuários cadastrados"}
         </p>
         <Link
-          href={adminRoutes.users.new}
+          href={routes.users.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />

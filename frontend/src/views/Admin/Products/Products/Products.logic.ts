@@ -1,5 +1,5 @@
 import { useProductsPaginatedQuery } from "@/api/Products/products.query";
-import { adminRoutes } from "@routes";
+import { routes } from "@routes";
 import type { Product } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ProductsListFilters } from "./components/ProductsFilters";
@@ -52,7 +52,7 @@ export function ProductsLogic() {
   const columns = useMemo(
     () =>
       getProductTableColumns(
-        (product) => adminRoutes.products.edit(product.id),
+        (product) => routes.products.edit(product.id),
         (product) => setDeleteProduct(product),
       ),
     [],

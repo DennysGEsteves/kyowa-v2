@@ -1,7 +1,7 @@
 import { useApi } from "@/api/api.hook";
 import { useInvalidateStoresQuery } from "@/api/Stores/stores.query";
 import { useUsersQuery } from "@/api/Users/users.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { routes } from "@routes";
 import { permissionLabels, type Store } from "@entities";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ type UseUpsertStoreLogicParams = {
 
 export function useUpsertStoreLogic({
   store,
-  listHref = adminRoutes.stores.href,
+  listHref = routes.stores.href,
 }: UseUpsertStoreLogicParams) {
   const { storesApi } = useApi();
   const invalidateStores = useInvalidateStoresQuery();
