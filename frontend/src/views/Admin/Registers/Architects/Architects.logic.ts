@@ -1,10 +1,13 @@
 import { useArchitectsPaginatedQuery } from "@/api/Architects/architects.query";
 import { useUsersQuery } from "@/api/Users/users.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import type { Architect } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ArchitectsListFilters } from "./components/ArchitectsFilters";
-import { buildSellerNameLookup, getArchitectTableColumns } from "./Architects.props";
+import {
+  buildSellerNameLookup,
+  getArchitectTableColumns,
+} from "./Architects.props";
 
 const PAGE_SIZE = 10;
 
@@ -20,7 +23,9 @@ const INITIAL_LIST_FILTERS: ArchitectsListFilters = {
 };
 
 export function ArchitectsLogic() {
-  const [deleteArchitect, setDeleteArchitect] = useState<Architect | null>(null);
+  const [deleteArchitect, setDeleteArchitect] = useState<Architect | null>(
+    null,
+  );
   const [page, setPage] = useState(1);
   const [listFilters, setListFilters] =
     useState<ArchitectsListFilters>(INITIAL_LIST_FILTERS);
@@ -49,10 +54,7 @@ export function ArchitectsLogic() {
   } = useArchitectsPaginatedQuery(queryParams);
   const { data: users = [] } = useUsersQuery();
 
-  const getSellerName = useMemo(
-    () => buildSellerNameLookup(users),
-    [users],
-  );
+  const getSellerName = useMemo(() => buildSellerNameLookup(users), [users]);
 
   const architects = paginated?.data ?? [];
   const meta = paginated?.meta ?? EMPTY_META;

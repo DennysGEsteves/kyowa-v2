@@ -1,4 +1,4 @@
-import { navSections } from "@/routes/adminRoutes";
+import { navSections } from "@routes";
 import type { LucideIcon } from "lucide-react";
 
 export type AdminNavItem = {

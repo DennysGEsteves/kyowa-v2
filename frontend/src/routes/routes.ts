@@ -3,6 +3,7 @@ import { AdminNavSection } from "@/layout/navigation";
 import { getSessionUser } from "@/utils";
 import {
   HardHat,
+  LayoutDashboard,
   Store,
   Truck,
   UserRound,
@@ -10,6 +11,7 @@ import {
   Package,
   Stamp,
 } from "lucide-react";
+import type { AdminNavItem } from "@/layout/navigation";
 
 export type UserPermissionModules = {
   CADASTROS?: ModuleId[];
@@ -25,6 +27,11 @@ export type ModuleId =
   | "products";
 
 export const adminRoutes = {
+  dashboard: {
+    href: "/admin/dashboard",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+  },
   stores: {
     href: "/admin/nossas-lojas",
     label: "Nossas Lojas",
@@ -96,6 +103,14 @@ export const userPermissionModules: Record<
   operational: {},
   finance: {},
 };
+
+export const navStandaloneItems = (): AdminNavItem[] => [
+  {
+    href: adminRoutes.dashboard.href,
+    label: adminRoutes.dashboard.label,
+    icon: adminRoutes.dashboard.icon,
+  },
+];
 
 export const navSections = (): AdminNavSection[] => {
   const { permission } = getSessionUser() ?? {};

@@ -1,7 +1,7 @@
 "use client";
 
 import { getActiveNavSectionTitle } from "@/layout/navigation";
-import { navSections } from "@/routes/adminRoutes";
+import { navSections } from "@routes";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

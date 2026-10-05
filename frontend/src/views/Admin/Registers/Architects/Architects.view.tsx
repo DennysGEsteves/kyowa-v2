@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable, TablePagination } from "@/components/Table";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import { ArchitectsFilters } from "./components/ArchitectsFilters";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -20,7 +20,8 @@ export function RegistersArchitectsView() {
     <>Nenhum arquiteto encontrado com os filtros aplicados.</>
   ) : (
     <>
-      Nenhum arquiteto cadastrado. Use &quot;Novo arquiteto&quot; para adicionar.
+      Nenhum arquiteto cadastrado. Use &quot;Novo arquiteto&quot; para
+      adicionar.
     </>
   );
 

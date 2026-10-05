@@ -3,6 +3,7 @@
 import { useLogout } from "@/contexts/Auth/auth-provider";
 import { useAdminMobileMenu } from "./MobileMenu";
 import { AdminNavSections } from "./NavSections";
+import { AdminNavStandalone } from "./NavStandalone";
 import { LogOut, X } from "lucide-react";
 import { KyowaLogo } from "@images";
 
@@ -47,6 +48,7 @@ export function AdminSidebar({ onNavigate }: AdminSidebarProps) {
       </div>
 
       <nav className="flex-1 overflow-y-auto overscroll-contain px-2 py-5 sm:px-3 sm:py-6">
+        <AdminNavStandalone onNavigate={handleNavClick} />
         <AdminNavSections onNavigate={handleNavClick} />
       </nav>
 

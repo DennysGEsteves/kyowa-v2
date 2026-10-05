@@ -1,5 +1,5 @@
 import { useProductsPaginatedQuery } from "@/api/Products/products.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import type { Product } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ProductsListFilters } from "./components/ProductsFilters";

@@ -1,10 +1,13 @@
 import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useClientsPaginatedQuery } from "@/api/Clients/clients.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import type { Client } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ClientsListFilters } from "./components/ClientsFilters";
-import { buildArchitectNameLookup, getClientTableColumns } from "./Clients.props";
+import {
+  buildArchitectNameLookup,
+  getClientTableColumns,
+} from "./Clients.props";
 
 const PAGE_SIZE = 10;
 

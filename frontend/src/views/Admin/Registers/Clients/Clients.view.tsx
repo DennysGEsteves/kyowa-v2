@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable, TablePagination } from "@/components/Table";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import { ClientsFilters } from "./components/ClientsFilters";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -19,9 +19,7 @@ export function RegistersClientsView() {
   const emptyMessage = data.hasActiveFilters ? (
     <>Nenhum cliente encontrado com os filtros aplicados.</>
   ) : (
-    <>
-      Nenhum cliente cadastrado. Use &quot;Novo cliente&quot; para adicionar.
-    </>
+    <>Nenhum cliente cadastrado. Use &quot;Novo cliente&quot; para adicionar.</>
   );
 
   return (

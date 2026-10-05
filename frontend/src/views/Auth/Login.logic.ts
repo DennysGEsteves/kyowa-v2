@@ -1,4 +1,5 @@
 import { useApi } from "@/api/api.hook";
+import { adminRoutes } from "@routes";
 import { getAuthToken, setAuthToken } from "@utils";
 import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
@@ -19,7 +20,7 @@ export function LoginLogic() {
       try {
         const token = await authApi.login(values);
         setAuthToken(token);
-        router.push("/admin/usuarios");
+        router.push(adminRoutes.dashboard.href);
       } catch (error) {
         console.log(error);
         if (isAxiosError(error)) {
@@ -36,7 +37,7 @@ export function LoginLogic() {
 
   useEffect(() => {
     if (getAuthToken()) {
-      router.replace("/admin/usuarios");
+      router.replace(adminRoutes.dashboard.href);
     }
   }, [router]);
 

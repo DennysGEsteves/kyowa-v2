@@ -1,5 +1,5 @@
 import { useProvidersPaginatedQuery } from "@/api/Providers/providers.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import type { Provider } from "@entities";
 import { useCallback, useMemo, useState } from "react";
 import type { ProvidersListFilters } from "./components/ProvidersFilters";

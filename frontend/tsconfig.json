@@ -22,7 +22,8 @@
       "@/*": ["./src/*"],
       "@entities": ["./src/@types/entities"],
       "@utils": ["./src/utils"],
-      "@images": ["./src/assets/images"]
+      "@images": ["./src/assets/images"],
+      "@routes": ["./src/routes"]
     }
   },
   "include": [

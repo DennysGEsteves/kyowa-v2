@@ -1,6 +1,6 @@
 import { useStoresQuery } from "@/api/Stores/stores.query";
 import { useUsersQuery } from "@/api/Users/users.query";
-import { adminRoutes } from "@/routes/adminRoutes";
+import { adminRoutes } from "@routes";
 import type { User } from "@entities";
 import { useMemo, useState } from "react";
 import { buildStoreNameLookup, getUserTableColumns } from "./Users.props";
@@ -11,10 +11,7 @@ export function UsersLogic() {
   const { data: users = [], isLoading, isError, refetch } = useUsersQuery();
   const { data: stores = [] } = useStoresQuery();
 
-  const getStoreName = useMemo(
-    () => buildStoreNameLookup(stores),
-    [stores],
-  );
+  const getStoreName = useMemo(() => buildStoreNameLookup(stores), [stores]);
 
   const columns = useMemo(
     () =>
