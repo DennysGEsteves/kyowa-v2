@@ -1,4 +1,4 @@
-import { formatPhoneBR } from "@/util/masks";
+import { formatPhoneBR } from "@/utils/masks";
 import type { User, UserPermission } from "@entities";
 import type { UpsertUserDTO } from "@/api/Users";
 import type { UserFormSchema } from "./UpsertUser.schema";

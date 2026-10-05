@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell } from "@/layout/PageShell";
+import { AdminPageShell } from "@/app/(layout)/PageShell";
 import { RegistersArchitectsView } from "@/views/Admin/Registers/Architects/Architects.view";
 
 export default function ArquitetosPage() {

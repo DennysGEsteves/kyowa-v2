@@ -1,8 +1,8 @@
 import {
   addressToFormValues,
   formValuesToAddressPayload,
-} from "@/util/address/formAddress";
-import { formatCpfBR, formatPhoneBR } from "@/util/masks";
+} from "@/utils/address/formAddress";
+import { formatCpfBR, formatPhoneBR } from "@/utils/masks";
 import type { Architect } from "@entities";
 import type { UpsertArchitectDTO } from "@/api/Architects";
 import type { ArchitectFormSchema } from "./UpsertArchitect.schema";

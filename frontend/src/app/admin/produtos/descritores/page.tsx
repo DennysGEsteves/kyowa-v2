@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell } from "@/layout/PageShell";
+import { AdminPageShell } from "@/app/(layout)/PageShell";
 import { ProductDescriptorsView } from "@/views/Admin/Products/Products/Descriptors/Descriptors.view";
 
 export default function ProdutosDescritoresPage() {

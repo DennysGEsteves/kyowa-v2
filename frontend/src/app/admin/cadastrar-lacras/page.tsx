@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell, AdminPlaceholder } from "@/layout/PageShell";
+import { AdminPageShell, AdminPlaceholder } from "@/app/(layout)/PageShell";
 
 export default function CadastrarLacrasPage() {
   return (

@@ -1,4 +1,4 @@
-import { AdminNavSection } from "@/layout/navigation";
+import { AdminNavSection } from "@/app/(layout)/navigation";
 import { userPermissionModules } from "./definitions";
 import { getSessionUser } from "@/utils";
 import {
@@ -11,7 +11,7 @@ import {
   Package,
   Stamp,
 } from "lucide-react";
-import type { AdminNavItem } from "@/layout/navigation";
+import type { AdminNavItem } from "@/app/(layout)/navigation";
 
 export const routes = {
   dashboard: {

@@ -6,7 +6,7 @@ import {
   loginFormInitialValues,
   loginValidationSchema,
   type LoginFormSchema,
-} from "@/views/Auth/Login.schema";
+} from "@/views/Login/Login.schema";
 import { FormikProvider, useFormik } from "formik";
 
 type LoginFormProps = {

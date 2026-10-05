@@ -1,8 +1,8 @@
 import {
   addressToFormValues,
   formValuesToAddressPayload,
-} from "@/util/address/formAddress";
-import { formatCpfBR, formatPhoneBR, formatRgBR } from "@/util/masks";
+} from "@/utils/address/formAddress";
+import { formatCpfBR, formatPhoneBR, formatRgBR } from "@/utils/masks";
 import type { Client } from "@entities";
 import type { UpsertClientDTO } from "@/api/Clients";
 import type { ClientFormSchema } from "./UpsertClient.schema";

@@ -1,6 +1,6 @@
 "use client";
 
-import { formatPhoneBR } from "@/util/masks";
+import { formatPhoneBR } from "@/utils/masks";
 import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { useFormikContext } from "formik";
 import { FormField } from "../FormField";

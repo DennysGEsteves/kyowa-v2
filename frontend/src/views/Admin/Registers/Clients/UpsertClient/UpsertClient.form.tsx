@@ -16,7 +16,7 @@ import {
   FormTextarea,
   formFieldGrid2,
 } from "@/components/Form";
-import { AdminFormLayout } from "@/layout/AdminFormLayout";
+import { AdminFormLayout } from "@/app/(layout)/AdminFormLayout";
 import type { Client, ClientOrigin, InterestProduct } from "@entities";
 import { FormikProvider } from "formik";
 import { FormEnumCheckboxGroup } from "./FormEnumCheckboxGroup";
@@ -123,7 +123,11 @@ export function UpsertClientForm({ client, listHref }: UpsertClientFormProps) {
                 </FormSection>
 
                 <FormSection title="Observações">
-                  <FormTextarea name="obs" label="Observações" id="client-obs" />
+                  <FormTextarea
+                    name="obs"
+                    label="Observações"
+                    id="client-obs"
+                  />
                 </FormSection>
               </FormSectionsColumn>
             </FormSectionsGrid>

@@ -1,4 +1,4 @@
-import { LoginView } from "@/views/Auth/Login.view";
+import { LoginView } from "@/views/Login/Login.view";
 
 export default function LoginPage() {
   return (

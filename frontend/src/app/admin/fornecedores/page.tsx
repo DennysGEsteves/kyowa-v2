@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell } from "@/layout/PageShell";
+import { AdminPageShell } from "@/app/(layout)/PageShell";
 import { RegistersProvidersView } from "@/views/Admin/Registers/Providers/Providers.view";
 
 export default function FornecedoresPage() {

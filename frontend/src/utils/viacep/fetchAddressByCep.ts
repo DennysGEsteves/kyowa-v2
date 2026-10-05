@@ -1,4 +1,4 @@
-import { digitsOnly } from "@/util/masks";
+import { digitsOnly } from "@/utils/masks";
 
 export type AddressByCep = {
   street: string;

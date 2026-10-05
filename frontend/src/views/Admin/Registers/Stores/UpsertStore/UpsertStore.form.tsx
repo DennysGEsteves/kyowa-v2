@@ -13,7 +13,7 @@ import {
   FormTextarea,
   formFieldGrid2,
 } from "@/components/Form";
-import { AdminFormLayout } from "@/layout/AdminFormLayout";
+import { AdminFormLayout } from "@/app/(layout)/AdminFormLayout";
 import type { Store } from "@entities";
 import { FormikProvider } from "formik";
 import { useUpsertStoreLogic } from "./UpsertStore.logic";
@@ -53,7 +53,11 @@ export function UpsertStoreForm({ store, listHref }: UpsertStoreFormProps) {
               <FormSectionsColumn>
                 <FormSection title="Dados gerais">
                   <div className={formFieldGrid2}>
-                    <FormInput name="name" label="Nome da loja" id="store-name" />
+                    <FormInput
+                      name="name"
+                      label="Nome da loja"
+                      id="store-name"
+                    />
                     <FormSelect
                       name="managerId"
                       label="Gerente responsável"

@@ -2,7 +2,7 @@ import { addressFormValidationSchema } from "@/components/Form/addressValidation
 import {
   emptyAddressFormValues,
   type AddressFormValues,
-} from "@/util/address/formAddress";
+} from "@/utils/address/formAddress";
 import * as Yup from "yup";
 
 export type ArchitectFormSchema = {

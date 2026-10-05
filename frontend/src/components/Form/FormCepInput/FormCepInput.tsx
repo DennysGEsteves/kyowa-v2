@@ -1,8 +1,8 @@
 "use client";
 
 import type { FormAddressAutofillFields } from "@/components/Form/formAddressAutofill";
-import { digitsOnly, formatCepBR } from "@/util/masks";
-import { fetchAddressByCep } from "@/util/viacep";
+import { digitsOnly, formatCepBR } from "@/utils/masks";
+import { fetchAddressByCep } from "@/utils/viacep";
 import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { useFormikContext } from "formik";
 import { useCallback, useRef } from "react";

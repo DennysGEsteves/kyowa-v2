@@ -1,6 +1,6 @@
 "use client";
 
-import { maskCurrencyBRLInput } from "@/util/masks";
+import { maskCurrencyBRLInput } from "@/utils/masks";
 import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { useFormikContext } from "formik";
 import { FormField } from "../FormField";

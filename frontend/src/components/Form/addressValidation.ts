@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import type { AddressFormValues } from "@/util/address/formAddress";
+import type { AddressFormValues } from "@/utils/address/formAddress";
 
 export const addressFormValidationSchema = Yup.object<AddressFormValues>({
   cep: Yup.string().max(10),

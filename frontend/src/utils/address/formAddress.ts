@@ -1,5 +1,5 @@
 import type { Address } from "@entities";
-import { formatCepBR } from "@/util/masks";
+import { formatCepBR } from "@/utils/masks";
 
 export type AddressFormValues = {
   cep: string;

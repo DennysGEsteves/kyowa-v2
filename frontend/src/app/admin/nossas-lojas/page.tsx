@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell } from "@/layout/PageShell";
+import { AdminPageShell } from "@/app/(layout)/PageShell";
 import { RegistersStoresView } from "@/views/Admin/Registers/Stores/Stores.view";
 
 export default function NossasLojasPage() {

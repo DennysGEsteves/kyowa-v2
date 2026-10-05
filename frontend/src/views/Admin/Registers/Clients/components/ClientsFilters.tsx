@@ -1,7 +1,7 @@
 "use client";
 
 import { formInputClass, formLabelClass } from "@/components/Form/FieldStyles";
-import { formatCpfBR } from "@/util/masks";
+import { formatCpfBR } from "@/utils/masks";
 import { useEffect, useState } from "react";
 
 const NAME_DEBOUNCE_MS = 300;

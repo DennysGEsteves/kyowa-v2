@@ -1,6 +1,6 @@
 import type { Product } from "@entities";
 import type { CreateProductDTO, UpdateProductDTO } from "@/api/Products";
-import { formatCurrencyBRLFromNumber, parseCurrencyBRL } from "@/util/masks";
+import { formatCurrencyBRLFromNumber, parseCurrencyBRL } from "@/utils/masks";
 import type { ProductFormSchema } from "./UpsertProduct.schema";
 
 function parseOptionalNumber(value: string): number | undefined {

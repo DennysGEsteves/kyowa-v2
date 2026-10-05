@@ -1,5 +1,5 @@
 import { ActionButton } from "@/components/Form/ActionButton";
-import { formatCpfBR } from "@/util/masks";
+import { formatCpfBR } from "@/utils/masks";
 import { TableStatusBadge, type TableColumn } from "@/components/Table";
 import type { Architect, User } from "@entities";
 import { Pencil, Trash } from "lucide-react";

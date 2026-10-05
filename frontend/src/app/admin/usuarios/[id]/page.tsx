@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell } from "@/layout/PageShell";
+import { AdminPageShell } from "@/app/(layout)/PageShell";
 import { UpsertUserView } from "@/views/Admin/Registers/Users/UpsertUser";
 
 export default function EditarUsuarioPage() {

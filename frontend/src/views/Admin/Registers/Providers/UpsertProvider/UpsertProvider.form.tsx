@@ -14,7 +14,7 @@ import {
   FormTextarea,
   formFieldGrid2,
 } from "@/components/Form";
-import { AdminFormLayout } from "@/layout/AdminFormLayout";
+import { AdminFormLayout } from "@/app/(layout)/AdminFormLayout";
 import type { Provider } from "@entities";
 import { FormikProvider } from "formik";
 import { useUpsertProviderLogic } from "./UpsertProvider.logic";

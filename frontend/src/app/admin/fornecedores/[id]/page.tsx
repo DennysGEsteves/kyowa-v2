@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageShell } from "@/layout/PageShell";
+import { AdminPageShell } from "@/app/(layout)/PageShell";
 import { UpsertProviderView } from "@/views/Admin/Registers/Providers/UpsertProvider";
 
 export default function EditarFornecedorPage() {

@@ -13,7 +13,7 @@ import {
   FormSelect,
   formFieldGrid2,
 } from "@/components/Form";
-import { AdminFormLayout } from "@/layout/AdminFormLayout";
+import { AdminFormLayout } from "@/app/(layout)/AdminFormLayout";
 import type { Product } from "@entities";
 import { FormikProvider } from "formik";
 import { useUpsertProductLogic } from "./UpsertProduct.logic";

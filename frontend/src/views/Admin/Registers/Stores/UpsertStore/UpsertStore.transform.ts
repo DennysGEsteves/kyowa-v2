@@ -2,8 +2,8 @@ import { UpsertStoreDTO } from "@/api/Stores/Stores.dto";
 import {
   addressToFormValues,
   formValuesToAddressPayload,
-} from "@/util/address/formAddress";
-import { formatPhoneBR } from "@/util/masks";
+} from "@/utils/address/formAddress";
+import { formatPhoneBR } from "@/utils/masks";
 import { type Store } from "@entities";
 import { StoreFormSchema } from "./UpsertStore.schema";
 
