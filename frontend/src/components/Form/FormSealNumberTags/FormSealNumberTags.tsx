@@ -105,7 +105,7 @@ export function FormSealNumberTags({
       <div
         className={getFieldClassName(
           fieldError,
-          "flex min-h-[2.75rem] flex-wrap items-center gap-2 px-2 py-1.5",
+          "flex min-h-11 flex-wrap items-center gap-2 px-2 py-1.5",
         )}
       >
         {tags.map((tag) => (
