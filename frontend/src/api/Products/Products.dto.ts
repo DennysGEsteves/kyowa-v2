@@ -1,4 +1,4 @@
-import type { ListNameParams } from "@/types/list-params";
+import type { ListNameParams } from "@types/list-params";
 import type { Product } from "@entities";
 
 export type ListProductsParams = ListNameParams;

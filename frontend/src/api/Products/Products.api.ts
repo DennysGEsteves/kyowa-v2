@@ -1,4 +1,4 @@
-import type { PaginatedResult } from "@/types/pagination";
+import type { PaginatedResult } from "@types/pagination";
 import type { Product } from "@entities";
 import { Fetch } from "@utils";
 import type {

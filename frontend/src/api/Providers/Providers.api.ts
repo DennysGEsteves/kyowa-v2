@@ -1,5 +1,5 @@
 import { Provider } from "@entities";
-import type { PaginatedResult } from "@/types/pagination";
+import type { PaginatedResult } from "@types/pagination";
 import { Fetch } from "@utils";
 import type {
   ListProvidersParams,

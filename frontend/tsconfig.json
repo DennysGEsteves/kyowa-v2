@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@types": ["./src/@types"],
       "@entities": ["./src/@types/entities"],
       "@utils": ["./src/utils"],
       "@images": ["./src/assets/images"],

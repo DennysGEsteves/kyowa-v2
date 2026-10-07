@@ -6,7 +6,8 @@ export type ModuleId =
   | "architects"
   | "clients"
   | "users"
-  | "products";
+  | "products"
+  | "stock";
 
 export type UserPermissionModules = {
   CADASTROS?: ModuleId[];
@@ -19,11 +20,11 @@ export const userPermissionModules: Record<
 > = {
   admin: {
     CADASTROS: ["users", "stores", "providers", "architects", "clients"],
-    PRODUTOS: ["products"],
+    PRODUTOS: ["products", "stock"],
   },
   manager: {
     CADASTROS: ["users", "stores", "providers", "architects", "clients"],
-    PRODUTOS: ["products"],
+    PRODUTOS: ["products", "stock"],
   },
   sales: {},
   operational: {},
@@ -37,7 +38,7 @@ const MODULE_PATH_PREFIXES: readonly { module: ModuleId; prefix: string }[] = [
   { module: "architects", prefix: "/admin/arquitetos" },
   { module: "clients", prefix: "/admin/clientes" },
   { module: "products", prefix: "/admin/produtos" },
-  { module: "products", prefix: "/admin/cadastrar-lacras" },
+  { module: "stock", prefix: "/admin/estoque" },
 ];
 
 export type AdminRouteRequirement = ModuleId | "dashboard";

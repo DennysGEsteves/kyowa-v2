@@ -10,6 +10,7 @@ import {
   Users,
   Package,
   Stamp,
+  Warehouse,
 } from "lucide-react";
 import type { AdminNavItem } from "@/app/(layout)/navigation";
 
@@ -71,6 +72,12 @@ export const routes = {
       href: "/admin/produtos/atualizar-precos",
       label: "Atualizar Preços",
     },
+  },
+  stock: {
+    href: "/admin/estoque",
+    label: "Estoque",
+    icon: Warehouse,
+    new: "/admin/estoque/novo",
   },
 } as const;
 

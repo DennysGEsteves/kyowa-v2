@@ -5,3 +5,5 @@ export * from "./user";
 export * from "./provider";
 export * from "./store";
 export * from "./product";
+export * from "./seal";
+export * from "./stock";

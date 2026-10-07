@@ -34,4 +34,5 @@ export type DataTableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
   emptyMessage?: ReactNode;
+  onRowClick?: (row: T) => void;
 };

@@ -23,7 +23,11 @@ export function DataTable<T>({
   data,
   columns,
   emptyMessage = "Nenhum registro encontrado.",
+  onRowClick,
 }: DataTableProps<T>) {
+  const interactiveRowClass = onRowClick
+    ? "cursor-pointer focus-within:ring-1 focus-within:ring-kyowa-maroon/30"
+    : "";
   if (data.length === 0) {
     return <TableEmpty>{emptyMessage}</TableEmpty>;
   }
@@ -51,7 +55,11 @@ export function DataTable<T>({
           );
 
           return (
-            <TableMobileCard key={resolveRowKey(row, index)}>
+            <TableMobileCard
+              key={resolveRowKey(row, index)}
+              className={interactiveRowClass}
+              onClick={onRowClick ? () => onRowClick(row) : undefined}
+            >
               {(titleColumn || subtitleColumn || trailingColumn) && (
                 <TableCardHeader
                   title={
@@ -107,7 +115,11 @@ export function DataTable<T>({
           </TableHeader>
           <TableBody>
             {data.map((row, index) => (
-              <TableRow key={resolveRowKey(row, index)}>
+              <TableRow
+                key={resolveRowKey(row, index)}
+                className={interactiveRowClass}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+              >
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}

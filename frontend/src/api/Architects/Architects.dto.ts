@@ -1,5 +1,5 @@
 import type { AddressDTO } from "@/api/types/address.dto";
-import type { ListNameActiveParams } from "@/types/list-params";
+import type { ListNameActiveParams } from "@types/list-params";
 
 export type ListArchitectsParams = ListNameActiveParams;
 

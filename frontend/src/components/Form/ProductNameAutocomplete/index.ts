@@ -1,1 +1,4 @@
-export { ProductNameAutocomplete } from "./ProductNameAutocomplete";
+export {
+  formatProductSuggestionLabel,
+  ProductNameAutocomplete,
+} from "./ProductNameAutocomplete";

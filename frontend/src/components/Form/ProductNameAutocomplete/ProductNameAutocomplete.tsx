@@ -2,7 +2,12 @@
 
 import { useProductNameSuggestionsQuery } from "@/api/Products/products.query";
 import type { ProductNameSuggestion } from "@/api/Products/Products.dto";
-import { formInputClass, formLabelClass } from "@/components/Form/FieldStyles";
+import { FormFieldError } from "@/components/Form/FormFieldError";
+import {
+  formInputClass,
+  formInputErrorClass,
+  formLabelClass,
+} from "@/components/Form/FieldStyles";
 import { useEffect, useId, useRef, useState } from "react";
 
 const DEBOUNCE_MS = 300;
@@ -13,11 +18,15 @@ type ProductNameAutocompleteProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onProductSelect?: (suggestion: ProductNameSuggestion) => void;
   placeholder?: string;
   className?: string;
+  error?: string;
 };
 
-function formatSuggestionLabel(suggestion: ProductNameSuggestion): string {
+export function formatProductSuggestionLabel(
+  suggestion: ProductNameSuggestion,
+): string {
   if (suggestion.fantasyName && suggestion.fantasyName !== suggestion.name) {
     return `${suggestion.name} (${suggestion.fantasyName})`;
   }
@@ -29,8 +38,10 @@ export function ProductNameAutocomplete({
   label,
   value,
   onChange,
+  onProductSelect,
   placeholder = "Buscar por nome",
   className = "",
+  error,
 }: ProductNameAutocompleteProps) {
   const generatedId = useId();
   const inputId = idProp ?? generatedId;
@@ -73,9 +84,13 @@ export function ProductNameAutocomplete({
   }, []);
 
   function handleSelect(suggestion: ProductNameSuggestion) {
-    const next = suggestion.name;
-    setInputValue(next);
-    onChange(next);
+    const label = formatProductSuggestionLabel(suggestion);
+    setInputValue(label);
+    if (onProductSelect) {
+      onProductSelect(suggestion);
+    } else {
+      onChange(suggestion.name);
+    }
     setIsOpen(false);
   }
 
@@ -100,9 +115,11 @@ export function ProductNameAutocomplete({
         }}
         onFocus={() => setIsOpen(true)}
         placeholder={placeholder}
-        className={formInputClass}
+        className={`${formInputClass} ${error ? formInputErrorClass : ""}`.trim()}
         autoComplete="off"
+        aria-invalid={Boolean(error)}
       />
+      <FormFieldError message={error} />
       {showList ? (
         <ul
           id={listboxId}
@@ -120,7 +137,7 @@ export function ProductNameAutocomplete({
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => handleSelect(suggestion)}
               >
-                {formatSuggestionLabel(suggestion)}
+                {formatProductSuggestionLabel(suggestion)}
               </button>
             </li>
           ))}

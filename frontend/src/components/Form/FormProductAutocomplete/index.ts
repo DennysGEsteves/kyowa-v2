@@ -1,0 +1,1 @@
+export { FormProductAutocomplete } from "./FormProductAutocomplete";

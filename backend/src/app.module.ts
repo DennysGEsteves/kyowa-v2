@@ -4,6 +4,8 @@ import { ArchitectModule } from './controllers/architect/architect.module';
 import { ClientModule } from './controllers/client/client.module';
 import { ProductsModule } from './controllers/products.module';
 import { ProviderModule } from './controllers/provider/provider.module';
+import { SealModule } from './controllers/seal/seal.module';
+import { StockModule } from './controllers/stock/stock.module';
 import { StoreModule } from './controllers/store/store.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { UserModule } from './controllers/user/user.module';
@@ -22,6 +24,8 @@ import { RequestMiddleware } from './http/middlewares/request/request-middleware
     ClientModule,
     ArchitectModule,
     StoreModule,
+    SealModule,
+    StockModule,
     ProductsModule,
   ],
   providers: [

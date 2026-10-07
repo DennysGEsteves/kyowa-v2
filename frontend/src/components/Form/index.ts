@@ -5,6 +5,8 @@ export { FormField } from "./FormField";
 export { FormFieldError } from "./FormFieldError";
 export { FormImagePicker } from "./FormImagePicker";
 export { FormInput } from "./FormInput";
+export { FormProductAutocomplete } from "./FormProductAutocomplete";
+export { FormSealNumberTags } from "./FormSealNumberTags";
 export { FormPhoneInput } from "./FormPhoneInput";
 export { FormAddressFields } from "./FormAddressFields";
 export { FormContactFields } from "./FormContactFields";

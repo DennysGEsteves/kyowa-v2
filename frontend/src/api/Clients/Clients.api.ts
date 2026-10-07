@@ -1,4 +1,4 @@
-import type { PaginatedResult } from "@/types/pagination";
+import type { PaginatedResult } from "@types/pagination";
 import type { Client } from "@entities";
 import { Fetch } from "@utils";
 import type { ListClientsParams, UpsertClientDTO } from "./Clients.dto";
