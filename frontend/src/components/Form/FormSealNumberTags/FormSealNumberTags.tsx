@@ -126,7 +126,7 @@ export function FormSealNumberTags({
           type="text"
           inputMode="numeric"
           aria-describedby={inputHint ? `${fieldId}-hint` : undefined}
-          className="min-w-[8rem] flex-1 border-0 bg-transparent px-1 py-1 text-sm outline-none"
+          className="min-w-32 flex-1 border-0 bg-transparent px-1 py-1 text-sm outline-none"
           value={draft}
           placeholder={tags.length === 0 ? placeholder : ""}
           onChange={(event) => {
