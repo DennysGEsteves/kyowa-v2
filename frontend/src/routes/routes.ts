@@ -4,6 +4,7 @@ import { getSessionUser } from "@/utils";
 import {
   HardHat,
   LayoutDashboard,
+  Search,
   Store,
   Truck,
   UserRound,
@@ -79,15 +80,35 @@ export const routes = {
     icon: Warehouse,
     new: "/admin/estoque/novo",
   },
+  sealLookup: {
+    href: "/admin/consulta-lacre",
+    label: "Consulta de Lacre",
+    icon: Search,
+    detail: (id: string) => `/admin/consulta-lacre/${id}`,
+  },
 } as const;
 
-export const navStandaloneItems = (): AdminNavItem[] => [
-  {
-    href: routes.dashboard.href,
-    label: routes.dashboard.label,
-    icon: routes.dashboard.icon,
-  },
-];
+export const navStandaloneItems = (): AdminNavItem[] => {
+  const { permission } = getSessionUser() ?? {};
+
+  const items: AdminNavItem[] = [
+    {
+      href: routes.dashboard.href,
+      label: routes.dashboard.label,
+      icon: routes.dashboard.icon,
+    },
+  ];
+
+  if (permission === "admin" || permission === "manager") {
+    items.push({
+      href: routes.sealLookup.href,
+      label: routes.sealLookup.label,
+      icon: routes.sealLookup.icon,
+    });
+  }
+
+  return items;
+};
 
 export const navSections = (): AdminNavSection[] => {
   const { permission } = getSessionUser() ?? {};

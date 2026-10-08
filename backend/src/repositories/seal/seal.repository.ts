@@ -47,4 +47,46 @@ export class SealRepository implements ISealRepository {
 
     return seals.map((seal) => SealEntity.fromPersistData(seal));
   }
+
+  async findByNumber(number: number): Promise<SealEntity[]> {
+    const seals = await this.sealModel
+      .find({ number })
+      .sort({ number: 1 })
+      .exec();
+    return seals.map((seal) => SealEntity.fromPersistData(seal));
+  }
+
+  async update(
+    id: string,
+    data: {
+      number: number;
+      storeId: string;
+      productId: string;
+    },
+    historyEntry: SealEntity['history'][number],
+  ): Promise<SealEntity | null> {
+    const seal = await this.sealModel
+      .findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            number: data.number,
+            storeId: new Types.ObjectId(data.storeId),
+            productId: new Types.ObjectId(data.productId),
+          },
+          $push: {
+            history: {
+              status: historyEntry.status,
+              userId: new Types.ObjectId(historyEntry.userId),
+              data: historyEntry.data,
+              createdAt: historyEntry.createdAt,
+            },
+          },
+        },
+        { new: true, runValidators: true },
+      )
+      .exec();
+
+    return seal ? SealEntity.fromPersistData(seal) : null;
+  }
 }

@@ -3,6 +3,7 @@ export * from "./Clients";
 export * from "./ProductLookups";
 export * from "./Products";
 export * from "./Providers";
+export * from "./Seals";
 export * from "./Stock";
 export * from "./Stores";
 export * from "./Users";

@@ -41,5 +41,11 @@ import { UpdateProductsPriceUseCase } from '../../usecases/product/update-produc
     UpdateProductUseCase,
     DeleteProductUseCase,
   ],
+  exports: [
+    {
+      provide: PRODUCT_REPOSITORY,
+      useClass: ProductRepository,
+    },
+  ],
 })
 export class ProductModule {}

@@ -77,9 +77,9 @@ export const getStockTableColumns = (
   },
   {
     id: "sealCount",
-    header: "Lacres",
+    header: "Quantidade de Lacres",
     align: "right",
-    mobile: { role: "field", label: "Lacres" },
+    mobile: { role: "field", label: "Quantidade de Lacres" },
     render: (stock) => String(getStockSealCount(stock)),
   },
   {

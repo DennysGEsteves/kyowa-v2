@@ -43,11 +43,12 @@ export function FormSelect<T extends Record<string, unknown>>({
   className,
   allowEmpty = true,
 }: FormSelectProps<T>) {
-  const { values, errors, touched, handleChange, handleBlur } =
+  const { values, errors, touched, submitCount, handleChange, handleBlur } =
     useFormikContext<T>();
 
   const fieldId = id ?? name;
-  const fieldError = touched[name] && errors[name];
+  const fieldError =
+    (touched[name] || submitCount > 0) && errors[name];
   const errorMessage = fieldError ? String(errors[name]) : undefined;
   const selectOptions = allowEmpty ? withEmptyOption(options) : options;
   const rawValue = values[name];

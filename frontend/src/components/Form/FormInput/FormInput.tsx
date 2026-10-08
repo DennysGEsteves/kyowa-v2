@@ -32,11 +32,23 @@ export function FormInput({
   disabled = false,
   locked = false,
 }: FormInputProps) {
-  const { values, errors, touched, handleChange, handleBlur, setFieldValue } =
-    useFormikContext();
+  const {
+    values,
+    errors,
+    touched,
+    submitCount,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+  } = useFormikContext();
 
   const fieldId = id ?? name;
-  const errorMessage = getFormikFieldError(touched, errors, name);
+  const errorMessage = getFormikFieldError(
+    touched,
+    errors,
+    name,
+    submitCount,
+  );
   const fieldError = Boolean(errorMessage);
 
   return (

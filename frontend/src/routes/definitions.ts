@@ -41,13 +41,22 @@ const MODULE_PATH_PREFIXES: readonly { module: ModuleId; prefix: string }[] = [
   { module: "stock", prefix: "/admin/estoque" },
 ];
 
-export type AdminRouteRequirement = ModuleId | "dashboard";
+export type AdminRouteRequirement = ModuleId | "dashboard" | "sealLookup";
+
+const SEAL_LOOKUP_PREFIX = "/admin/consulta-lacre";
 
 export function getAdminRouteRequirement(
   pathname: string,
 ): AdminRouteRequirement | "unknown" {
   if (pathname === "/admin" || pathname.startsWith("/admin/dashboard")) {
     return "dashboard";
+  }
+
+  if (
+    pathname === SEAL_LOOKUP_PREFIX ||
+    pathname.startsWith(`${SEAL_LOOKUP_PREFIX}/`)
+  ) {
+    return "sealLookup";
   }
 
   for (const { module, prefix } of MODULE_PATH_PREFIXES) {
@@ -80,6 +89,10 @@ export function canAccessAdminPath(
 
   if (requirement === "dashboard") {
     return true;
+  }
+
+  if (requirement === "sealLookup") {
+    return permission === "admin" || permission === "manager";
   }
 
   if (requirement === "unknown") {

@@ -29,5 +29,11 @@ import { StoreController } from './store.controller';
     UpdateStoreUseCase,
     DeleteStoreUseCase,
   ],
+  exports: [
+    {
+      provide: STORE_REPOSITORY,
+      useClass: StoreRepository,
+    },
+  ],
 })
 export class StoreModule {}

@@ -39,12 +39,10 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(RequestMiddleware)
-      .exclude(
-        'health',
-        'actuator/info',
-        'env-var',
-        { path: 'auth/login', method: RequestMethod.POST },
-      )
+      .exclude('health', 'actuator/info', 'env-var', {
+        path: 'auth/login',
+        method: RequestMethod.POST,
+      })
       .forRoutes('*');
     // consumer
     //   .apply(RequestContextValidationMiddleware)
