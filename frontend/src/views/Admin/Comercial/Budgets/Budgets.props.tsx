@@ -101,7 +101,7 @@ export const getBudgetTableColumns = (
       <div className="flex justify-end">
         <Link href={routes.budgets.edit(budget.id)}>
           <ActionButton variant="primary" className="px-3 py-1.5 text-xs">
-            Editar
+            Abrir
           </ActionButton>
         </Link>
       </div>

@@ -7,6 +7,8 @@ import type { BudgetClosingLevel } from './types/budget-closing-level';
 import type { BudgetHistoryItem } from './types/budget-history-item';
 import { BudgetStatus } from './types/budget-status';
 
+export const BUDGET_HISTORY_EVENT_CREATED = 'created';
+
 export function sumBudgetCheckoutTotal(checkout: BudgetCheckoutItem[]): number {
   return checkout.reduce((sum, item) => sum + item.price, 0);
 }
@@ -52,20 +54,35 @@ export class BudgetEntity {
       description: item.description,
     }));
 
+    const createdAt = dto.createdAt ?? new Date();
+    const status = dto.status ?? BudgetStatus.Open;
+
     return new BudgetEntity({
       clientId: dto.clientId ?? null,
       userId: dto.userId,
       storeId: dto.storeId,
       architectId: dto.architectId ?? null,
-      createdAt: dto.createdAt ?? new Date(),
+      createdAt,
       obs: dto.obs ?? null,
       lostReasons: dto.lostReasons ?? null,
       total: sumBudgetCheckoutTotal(checkout),
-      status: dto.status ?? BudgetStatus.Open,
+      status,
       closingAt: dto.closingAt ?? null,
       closingLevel: dto.closingLevel ?? null,
       checkout,
-      history: [],
+      history: [
+        {
+          userId: dto.userId,
+          createdAt,
+          data: {
+            event: BUDGET_HISTORY_EVENT_CREATED,
+            storeId: dto.storeId,
+            clientId: dto.clientId ?? null,
+            architectId: dto.architectId ?? null,
+            status,
+          },
+        },
+      ],
     });
   }
 

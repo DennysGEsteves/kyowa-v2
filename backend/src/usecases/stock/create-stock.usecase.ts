@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateStockDto } from '../../controllers/stock/dto/create-stock.dto';
 import { SealEntity } from '../../entities/seal';
+import { SEAL_HISTORY_EVENT_CREATED } from '../../entities/seal/types/seal-history-item';
 import { SealStatus } from '../../entities/seal/types/seal-status';
 import { StockEntity } from '../../entities/stock';
 import {
@@ -43,8 +44,13 @@ export class CreateStockUseCase {
             {
               status: SealStatus.Stock,
               userId: dto.userId,
-              data: {},
               createdAt,
+              data: {
+                event: SEAL_HISTORY_EVENT_CREATED,
+                number,
+                storeId: dto.storeId,
+                productId: dto.productId,
+              },
             },
           ],
         }),

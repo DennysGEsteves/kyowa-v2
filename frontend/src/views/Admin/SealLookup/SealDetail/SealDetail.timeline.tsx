@@ -21,7 +21,13 @@ function formatHistoryDate(createdAt: string) {
   return dateTimeFormatter.format(date);
 }
 
+const SEAL_HISTORY_EVENT_CREATED = "created";
+
 function formatHistoryDetails(data: Record<string, unknown>): string[] {
+  if (data.event === SEAL_HISTORY_EVENT_CREATED) {
+    return ["Lacre criado"];
+  }
+
   const lines: string[] = [];
 
   const previousNumber = data.previousNumber;
@@ -95,7 +101,9 @@ export function SealHistoryTimeline({ items }: SealHistoryTimelineProps) {
                   <li key={line}>{line}</li>
                 ))}
               </ul>
-            ) : null}
+            ) : (
+              <p className="mt-1 text-sm text-kyowa-muted">Alteração registrada</p>
+            )}
           </li>
         );
       })}

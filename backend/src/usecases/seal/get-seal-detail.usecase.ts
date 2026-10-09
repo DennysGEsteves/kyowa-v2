@@ -16,6 +16,7 @@ import {
   IUserRepository,
   USER_REPOSITORY,
 } from '../../repositories/user/interfaces/i-user-repository';
+import { buildSealHistoryView } from './build-seal-history-view';
 
 @Injectable()
 export class GetSealDetailUseCase {
@@ -54,32 +55,36 @@ export class GetSealDetailUseCase {
       return name;
     };
 
-    const history = await Promise.all(
-      seal.history.map(async (entry) => {
-        const user = await this.userRepository.findById(entry.userId);
-        const data = { ...entry.data };
+    const userNames = new Map<string, string>();
+    const resolveUserName = async (userId: string): Promise<string> => {
+      const cached = userNames.get(userId);
+      if (cached) {
+        return cached;
+      }
+      const user = await this.userRepository.findById(userId);
+      const name = user?.name ?? '—';
+      userNames.set(userId, name);
+      return name;
+    };
 
-        const previousStoreId = data.previousStoreId;
-        const storeId = data.storeId;
-        if (
-          typeof previousStoreId === 'string' &&
-          typeof storeId === 'string' &&
-          previousStoreId !== storeId
-        ) {
-          data.storeName = await resolveStoreName(storeId);
-        }
+    const productNames = new Map<string, string>();
+    const resolveProductName = async (productId: string): Promise<string> => {
+      const cached = productNames.get(productId);
+      if (cached) {
+        return cached;
+      }
+      const item = await this.productRepository.findById(productId);
+      const name = item?.name ?? '—';
+      productNames.set(productId, name);
+      return name;
+    };
 
-        return {
-          status: entry.status,
-          userId: entry.userId,
-          userName: user?.name ?? '—',
-          data,
-          createdAt: entry.createdAt,
-        };
-      }),
+    const history = await buildSealHistoryView(
+      seal,
+      resolveUserName,
+      resolveStoreName,
+      resolveProductName,
     );
-
-    history.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     return {
       id: seal.id,

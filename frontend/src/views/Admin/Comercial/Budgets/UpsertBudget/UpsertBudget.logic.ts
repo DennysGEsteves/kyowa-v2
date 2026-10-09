@@ -4,6 +4,7 @@ import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useClientsQuery } from "@/api/Clients/clients.query";
 import { useProductLookupQuery } from "@/api/ProductLookups/product-lookups.query";
 import { useStoresQuery } from "@/api/Stores/stores.query";
+import { useUsersQuery } from "@/api/Users/users.query";
 import { routes } from "@routes";
 import {
   budgetClosingAtLabels,
@@ -13,7 +14,14 @@ import {
   budgetStatusLabels,
   budgetStatuses,
   type Budget,
+  type BudgetHistoryItem,
 } from "@entities";
+import {
+  BUDGET_HISTORY_EVENT_CREATED,
+  isBudgetHistoryCreationEvent,
+  type BudgetHistoryLookups,
+} from "./budget-history.format";
+import type { BudgetHistoryViewItem } from "./BudgetHistoryTimeline";
 import { getSessionUser } from "@/utils";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -45,6 +53,7 @@ export function useUpsertBudgetLogic({
   const { data: clients = [] } = useClientsQuery();
   const { data: architects = [] } = useArchitectsQuery();
   const { data: categories = [] } = useProductLookupQuery("categories");
+  const { data: users = [] } = useUsersQuery();
 
   const navigateBack = useCallback(() => {
     router.push(listHref);
@@ -103,6 +112,56 @@ export function useUpsertBudgetLogic({
     [],
   );
 
+  const historyLookups = useMemo<BudgetHistoryLookups>(
+    () => ({
+      getClientName: (id) => {
+        if (!id) return "—";
+        return clients.find((client) => client.id === id)?.name ?? "—";
+      },
+      getStoreName: (id) => {
+        if (!id) return "—";
+        return stores.find((store) => store.id === id)?.name ?? "—";
+      },
+      getArchitectName: (id) => {
+        if (!id) return "—";
+        return architects.find((architect) => architect.id === id)?.name ?? "—";
+      },
+    }),
+    [architects, clients, stores],
+  );
+
+  const historyItems = useMemo<BudgetHistoryViewItem[]>(() => {
+    if (!budget) {
+      return [];
+    }
+
+    const entries: BudgetHistoryItem[] = [...budget.history];
+
+    if (!entries.some((entry) => isBudgetHistoryCreationEvent(entry.data))) {
+      entries.push({
+        userId: budget.userId,
+        createdAt: budget.createdAt,
+        data: {
+          event: BUDGET_HISTORY_EVENT_CREATED,
+          storeId: budget.storeId,
+          clientId: budget.clientId,
+          architectId: budget.architectId,
+          status: budget.status,
+        },
+      });
+    }
+
+    return entries
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      )
+      .map((entry: BudgetHistoryItem) => ({
+        ...entry,
+        userName: users.find((user) => user.id === entry.userId)?.name ?? "—",
+      }));
+  }, [budget, users]);
+
   const closingLevelOptions = useMemo(
     () =>
       budgetClosingLevels.map((value) => ({
@@ -153,6 +212,8 @@ export function useUpsertBudgetLogic({
     statusOptions,
     closingAtOptions,
     closingLevelOptions,
+    historyItems,
+    historyLookups,
     navigateBack,
     listHref,
     title: budget ? "Editar orçamento" : "Novo orçamento",
