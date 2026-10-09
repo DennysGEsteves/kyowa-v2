@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormikContext } from "formik";
+import { getFormikFieldError, getFormikFieldValue } from "../formikField";
 import { FormField } from "../FormField";
 import { getFieldClassName } from "../FieldStyles";
 
@@ -25,8 +26,8 @@ function withEmptyOption(options: FormSelectOption[]): FormSelectOption[] {
   return [formSelectEmptyOption, ...options];
 }
 
-type FormSelectProps<T extends Record<string, unknown>> = {
-  name: keyof T & string;
+type FormSelectProps = {
+  name: string;
   label: string;
   id?: string;
   options: FormSelectOption[];
@@ -35,23 +36,27 @@ type FormSelectProps<T extends Record<string, unknown>> = {
   allowEmpty?: boolean;
 };
 
-export function FormSelect<T extends Record<string, unknown>>({
+export function FormSelect({
   name,
   label,
   id,
   options,
   className,
   allowEmpty = true,
-}: FormSelectProps<T>) {
+}: FormSelectProps) {
   const { values, errors, touched, submitCount, handleChange, handleBlur } =
-    useFormikContext<T>();
+    useFormikContext();
 
   const fieldId = id ?? name;
-  const fieldError =
-    (touched[name] || submitCount > 0) && errors[name];
-  const errorMessage = fieldError ? String(errors[name]) : undefined;
+  const errorMessage = getFormikFieldError(
+    touched,
+    errors,
+    name,
+    submitCount,
+  );
+  const fieldError = Boolean(errorMessage);
   const selectOptions = allowEmpty ? withEmptyOption(options) : options;
-  const rawValue = values[name];
+  const rawValue = getFormikFieldValue(values, name);
   const selectValue =
     rawValue === null || rawValue === undefined
       ? FORM_SELECT_EMPTY_VALUE

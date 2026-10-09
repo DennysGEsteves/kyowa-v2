@@ -1,5 +1,6 @@
 import { ActionButton } from "@/components/Form/ActionButton";
 import type { TableColumn } from "@/components/Table";
+import { currencyFieldLabel } from "@/utils/masks";
 import {
   formatProductPrice,
   sealNumberTagClass,
@@ -30,9 +31,9 @@ export const getSealLookupTableColumns = (
   },
   {
     id: "sellPrice",
-    header: "Valor R$",
+    header: currencyFieldLabel("Valor"),
     align: "right",
-    mobile: { role: "field", label: "Valor" },
+    mobile: { role: "field", label: currencyFieldLabel("Valor") },
     render: (item) => formatProductPrice(item.sellPrice),
   },
   {

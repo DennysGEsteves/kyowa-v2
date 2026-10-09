@@ -6,7 +6,7 @@ import { routes } from "@routes";
 import {
   AdminFormLoading,
   AdminFormNotFound,
-} from "@/views/Admin/components/AdminFormPage";
+} from "@/components/Form";
 import { useParams } from "next/navigation";
 import { UpsertStoreForm } from "./UpsertStore.form";
 

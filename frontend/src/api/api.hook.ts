@@ -1,4 +1,5 @@
 import { ArchitectsApi } from "./Architects";
+import { BudgetsApi } from "./Budgets";
 import { AuthApi } from "./Auth";
 import { ClientsApi } from "./Clients";
 import { ProductLookupsApi } from "./ProductLookups";
@@ -12,6 +13,7 @@ import { UsersApi } from "./Users";
 export function useApi() {
   return {
     architectsApi: ArchitectsApi(),
+    budgetsApi: BudgetsApi(),
     authApi: AuthApi(),
     clientsApi: ClientsApi(),
     productLookupsApi: ProductLookupsApi(),

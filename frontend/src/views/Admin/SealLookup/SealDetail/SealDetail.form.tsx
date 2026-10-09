@@ -88,7 +88,6 @@ export function SealDetailEditForm({
               label="Loja"
               id="seal-store"
               options={storeOptions}
-              allowEmpty={false}
             />
             <FormProductAutocomplete
               name="productId"

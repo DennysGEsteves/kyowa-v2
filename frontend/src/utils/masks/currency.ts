@@ -1,5 +1,14 @@
 import { digitsOnly } from "./digits";
 
+/** Sufixo padrão em labels de campos monetários (ex.: "Total" → "Total R$"). */
+export function currencyFieldLabel(label: string): string {
+  const trimmed = label.trimEnd();
+  if (trimmed.endsWith("R$")) {
+    return trimmed;
+  }
+  return `${trimmed} R$`;
+}
+
 function formatCentsAsBRL(cents: number): string {
   const abs = Math.abs(cents);
   const intPart = Math.floor(abs / 100);

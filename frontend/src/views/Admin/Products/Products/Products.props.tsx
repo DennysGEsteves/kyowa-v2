@@ -1,5 +1,6 @@
 import { ActionButton } from "@/components/Form/ActionButton";
 import type { TableColumn } from "@/components/Table";
+import { currencyFieldLabel } from "@/utils/masks";
 import {
   formatProductPrice,
   formatProductStock,
@@ -37,9 +38,9 @@ export const getProductTableColumns = (
   },
   {
     id: "sellPrice",
-    header: "Venda",
+    header: currencyFieldLabel("Venda"),
     accessorKey: "sellPrice",
-    mobile: { role: "field", label: "Preço" },
+    mobile: { role: "field", label: currencyFieldLabel("Preço") },
     cell: ({ value }) => formatProductPrice(value as number | null),
   },
   {

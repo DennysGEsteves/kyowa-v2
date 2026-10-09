@@ -7,11 +7,13 @@ export type ModuleId =
   | "clients"
   | "users"
   | "products"
-  | "stock";
+  | "stock"
+  | "budgets";
 
 export type UserPermissionModules = {
   CADASTROS?: ModuleId[];
   PRODUTOS?: ModuleId[];
+  COMERCIAL_VENDAS?: ModuleId[];
 };
 
 export const userPermissionModules: Record<
@@ -21,12 +23,16 @@ export const userPermissionModules: Record<
   admin: {
     CADASTROS: ["users", "stores", "providers", "architects", "clients"],
     PRODUTOS: ["products", "stock"],
+    COMERCIAL_VENDAS: ["budgets"],
   },
   manager: {
     CADASTROS: ["users", "stores", "providers", "architects", "clients"],
     PRODUTOS: ["products", "stock"],
+    COMERCIAL_VENDAS: ["budgets"],
   },
-  sales: {},
+  sales: {
+    COMERCIAL_VENDAS: ["budgets"],
+  },
   operational: {},
   finance: {},
 };
@@ -39,6 +45,7 @@ const MODULE_PATH_PREFIXES: readonly { module: ModuleId; prefix: string }[] = [
   { module: "clients", prefix: "/admin/clientes" },
   { module: "products", prefix: "/admin/produtos" },
   { module: "stock", prefix: "/admin/estoque" },
+  { module: "budgets", prefix: "/admin/orcamentos" },
 ];
 
 export type AdminRouteRequirement = ModuleId | "dashboard" | "sealLookup";
@@ -74,7 +81,11 @@ export function getAdminRouteRequirement(
 
 export function getAllowedModules(permission: UserPermission): ModuleId[] {
   const modules = userPermissionModules[permission];
-  return [...(modules.CADASTROS ?? []), ...(modules.PRODUTOS ?? [])];
+  return [
+    ...(modules.CADASTROS ?? []),
+    ...(modules.PRODUTOS ?? []),
+    ...(modules.COMERCIAL_VENDAS ?? []),
+  ];
 }
 
 export function canAccessAdminPath(

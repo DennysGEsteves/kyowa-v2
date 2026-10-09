@@ -91,12 +91,12 @@ export class ProductController {
     return toGetByNameResponse(products);
   }
 
-  @Get(':id')
+  @Get(':id([0-9a-fA-F]{24})')
   findOne(@Param('id') id: string): Promise<ProductEntity> {
     return this.getProductByIdUseCase.execute(id);
   }
 
-  @Patch(':id')
+  @Patch(':id([0-9a-fA-F]{24})')
   update(
     @Param('id') id: string,
     @Body() dto: UpdateProductDto,
@@ -104,7 +104,7 @@ export class ProductController {
     return this.updateProductUseCase.execute(id, dto);
   }
 
-  @Delete(':id')
+  @Delete(':id([0-9a-fA-F]{24})')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string): Promise<void> {
     await this.deleteProductUseCase.execute(id);

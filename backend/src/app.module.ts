@@ -7,6 +7,7 @@ import { ProviderModule } from './controllers/provider/provider.module';
 import { SealModule } from './controllers/seal/seal.module';
 import { StockModule } from './controllers/stock/stock.module';
 import { StoreModule } from './controllers/store/store.module';
+import { BudgetModule } from './controllers/budget/budget.module';
 import { AuthModule } from './controllers/auth/auth.module';
 import { UserModule } from './controllers/user/user.module';
 import { DatabaseModule } from './database/database.module';
@@ -26,6 +27,7 @@ import { RequestMiddleware } from './http/middlewares/request/request-middleware
     StoreModule,
     SealModule,
     StockModule,
+    BudgetModule,
     ProductsModule,
   ],
   providers: [

@@ -4,6 +4,7 @@ export { formatCpfBR } from "./cpf";
 export { formatRgBR } from "./rg";
 export { formatPhoneBR } from "./phone";
 export {
+  currencyFieldLabel,
   formatCurrencyBRLFromNumber,
   maskCurrencyBRLInput,
   parseCurrencyBRL,

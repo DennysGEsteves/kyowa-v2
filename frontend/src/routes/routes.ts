@@ -10,6 +10,7 @@ import {
   UserRound,
   Users,
   Package,
+  Receipt,
   Stamp,
   Warehouse,
 } from "lucide-react";
@@ -86,6 +87,14 @@ export const routes = {
     icon: Search,
     detail: (id: string) => `/admin/consulta-lacre/${id}`,
   },
+  budgets: {
+    href: "/admin/orcamentos",
+    label: "Orçamentos",
+    icon: Receipt,
+    new: "/admin/orcamentos/novo",
+    edit: (id: string) => `/admin/orcamentos/${id}`,
+    receipt: (id: string) => `/imprimir/orcamento/${id}`,
+  },
 } as const;
 
 export const navStandaloneItems = (): AdminNavItem[] => {
@@ -132,5 +141,14 @@ export const navSections = (): AdminNavSection[] => {
           icon: routes[module].icon,
         })) ?? [],
     },
-  ] as const;
+    {
+      title: "Comercial/Vendas",
+      items:
+        userPermissionModules[permission!].COMERCIAL_VENDAS?.map((module) => ({
+          href: routes[module].href,
+          label: routes[module].label,
+          icon: routes[module].icon,
+        })) ?? [],
+    },
+  ].filter((section) => section.items.length > 0) as const;
 };

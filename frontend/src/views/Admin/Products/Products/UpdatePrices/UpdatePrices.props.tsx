@@ -1,6 +1,7 @@
 import type { ProductPriceUpdateListItem } from "@/api/Products/Products.dto";
 import type { TableColumn } from "@/components/Table";
 import { formatProductPrice } from "@entities";
+import { currencyFieldLabel } from "@/utils/masks";
 
 export type UpdatePricesTableColumn = TableColumn<ProductPriceUpdateListItem>;
 
@@ -48,17 +49,20 @@ export function getUpdatePricesTableColumns(
     },
     {
       id: "sellPrice",
-      header: "Valor atual",
+      header: currencyFieldLabel("Valor atual"),
       accessorKey: "sellPrice",
       align: "right",
-      mobile: { role: "field", label: "Valor atual" },
+      mobile: { role: "field", label: currencyFieldLabel("Valor atual") },
       cell: ({ value }) => formatProductPrice(value as number | null),
     },
     {
       id: "adjustedSellPrice",
-      header: "Valor após reajuste",
+      header: currencyFieldLabel("Valor após reajuste"),
       align: "right",
-      mobile: { role: "trailing", label: "Após reajuste" },
+      mobile: {
+        role: "trailing",
+        label: currencyFieldLabel("Após reajuste"),
+      },
       render: (product) =>
         formatProductPrice(
           computeAdjustedSellPrice(product.sellPrice, adjustmentPercent),
