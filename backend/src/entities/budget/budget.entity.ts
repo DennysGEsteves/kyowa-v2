@@ -15,6 +15,7 @@ export function sumBudgetCheckoutTotal(checkout: BudgetCheckoutItem[]): number {
 
 export interface IBudgetConstructorParams {
   id?: string;
+  sequentialId?: number | null;
   clientId?: string | null;
   userId: string;
   storeId: string;
@@ -32,6 +33,7 @@ export interface IBudgetConstructorParams {
 
 export class BudgetEntity {
   public id?: string;
+  public sequentialId: number | null;
   public clientId: string | null;
   public userId: string;
   public storeId: string;
@@ -102,8 +104,8 @@ export class BudgetEntity {
 
     return new BudgetEntity({
       id: current.id,
-      clientId:
-        dto.clientId !== undefined ? dto.clientId : current.clientId,
+      sequentialId: current.sequentialId,
+      clientId: dto.clientId !== undefined ? dto.clientId : current.clientId,
       userId: current.userId,
       storeId: dto.storeId ?? current.storeId,
       architectId:
@@ -127,6 +129,7 @@ export class BudgetEntity {
 
   constructor(params: IBudgetConstructorParams) {
     this.id = params.id;
+    this.sequentialId = params.sequentialId ?? null;
     this.clientId = params.clientId ?? null;
     this.userId = params.userId;
     this.storeId = params.storeId;
@@ -145,6 +148,7 @@ export class BudgetEntity {
   static fromPersistData(document: BudgetDocument): BudgetEntity {
     return new BudgetEntity({
       id: document._id.toString(),
+      sequentialId: document.sequentialId ?? null,
       clientId: document.clientId?.toString() ?? null,
       userId: document.userId.toString(),
       storeId: document.storeId.toString(),

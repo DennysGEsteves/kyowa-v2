@@ -1,0 +1,1 @@
+export { formatCurrencyBRL } from "./formatCurrencyBRL";

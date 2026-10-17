@@ -10,8 +10,8 @@ import {
 } from "@/components/Form";
 import { useFormikContext } from "formik";
 import { Plus, Trash2 } from "lucide-react";
-import type { BudgetFormSchema } from "./UpsertBudget.schema";
-import { emptyCheckoutItem } from "./UpsertBudget.schema";
+import type { BudgetFormSchema } from "../../UpsertBudget.schema";
+import { emptyCheckoutItem } from "../../UpsertBudget.schema";
 
 type BudgetCheckoutSectionProps = {
   categoryOptions: FormSelectOption[];
@@ -37,9 +37,7 @@ export function BudgetCheckoutSection({
   }
 
   return (
-    <section
-      className={`${formSectionBlock} border-l-4 border-l-kyowa-maroon`}
-    >
+    <section className={`${formSectionBlock} border-l-4 border-l-kyowa-maroon`}>
       <div className="mb-4 flex flex-col gap-3 sm:mb-5 sm:flex-row sm:items-center sm:justify-between">
         <p className={`${formSectionTitle} mb-0`}>Checkout</p>
         <button
@@ -75,7 +73,7 @@ export function BudgetCheckoutSection({
             {values.checkout.map((_, index) => (
               <li
                 key={`checkout-${index}`}
-                className="px-4 py-4 lg:grid lg:grid-cols-[2.5rem_minmax(0,1.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_2.5rem] lg:items-start lg:gap-3 lg:[&_label]:sr-only"
+                className="px-4 py-4 lg:grid lg:grid-cols-[2.5rem_minmax(0,1.5fr)_minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_2.5rem] lg:items-start lg:gap-3 lg:[&_label]:sr-only [&_input]:bg-white [&_select]:bg-white"
               >
                 <span
                   className="mb-3 inline-flex h-8 w-8 shrink-0 items-center justify-center self-start bg-kyowa-maroon text-xs font-semibold text-white lg:mb-0 lg:mt-0.5"

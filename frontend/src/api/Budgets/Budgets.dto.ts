@@ -8,6 +8,15 @@ import type {
 export type ListBudgetsParams = {
   page?: number;
   limit?: number;
+  createdAtFrom?: string;
+  createdAtTo?: string;
+  status?: BudgetStatus;
+  userId?: string;
+  architectId?: string;
+  clientId?: string;
+  storeId?: string;
+  closingAt?: BudgetClosingAt;
+  closingLevel?: BudgetClosingLevel;
 };
 
 export type CreateBudgetDTO = {

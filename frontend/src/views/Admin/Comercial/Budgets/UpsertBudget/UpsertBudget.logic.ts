@@ -1,9 +1,7 @@
 import { useApi } from "@/api/api.hook";
 import { useInvalidateBudgetsQuery } from "@/api/Budgets/budgets.query";
-import { useArchitectsQuery } from "@/api/Architects/architects.query";
-import { useClientsQuery } from "@/api/Clients/clients.query";
 import { useProductLookupQuery } from "@/api/ProductLookups/product-lookups.query";
-import { useStoresQuery } from "@/api/Stores/stores.query";
+import { useClientStoreArchitectLookups } from "@/hooks/useClientStoreArchitectLookups";
 import { useUsersQuery } from "@/api/Users/users.query";
 import { routes } from "@routes";
 import {
@@ -12,16 +10,10 @@ import {
   budgetClosingLevelLabels,
   budgetClosingLevels,
   budgetStatusLabels,
-  budgetStatuses,
+  budgetUpsertStatuses,
   type Budget,
   type BudgetHistoryItem,
 } from "@entities";
-import {
-  BUDGET_HISTORY_EVENT_CREATED,
-  isBudgetHistoryCreationEvent,
-  type BudgetHistoryLookups,
-} from "./budget-history.format";
-import type { BudgetHistoryViewItem } from "./BudgetHistoryTimeline";
 import { getSessionUser } from "@/utils";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -49,9 +41,12 @@ export function useUpsertBudgetLogic({
   const { budgetsApi } = useApi();
   const invalidateBudgets = useInvalidateBudgetsQuery();
   const router = useRouter();
-  const { data: stores = [] } = useStoresQuery();
-  const { data: clients = [] } = useClientsQuery();
-  const { data: architects = [] } = useArchitectsQuery();
+  const {
+    clients,
+    stores,
+    architects,
+    lookups: historyLookups,
+  } = useClientStoreArchitectLookups();
   const { data: categories = [] } = useProductLookupQuery("categories");
   const { data: users = [] } = useUsersQuery();
 
@@ -94,14 +89,16 @@ export function useUpsertBudgetLogic({
     [categories],
   );
 
-  const statusOptions = useMemo(
-    () =>
-      budgetStatuses.map((status) => ({
-        value: status,
-        label: budgetStatusLabels[status],
-      })),
-    [],
-  );
+  const statusOptions = useMemo(() => {
+    const statuses = [...budgetUpsertStatuses];
+    if (budget && !statuses.includes(budget.status)) {
+      statuses.push(budget.status);
+    }
+    return statuses.map((status) => ({
+      value: status,
+      label: budgetStatusLabels[status],
+    }));
+  }, [budget]);
 
   const closingAtOptions = useMemo(
     () =>
@@ -112,37 +109,20 @@ export function useUpsertBudgetLogic({
     [],
   );
 
-  const historyLookups = useMemo<BudgetHistoryLookups>(
-    () => ({
-      getClientName: (id) => {
-        if (!id) return "—";
-        return clients.find((client) => client.id === id)?.name ?? "—";
-      },
-      getStoreName: (id) => {
-        if (!id) return "—";
-        return stores.find((store) => store.id === id)?.name ?? "—";
-      },
-      getArchitectName: (id) => {
-        if (!id) return "—";
-        return architects.find((architect) => architect.id === id)?.name ?? "—";
-      },
-    }),
-    [architects, clients, stores],
-  );
-
-  const historyItems = useMemo<BudgetHistoryViewItem[]>(() => {
+  const historyItems = useMemo<BudgetHistoryItem[]>(() => {
     if (!budget) {
       return [];
     }
 
     const entries: BudgetHistoryItem[] = [...budget.history];
 
-    if (!entries.some((entry) => isBudgetHistoryCreationEvent(entry.data))) {
+    if (!entries.some((entry) => entry.data.event === "created")) {
       entries.push({
         userId: budget.userId,
         createdAt: budget.createdAt,
+        userName: users.find((user) => user.id === budget.userId)?.name ?? "—",
         data: {
-          event: BUDGET_HISTORY_EVENT_CREATED,
+          event: "created",
           storeId: budget.storeId,
           clientId: budget.clientId,
           architectId: budget.architectId,

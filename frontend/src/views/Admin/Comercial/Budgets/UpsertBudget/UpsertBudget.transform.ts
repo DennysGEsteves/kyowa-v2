@@ -4,14 +4,44 @@ import type {
   BudgetCheckoutItem,
   BudgetClosingAt,
   BudgetClosingLevel,
+  BudgetLostReason,
   BudgetStatus,
 } from "@entities";
+import { budgetLostReasonLabels, budgetLostReasons } from "@entities";
 import { formatCurrencyBRLFromNumber, parseCurrencyBRL } from "@/utils/masks";
 import type { BudgetFormSchema } from "./UpsertBudget.schema";
 
 function parseOptionalId(value: string): string | null {
   const trimmed = value.trim();
   return trimmed ? trimmed : null;
+}
+
+function parseLostReasonsFromStorage(
+  value: string | null,
+): BudgetLostReason[] {
+  if (!value?.trim()) {
+    return [];
+  }
+
+  const parts = value.split(",").map((part) => part.trim());
+  const byLabel = new Map(
+    budgetLostReasons.map((key) => [budgetLostReasonLabels[key], key]),
+  );
+
+  return parts.flatMap((part) => {
+    const key = byLabel.get(part);
+    return key ? [key] : [];
+  });
+}
+
+function serializeLostReasons(
+  status: BudgetStatus,
+  reasons: BudgetLostReason[],
+): string | null {
+  if (status !== "lost" || reasons.length === 0) {
+    return null;
+  }
+  return reasons.map((key) => budgetLostReasonLabels[key]).join(", ");
 }
 
 function parseCheckoutItem(
@@ -32,7 +62,7 @@ export function budgetToFormValues(budget: Budget): BudgetFormSchema {
     clientId: budget.clientId ?? "",
     architectId: budget.architectId ?? "",
     obs: budget.obs ?? "",
-    lostReasons: budget.lostReasons ?? "",
+    lostReasons: parseLostReasonsFromStorage(budget.lostReasons),
     status: budget.status,
     closingAt: budget.closingAt ?? "",
     closingLevel: budget.closingLevel ?? "",
@@ -55,7 +85,10 @@ export function formValuesToCreateBudgetDTO(
     clientId: parseOptionalId(values.clientId),
     architectId: parseOptionalId(values.architectId),
     obs: values.obs.trim() || null,
-    lostReasons: values.lostReasons.trim() || null,
+    lostReasons: serializeLostReasons(
+      values.status as BudgetStatus,
+      values.lostReasons,
+    ),
     status: values.status as BudgetStatus,
     closingAt: (values.closingAt || null) as BudgetClosingAt | null,
     closingLevel: (values.closingLevel || null) as BudgetClosingLevel | null,
@@ -71,7 +104,10 @@ export function formValuesToUpdateBudgetDTO(
     clientId: parseOptionalId(values.clientId),
     architectId: parseOptionalId(values.architectId),
     obs: values.obs.trim() || null,
-    lostReasons: values.lostReasons.trim() || null,
+    lostReasons: serializeLostReasons(
+      values.status as BudgetStatus,
+      values.lostReasons,
+    ),
     status: values.status as BudgetStatus,
     closingAt: (values.closingAt || null) as BudgetClosingAt | null,
     closingLevel: (values.closingLevel || null) as BudgetClosingLevel | null,

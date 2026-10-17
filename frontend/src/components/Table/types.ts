@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type TableColumnAlign = "left" | "right";
+export type TableColumnAlign = "left" | "center" | "right";
 
 export type TableColumnMobileRole =
   | "title"

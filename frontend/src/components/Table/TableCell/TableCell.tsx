@@ -1,13 +1,18 @@
+import type { TableColumnAlign } from "../types";
 import { tableCellPadding } from "../TableStyles";
 import type { ReactNode } from "react";
 
-type TableCellAlign = "left" | "right";
-
 type TableCellProps = {
   children: ReactNode;
-  align?: TableCellAlign;
+  align?: TableColumnAlign;
   className?: string;
 };
+
+function cellAlignClass(align: TableColumnAlign): string {
+  if (align === "right") return "text-right";
+  if (align === "center") return "text-center";
+  return "text-left";
+}
 
 export function TableCell({
   children,
@@ -16,7 +21,7 @@ export function TableCell({
 }: TableCellProps) {
   return (
     <td
-      className={`${tableCellPadding} ${align === "right" ? "text-right" : ""} ${className}`}
+      className={`${tableCellPadding} align-middle ${cellAlignClass(align)} ${className}`}
     >
       {children}
     </td>

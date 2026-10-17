@@ -1,13 +1,18 @@
-import { tableCellPadding } from "../TableStyles";
+import type { TableColumnAlign } from "../types";
+import { tableCellPadding, tableHeadCellClass } from "../TableStyles";
 import type { ReactNode } from "react";
-
-type TableHeadAlign = "left" | "right";
 
 type TableHeadProps = {
   children: ReactNode;
-  align?: TableHeadAlign;
+  align?: TableColumnAlign;
   className?: string;
 };
+
+function headAlignClass(align: TableColumnAlign): string {
+  if (align === "right") return "text-right";
+  if (align === "center") return "text-center";
+  return "text-left";
+}
 
 export function TableHead({
   children,
@@ -16,9 +21,7 @@ export function TableHead({
 }: TableHeadProps) {
   return (
     <th
-      className={`${tableCellPadding} font-semibold ${
-        align === "right" ? "text-right" : ""
-      } ${className}`}
+      className={`${tableCellPadding} ${tableHeadCellClass} align-middle font-semibold ${headAlignClass(align)} ${className}`}
     >
       {children}
     </th>

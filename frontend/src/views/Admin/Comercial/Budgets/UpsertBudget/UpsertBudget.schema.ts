@@ -1,7 +1,8 @@
 import {
   budgetClosingAtValues,
   budgetClosingLevels,
-  budgetStatuses,
+  budgetLostReasons,
+  budgetUpsertStatuses,
 } from "@entities";
 import { parseCurrencyBRL } from "@/utils/masks";
 import * as Yup from "yup";
@@ -18,7 +19,7 @@ export type BudgetFormSchema = {
   clientId: string;
   architectId: string;
   obs: string;
-  lostReasons: string;
+  lostReasons: (typeof budgetLostReasons)[number][];
   status: string;
   closingAt: string;
   closingLevel: string;
@@ -37,8 +38,8 @@ export const emptyBudgetFormValues: BudgetFormSchema = {
   clientId: "",
   architectId: "",
   obs: "",
-  lostReasons: "",
-  status: "",
+  lostReasons: [],
+  status: "open",
   closingAt: "",
   closingLevel: "",
   checkout: [],
@@ -65,10 +66,17 @@ export const budgetValidationSchema = Yup.object<BudgetFormSchema>({
   clientId: Yup.string(),
   architectId: Yup.string(),
   obs: Yup.string(),
-  lostReasons: Yup.string().max(100, "Máximo de 100 caracteres"),
+  lostReasons: Yup.array()
+    .of(Yup.string().oneOf([...budgetLostReasons]))
+    .when("status", {
+      is: "lost",
+      then: (schema) =>
+        schema.min(1, "Selecione ao menos um motivo da perda"),
+      otherwise: (schema) => schema,
+    }),
   status: Yup.string()
     .required("Status é obrigatório")
-    .oneOf([...budgetStatuses], "Status é obrigatório"),
+    .oneOf([...budgetUpsertStatuses], "Status é obrigatório"),
   closingAt: Yup.string().oneOf(["", ...budgetClosingAtValues]),
   closingLevel: Yup.string().oneOf(["", ...budgetClosingLevels]),
   checkout: Yup.array().of(checkoutItemSchema),

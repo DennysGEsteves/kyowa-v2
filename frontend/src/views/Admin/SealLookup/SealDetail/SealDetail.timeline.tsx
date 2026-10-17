@@ -3,23 +3,11 @@ import {
   sealStatusLabels,
   type SealHistoryViewItem,
 } from "@entities";
-
-const dateTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
-  dateStyle: "short",
-  timeStyle: "short",
-});
+import { formatDateTimeShort } from "@/utils/date";
 
 type SealHistoryTimelineProps = {
   items: SealHistoryViewItem[];
 };
-
-function formatHistoryDate(createdAt: string) {
-  const date = new Date(createdAt);
-  if (Number.isNaN(date.getTime())) {
-    return "—";
-  }
-  return dateTimeFormatter.format(date);
-}
 
 const SEAL_HISTORY_EVENT_CREATED = "created";
 
@@ -87,7 +75,7 @@ export function SealHistoryTimeline({ items }: SealHistoryTimelineProps) {
               aria-hidden
             />
             <p className="text-xs text-kyowa-muted">
-              {formatHistoryDate(item.createdAt)}
+              {formatDateTimeShort(item.createdAt)}
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <span className={sealStatusBadgeClass[item.status]}>

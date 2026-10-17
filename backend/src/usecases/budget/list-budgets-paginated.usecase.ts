@@ -23,6 +23,19 @@ export class ListBudgetsPaginatedUseCase {
     const page = query.page ?? DEFAULT_PAGE;
     const limit = query.limit ?? DEFAULT_LIMIT;
 
-    return this.budgetRepository.findPaginated({ page, limit });
+    return this.budgetRepository.findPaginated(
+      {
+        createdAtFrom: query.createdAtFrom,
+        createdAtTo: query.createdAtTo,
+        status: query.status,
+        userId: query.userId,
+        architectId: query.architectId,
+        clientId: query.clientId,
+        storeId: query.storeId,
+        closingAt: query.closingAt,
+        closingLevel: query.closingLevel,
+      },
+      { page, limit },
+    );
   }
 }

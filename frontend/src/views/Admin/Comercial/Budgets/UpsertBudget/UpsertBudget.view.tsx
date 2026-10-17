@@ -2,18 +2,19 @@
 
 import { useBudgetDetailQuery } from "@/api/Budgets/budgets.query";
 import { routes } from "@routes";
-import {
-  AdminFormLoading,
-  AdminFormNotFound,
-} from "@/components/Form";
+import { AdminFormLoading, AdminFormNotFound } from "@/components/Form";
 import { useParams } from "next/navigation";
-import { UpsertBudgetForm } from "./UpsertBudget.form";
+import { UpsertBudgetForm } from "./components/Form/UpsertBudgetForm";
 
 export function UpsertBudgetView() {
   const params = useParams();
   const id = params.id as string | undefined;
 
-  const { data: budget, isLoading, isError } = useBudgetDetailQuery(id ?? null, {
+  const {
+    data: budget,
+    isLoading,
+    isError,
+  } = useBudgetDetailQuery(id ?? null, {
     enabled: Boolean(id),
   });
 

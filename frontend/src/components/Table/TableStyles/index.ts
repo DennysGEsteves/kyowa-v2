@@ -4,6 +4,7 @@ export {
   tableContainerClass,
   tableEmptyClass,
   tableHeadClass,
+  tableHeadCellClass,
   tableMobileCardClass,
   tableMobileListClass,
   tableRowHoverClass,

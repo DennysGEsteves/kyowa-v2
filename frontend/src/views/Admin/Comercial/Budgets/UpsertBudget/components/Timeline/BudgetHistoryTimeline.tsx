@@ -1,26 +1,20 @@
 import {
   budgetClosingAtLabels,
+  BudgetClosingLevel,
   budgetClosingLevelLabels,
   budgetStatusLabels,
   type BudgetClosingAt,
-  type BudgetClosingLevel,
+  type BudgetHistoryItem,
   type BudgetStatus,
 } from "@entities";
+import { formatDateTimeShort } from "@/utils/date";
+import { ClientStoreArchitectLookups } from "@/hooks/useClientStoreArchitectLookups";
 import { formatCurrencyBRLFromNumber } from "@/utils/masks";
 
-export const BUDGET_HISTORY_EVENT_CREATED = "created";
-
-export type BudgetHistoryLookups = {
-  getClientName: (id: string | null | undefined) => string;
-  getStoreName: (id: string | undefined) => string;
-  getArchitectName: (id: string | null | undefined) => string;
+type BudgetHistoryTimelineProps = {
+  items: BudgetHistoryItem[];
+  lookups: ClientStoreArchitectLookups;
 };
-
-export function isBudgetHistoryCreationEvent(
-  data: Record<string, unknown>,
-): boolean {
-  return data.event === BUDGET_HISTORY_EVENT_CREATED;
-}
 
 function isBudgetStatus(value: unknown): value is BudgetStatus {
   return typeof value === "string" && value in budgetStatusLabels;
@@ -83,9 +77,9 @@ function formatText(value: unknown): string {
 
 export function formatBudgetHistoryDetails(
   data: Record<string, unknown>,
-  lookups: BudgetHistoryLookups,
+  lookups: ClientStoreArchitectLookups,
 ): string[] {
-  if (isBudgetHistoryCreationEvent(data)) {
+  if (data.event === "created") {
     return ["Orçamento criado"];
   }
 
@@ -140,7 +134,7 @@ export function formatBudgetHistoryDetails(
     const next = data.closingLevel;
     if (previous !== next) {
       lines.push(
-        `Nível de fechamento alterado de ${formatClosingLevel(previous)} para ${formatClosingLevel(next)}`,
+        `Probabilidade de Fechamento alterado de ${formatClosingLevel(previous)} para ${formatClosingLevel(next)}`,
       );
     }
   }
@@ -185,4 +179,49 @@ export function formatBudgetHistoryDetails(
   }
 
   return lines;
+}
+
+export function BudgetHistoryTimeline({
+  items,
+  lookups,
+}: BudgetHistoryTimelineProps) {
+  if (items.length === 0) {
+    return (
+      <p className="text-sm text-kyowa-muted">Nenhum evento no histórico.</p>
+    );
+  }
+
+  return (
+    <ol className="relative border-l border-kyowa-border pl-5">
+      {items.map((item, index) => {
+        const details = formatBudgetHistoryDetails(item.data, lookups);
+
+        return (
+          <li key={`${item.createdAt}-${index}`} className="mb-6 last:mb-0">
+            <span
+              className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-kyowa-border bg-kyowa-maroon"
+              aria-hidden
+            />
+            <p className="text-xs text-kyowa-muted">
+              {formatDateTimeShort(item.createdAt)}
+            </p>
+            <p className="mt-1 text-sm font-medium text-kyowa-ink">
+              {item.userName}
+            </p>
+            {details.length > 0 ? (
+              <ul className="mt-1 space-y-0.5 text-sm text-kyowa-muted">
+                {details.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-1 text-sm text-kyowa-muted">
+                Alteração registrada
+              </p>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  );
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import { BudgetReceiptView } from "@/views/Admin/Comercial/Budgets/BudgetReceipt";
+import { BudgetReceipt } from "@/views/Admin/Comercial/Budgets/BudgetReceipt";
 import { useParams } from "next/navigation";
 
-export default function OrcamentoReciboPage() {
+export default function BudgetReceiptPage() {
   const params = useParams();
   const id = params.id as string;
 
-  return <BudgetReceiptView budgetId={id} />;
+  return <BudgetReceipt budgetId={id} />;
 }

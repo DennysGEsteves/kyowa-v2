@@ -1,7 +1,9 @@
 export const tableCellPadding = "px-4 py-4 lg:px-6";
 
-export const tableHeadClass =
-  "bg-kyowa-surface text-xs uppercase tracking-wider text-kyowa-muted";
+/** Mesmo tom do sidebar (`bg-kyowa-maroon` em `Sidebar.tsx`). */
+export const tableHeadClass = "text-xs uppercase tracking-wider text-white";
+
+export const tableHeadCellClass = "bg-kyowa-maroon text-white";
 
 export const tableBodyClass = "divide-y divide-kyowa-border text-kyowa-ink";
 

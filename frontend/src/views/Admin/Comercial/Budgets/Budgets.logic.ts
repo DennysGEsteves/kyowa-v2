@@ -1,9 +1,8 @@
-import { useArchitectsQuery } from "@/api/Architects/architects.query";
 import { useBudgetsPaginatedQuery } from "@/api/Budgets/budgets.query";
-import { useClientsQuery } from "@/api/Clients/clients.query";
-import { useStoresQuery } from "@/api/Stores/stores.query";
-import { useMemo, useState } from "react";
-import { buildBudgetLookups, getBudgetTableColumns } from "./Budgets.props";
+import { useCallback, useMemo, useState } from "react";
+import type { BudgetsListFilters } from "./components/BudgetsFilters";
+import { getBudgetTableColumns } from "./Budgets.props";
+import { useClientStoreArchitectLookups } from "@/hooks/useClientStoreArchitectLookups";
 
 const PAGE_SIZE = 10;
 
@@ -14,15 +13,35 @@ const EMPTY_META = {
   totalPages: 0,
 };
 
+const INITIAL_LIST_FILTERS: BudgetsListFilters = {
+  hasActiveFilters: false,
+};
+
 export function BudgetsLogic() {
   const [page, setPage] = useState(1);
+  const [listFilters, setListFilters] =
+    useState<BudgetsListFilters>(INITIAL_LIST_FILTERS);
+
+  const handleListFiltersChange = useCallback((next: BudgetsListFilters) => {
+    setListFilters(next);
+    setPage(1);
+  }, []);
 
   const queryParams = useMemo(
     () => ({
       page,
       limit: PAGE_SIZE,
+      createdAtFrom: listFilters.createdAtFrom,
+      createdAtTo: listFilters.createdAtTo,
+      status: listFilters.status,
+      userId: listFilters.userId,
+      architectId: listFilters.architectId,
+      clientId: listFilters.clientId,
+      storeId: listFilters.storeId,
+      closingAt: listFilters.closingAt,
+      closingLevel: listFilters.closingLevel,
     }),
-    [page],
+    [page, listFilters],
   );
 
   const {
@@ -32,29 +51,18 @@ export function BudgetsLogic() {
     isError: isBudgetsError,
   } = useBudgetsPaginatedQuery(queryParams);
 
-  const { data: clients = [], isLoading: isClientsLoading } = useClientsQuery();
-  const { data: stores = [], isLoading: isStoresLoading } = useStoresQuery();
-  const { data: architects = [], isLoading: isArchitectsLoading } =
-    useArchitectsQuery();
+  const { lookups, isLoading: isLookupsLoading } =
+    useClientStoreArchitectLookups();
 
   const budgets = paginated?.data ?? [];
   const meta = paginated?.meta ?? EMPTY_META;
-
-  const lookups = useMemo(
-    () => buildBudgetLookups(clients, stores, architects),
-    [clients, stores, architects],
-  );
 
   const columns = useMemo(
     () => getBudgetTableColumns(lookups),
     [lookups],
   );
 
-  const isLoading =
-    isBudgetsLoading ||
-    isClientsLoading ||
-    isStoresLoading ||
-    isArchitectsLoading;
+  const isLoading = isBudgetsLoading || isLookupsLoading;
 
   return {
     data: {
@@ -64,8 +72,10 @@ export function BudgetsLogic() {
       isLoading,
       isFetching,
       isError: isBudgetsError,
+      hasActiveFilters: listFilters.hasActiveFilters,
     },
     methods: {
+      onListFiltersChange: handleListFiltersChange,
       setPage,
     },
   };

@@ -7,21 +7,9 @@ import {
   type Store,
   type User,
 } from "@entities";
+import { formatDateTimeShort } from "@/utils/date";
 
 export type StockTableColumn = TableColumn<Stock>;
-
-const dateTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
-  dateStyle: "short",
-  timeStyle: "short",
-});
-
-function formatStockCreatedAt(createdAt: string) {
-  const date = new Date(createdAt);
-  if (Number.isNaN(date.getTime())) {
-    return "—";
-  }
-  return dateTimeFormatter.format(date);
-}
 
 export function buildStockLookups(
   products: Product[],
@@ -55,7 +43,7 @@ export const getStockTableColumns = (
     accessorKey: "createdAt",
     className: "whitespace-nowrap",
     mobile: { role: "title" },
-    cell: ({ value }) => formatStockCreatedAt(String(value)),
+    cell: ({ value }) => formatDateTimeShort(String(value)),
   },
   {
     id: "product",

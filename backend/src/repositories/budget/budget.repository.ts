@@ -1,10 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
+import {
+  endOfDateOnly,
+  startOfDateOnly,
+} from '../../shared/util/date/date-only-range';
 import { BudgetEntity } from '../../entities/budget';
+import { BudgetClosingAt } from '../../entities/budget/types/budget-closing-at';
 import { PaginatedResult } from '../../shared/types/pagination';
 import { BudgetHistoryItem } from '../../entities/budget/types/budget-history-item';
-import { IBudgetRepository } from './interfaces/i-budget-repository';
+import {
+  BudgetListFilters,
+  IBudgetRepository,
+} from './interfaces/i-budget-repository';
 import { Budget, BudgetDocument } from './schemas/budget.schema';
 
 function toObjectIdOrNull(
@@ -23,8 +31,22 @@ export class BudgetRepository implements IBudgetRepository {
     private readonly budgetModel: Model<BudgetDocument>,
   ) {}
 
+  private async getNextSequentialId(): Promise<number> {
+    const latest = await this.budgetModel
+      .findOne({ sequentialId: { $ne: null } })
+      .sort({ sequentialId: -1 })
+      .select('sequentialId')
+      .lean()
+      .exec();
+
+    return (latest?.sequentialId ?? 0) + 1;
+  }
+
   async create(data: BudgetEntity): Promise<BudgetEntity> {
+    const sequentialId = await this.getNextSequentialId();
+
     const created = await this.budgetModel.create({
+      sequentialId,
       clientId: toObjectIdOrNull(data.clientId),
       userId: new Types.ObjectId(data.userId),
       storeId: new Types.ObjectId(data.storeId),
@@ -99,16 +121,63 @@ export class BudgetRepository implements IBudgetRepository {
     return budget ? BudgetEntity.fromPersistData(budget) : null;
   }
 
-  async findPaginated(pagination: {
-    page: number;
-    limit: number;
-  }): Promise<PaginatedResult<BudgetEntity>> {
+  async findPaginated(
+    filters: BudgetListFilters,
+    pagination: {
+      page: number;
+      limit: number;
+    },
+  ): Promise<PaginatedResult<BudgetEntity>> {
+    const query: FilterQuery<BudgetDocument> = {};
+
+    if (filters.createdAtFrom || filters.createdAtTo) {
+      query.createdAt = {};
+      if (filters.createdAtFrom) {
+        query.createdAt.$gte = startOfDateOnly(filters.createdAtFrom);
+      }
+      if (filters.createdAtTo) {
+        query.createdAt.$lte = endOfDateOnly(filters.createdAtTo);
+      }
+    }
+
+    if (filters.status) {
+      query.status = filters.status;
+    }
+
+    if (filters.userId) {
+      query.userId = new Types.ObjectId(filters.userId);
+    }
+
+    if (filters.architectId) {
+      query.architectId = new Types.ObjectId(filters.architectId);
+    }
+
+    if (filters.clientId) {
+      query.clientId = new Types.ObjectId(filters.clientId);
+    }
+
+    if (filters.storeId) {
+      query.storeId = new Types.ObjectId(filters.storeId);
+    }
+
+    if (filters.closingAt) {
+      if (filters.closingAt === BudgetClosingAt.None) {
+        query.closingAt = { $in: [null, BudgetClosingAt.None] };
+      } else {
+        query.closingAt = filters.closingAt;
+      }
+    }
+
+    if (filters.closingLevel) {
+      query.closingLevel = filters.closingLevel;
+    }
+
     const skip = (pagination.page - 1) * pagination.limit;
 
     const [total, budgets] = await Promise.all([
-      this.budgetModel.countDocuments().exec(),
+      this.budgetModel.countDocuments(query).exec(),
       this.budgetModel
-        .find()
+        .find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(pagination.limit)

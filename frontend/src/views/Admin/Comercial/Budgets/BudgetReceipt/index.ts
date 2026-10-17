@@ -1,2 +1,1 @@
-export { BudgetReceiptView } from "./BudgetReceipt.view";
-export { openReceiptWindow } from "./open-receipt-window";
+export { BudgetReceipt, openBudgetReceipt } from "./BudgetReceipt";

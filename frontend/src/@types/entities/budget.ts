@@ -1,9 +1,4 @@
-export type BudgetStatus =
-  | "closed"
-  | "open"
-  | "cancel"
-  | "inactive"
-  | "lost";
+export type BudgetStatus = "closed" | "open" | "inactive" | "lost";
 
 export type BudgetClosingAt =
   | "until3days"
@@ -25,11 +20,13 @@ export type BudgetCheckoutItem = {
 export type BudgetHistoryItem = {
   userId: string;
   createdAt: string;
+  userName: string;
   data: Record<string, unknown>;
 };
 
 export type Budget = {
   id: string;
+  sequentialId: number | null;
   clientId: string | null;
   userId: string;
   storeId: string;
@@ -46,11 +43,21 @@ export type Budget = {
 };
 
 export const budgetStatusLabels: Record<BudgetStatus, string> = {
-  closed: "Fechado",
+  closed: "Efetivado",
   open: "Aberto",
-  cancel: "Cancelado",
   inactive: "Inativo",
   lost: "Perdido",
+};
+
+export const budgetStatusBadgeClass: Record<BudgetStatus, string> = {
+  open:
+    "inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800",
+  closed:
+    "inline-flex rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-800",
+  inactive:
+    "inline-flex rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-600",
+  lost:
+    "inline-flex rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800",
 };
 
 export const budgetClosingAtLabels: Record<BudgetClosingAt, string> = {
@@ -71,9 +78,39 @@ export const budgetClosingLevelLabels: Record<BudgetClosingLevel, string> = {
 export const budgetStatuses: BudgetStatus[] = [
   "open",
   "closed",
-  "cancel",
   "inactive",
   "lost",
+];
+
+/** Status disponíveis no formulário de orçamento (criar/editar). */
+export const budgetUpsertStatuses: BudgetStatus[] = [
+  "open",
+  "closed",
+  "lost",
+  "inactive",
+];
+
+export type BudgetLostReason =
+  | "price"
+  | "deadline"
+  | "withdrawal"
+  | "competitor"
+  | "postponed";
+
+export const budgetLostReasonLabels: Record<BudgetLostReason, string> = {
+  price: "Preço",
+  deadline: "Prazo",
+  withdrawal: "Desistência",
+  competitor: "Optou por outra empresa",
+  postponed: "Adiou a Compra",
+};
+
+export const budgetLostReasons: BudgetLostReason[] = [
+  "price",
+  "deadline",
+  "withdrawal",
+  "competitor",
+  "postponed",
 ];
 
 export const budgetClosingAtValues: BudgetClosingAt[] = [

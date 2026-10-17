@@ -55,6 +55,9 @@ export type BudgetDocument = HydratedDocument<Budget>;
   timestamps: { createdAt: true, updatedAt: false },
 })
 export class Budget {
+  @Prop({ type: Number, unique: true, sparse: true, index: true })
+  sequentialId!: number | null;
+
   @Prop({ type: Types.ObjectId, default: null, ref: 'Client', index: true })
   clientId!: Types.ObjectId | null;
 
