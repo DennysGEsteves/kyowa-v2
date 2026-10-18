@@ -24,9 +24,8 @@ export function AdminProductsView() {
 
   return (
     <>
-      <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-kyowa-muted">{totalLabel}</p>
-        <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="mb-4 flex flex-col gap-3 sm:mb-5 sm:flex-row sm:items-center sm:justify-end">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
           <Link
             href={routes.products.descriptors.href}
             className="inline-flex items-center justify-center gap-2 border border-kyowa-border bg-white px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-kyowa-ink transition hover:bg-kyowa-surface"
@@ -60,7 +59,10 @@ export function AdminProductsView() {
       ) : data.isLoading ? (
         <p className="text-sm text-kyowa-muted">Carregando produtos…</p>
       ) : (
-        <>
+        <section aria-label="Lista de produtos">
+          <p className="mb-3 text-sm font-medium text-kyowa-ink">
+            {totalLabel}
+          </p>
           <DataTable
             data={data.products}
             columns={data.columns}
@@ -72,7 +74,7 @@ export function AdminProductsView() {
             onPageChange={methods.setPage}
             disabled={data.isFetching}
           />
-        </>
+        </section>
       )}
 
       <DeleteProductDialog

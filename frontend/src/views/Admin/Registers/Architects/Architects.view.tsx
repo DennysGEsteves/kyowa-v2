@@ -27,8 +27,7 @@ export function RegistersArchitectsView() {
 
   return (
     <>
-      <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-kyowa-muted">{totalLabel}</p>
+      <div className="mb-4 flex flex-col gap-3 sm:mb-5 sm:flex-row sm:items-center sm:justify-end">
         <Link
           href={routes.architects.new}
           className="inline-flex items-center justify-center gap-2 bg-kyowa-maroon px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-kyowa-maroon-dark"
@@ -47,7 +46,10 @@ export function RegistersArchitectsView() {
       ) : data.isLoading ? (
         <p className="text-sm text-kyowa-muted">Carregando arquitetos…</p>
       ) : (
-        <>
+        <section aria-label="Lista de arquitetos">
+          <p className="mb-3 text-sm font-medium text-kyowa-ink">
+            {totalLabel}
+          </p>
           <DataTable
             data={data.architects}
             columns={data.columns}
@@ -59,7 +61,7 @@ export function RegistersArchitectsView() {
             onPageChange={methods.setPage}
             disabled={data.isFetching}
           />
-        </>
+        </section>
       )}
 
       <DeleteArchitectDialog

@@ -1,5 +1,9 @@
 import { ActionButton } from "@/components/Form/ActionButton";
-import type { TableColumn } from "@/components/Table";
+import {
+  tableActionIconClass,
+  tableActionIconLinkClass,
+  type TableColumn,
+} from "@/components/Table";
 import { currencyFieldLabel } from "@/utils/masks";
 import {
   formatProductPrice,
@@ -58,18 +62,24 @@ export const getProductTableColumns = (
       <div className="flex items-center justify-end gap-1">
         <Link
           href={getEditHref(product)}
-          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
+          className={tableActionIconLinkClass}
           aria-label={`Editar ${product.name}`}
         >
-          <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
+          <Pencil
+            className={`${tableActionIconClass} text-kyowa-gold`}
+            strokeWidth={1.75}
+          />
         </Link>
         <ActionButton
           variant="ghost"
-          className="p-2"
+          size="sm"
           onClick={() => onDelete(product)}
           aria-label={`Remover ${product.name}`}
         >
-          <Trash className="h-4 w-4 text-red-700" strokeWidth={1.75} />
+          <Trash
+            className={`${tableActionIconClass} text-red-700`}
+            strokeWidth={1.75}
+          />
         </ActionButton>
       </div>
     ),

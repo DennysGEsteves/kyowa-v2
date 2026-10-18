@@ -1,5 +1,8 @@
-import { ActionButton } from "@/components/Form/ActionButton";
-import type { TableColumn } from "@/components/Table";
+import {
+  tableActionIconClass,
+  tableActionIconLinkClass,
+  type TableColumn,
+} from "@/components/Table";
 import type { Budget } from "@entities";
 import { BudgetStatusBadge } from "./components/BudgetStatusBadge";
 import type { ClientStoreArchitectLookups } from "@/hooks/useClientStoreArchitectLookups";
@@ -7,6 +10,7 @@ import { formatDateTimeShort } from "@/utils/date";
 import { formatCurrencyBRL } from "@/utils/currency";
 import { currencyFieldLabel } from "@/utils/masks";
 import { routes } from "@routes";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 
 export const getBudgetTableColumns = (
@@ -51,7 +55,9 @@ export const getBudgetTableColumns = (
     id: "status",
     header: "Status",
     mobile: { role: "field", label: "Status" },
-    render: (budget) => <BudgetStatusBadge status={budget.status} />,
+    render: (budget) => (
+      <BudgetStatusBadge status={budget.status} />
+    ),
   },
   {
     id: "total",
@@ -64,17 +70,28 @@ export const getBudgetTableColumns = (
   {
     id: "actions",
     header: "Ações",
-    align: "center",
-    className: "text-center",
+    align: "right",
     mobile: { role: "actions" },
-    render: (budget) => (
-      <div className="flex justify-center">
-        <Link href={routes.budgets.edit(budget.id)}>
-          <ActionButton variant="primary" className="px-3 py-1.5 text-xs">
-            Abrir
-          </ActionButton>
-        </Link>
-      </div>
-    ),
+    render: (budget) => {
+      const label =
+        budget.sequentialId != null
+          ? `Editar orçamento #${budget.sequentialId}`
+          : "Editar orçamento";
+
+      return (
+        <div className="flex items-center justify-end gap-1">
+          <Link
+            href={routes.budgets.edit(budget.id)}
+            className={tableActionIconLinkClass}
+            aria-label={label}
+          >
+            <Pencil
+              className={`${tableActionIconClass} text-kyowa-gold`}
+              strokeWidth={1.75}
+            />
+          </Link>
+        </div>
+      );
+    },
   },
 ];

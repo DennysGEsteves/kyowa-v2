@@ -51,13 +51,13 @@ export const budgetStatusLabels: Record<BudgetStatus, string> = {
 
 export const budgetStatusBadgeClass: Record<BudgetStatus, string> = {
   open:
-    "inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800",
+    "inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-sm font-semibold text-emerald-800",
   closed:
-    "inline-flex rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-800",
+    "inline-flex rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-sm font-semibold text-sky-800",
   inactive:
-    "inline-flex rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-600",
+    "inline-flex rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-1 text-sm font-semibold text-zinc-600",
   lost:
-    "inline-flex rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800",
+    "inline-flex rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-sm font-semibold text-rose-800",
 };
 
 export const budgetClosingAtLabels: Record<BudgetClosingAt, string> = {

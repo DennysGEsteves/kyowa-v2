@@ -1,4 +1,13 @@
-export const tableCellPadding = "px-4 py-4 lg:px-6";
+export const tableCellPadding = "px-2.5 py-2.5 lg:px-3";
+
+export const tableBodyTextClass = "text-sm";
+
+/** Ícones na coluna de ações das tabelas. */
+export const tableActionIconClass = "h-4 w-4 shrink-0";
+
+/** Link de ícone (editar) na coluna de ações das tabelas. */
+export const tableActionIconLinkClass =
+  "inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink";
 
 /** Mesmo tom do sidebar (`bg-kyowa-maroon` em `Sidebar.tsx`). */
 export const tableHeadClass = "text-xs uppercase tracking-wider text-white";

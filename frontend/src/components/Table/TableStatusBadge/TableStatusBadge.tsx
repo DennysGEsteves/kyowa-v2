@@ -11,7 +11,7 @@ export function TableStatusBadge({
 }: TableStatusBadgeProps) {
   return (
     <span
-      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+      className={`inline-flex rounded-full px-2.5 py-1 text-sm font-medium ${
         active
           ? "bg-emerald-50 text-emerald-700"
           : "bg-zinc-100 text-zinc-600"

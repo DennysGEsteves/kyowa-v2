@@ -1,6 +1,11 @@
 import { ActionButton } from "@/components/Form/ActionButton";
 import { formatCpfBR } from "@/utils/masks";
-import { TableStatusBadge, type TableColumn } from "@/components/Table";
+import {
+  tableActionIconClass,
+  tableActionIconLinkClass,
+  TableStatusBadge,
+  type TableColumn,
+} from "@/components/Table";
 import {
   interestProductLabels,
   type Architect,
@@ -98,18 +103,24 @@ export const getClientTableColumns = (
       <div className="flex items-center justify-end gap-1">
         <Link
           href={getEditHref(client)}
-          className="inline-flex p-2 text-sm font-medium text-kyowa-muted transition hover:text-kyowa-ink"
+          className={tableActionIconLinkClass}
           aria-label={`Editar ${client.name}`}
         >
-          <Pencil className="h-4 w-4 text-kyowa-gold" strokeWidth={1.75} />
+          <Pencil
+            className={`${tableActionIconClass} text-kyowa-gold`}
+            strokeWidth={1.75}
+          />
         </Link>
         <ActionButton
           variant="ghost"
-          className="p-2"
+          size="sm"
           onClick={() => onDelete(client)}
           aria-label={`Remover ${client.name}`}
         >
-          <Trash className="h-4 w-4 text-red-700" strokeWidth={1.75} />
+          <Trash
+            className={`${tableActionIconClass} text-red-700`}
+            strokeWidth={1.75}
+          />
         </ActionButton>
       </div>
     ),

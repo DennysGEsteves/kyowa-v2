@@ -6,11 +6,17 @@ import {
 
 type BudgetStatusBadgeProps = {
   status: BudgetStatus;
+  compact?: boolean;
 };
 
-export function BudgetStatusBadge({ status }: BudgetStatusBadgeProps) {
+export function BudgetStatusBadge({
+  status,
+  compact = false,
+}: BudgetStatusBadgeProps) {
   return (
-    <span className={budgetStatusBadgeClass[status]}>
+    <span
+      className={`${budgetStatusBadgeClass[status]}${compact ? " !px-2 !py-0.5" : ""}`}
+    >
       {budgetStatusLabels[status]}
     </span>
   );

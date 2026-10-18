@@ -14,6 +14,7 @@ import { TableMobileCard } from "../TableMobileCard";
 import { TableMobileList } from "../TableMobileList";
 import { TableRoot } from "../TableRoot";
 import { TableRow } from "../TableRow";
+import { tableBodyTextClass } from "../TableStyles";
 
 function getMobileColumns<T>(columns: TableColumn<T>[]) {
   return columns.filter((column) => column.mobile);
@@ -99,7 +100,7 @@ export function DataTable<T>({
       </TableMobileList>
 
       <TableRoot>
-        <TableElement>
+        <TableElement className={tableBodyTextClass}>
           <TableHeader>
             <tr>
               {columns.map((column) => (

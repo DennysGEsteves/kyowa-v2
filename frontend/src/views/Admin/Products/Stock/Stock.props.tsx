@@ -1,5 +1,6 @@
 import { ActionButton } from "@/components/Form/ActionButton";
-import type { TableColumn } from "@/components/Table";
+import { tableActionIconClass, type TableColumn } from "@/components/Table";
+import { Tags } from "lucide-react";
 import {
   getStockSealCount,
   type Product,
@@ -76,13 +77,17 @@ export const getStockTableColumns = (
     align: "right",
     mobile: { role: "actions" },
     render: (stock) => (
-      <div className="flex justify-end">
+      <div className="flex items-center justify-end gap-1">
         <ActionButton
-          variant="primary"
-          className="px-3 py-1.5 text-xs"
+          variant="ghost"
+          size="sm"
           onClick={() => onViewSeals(stock)}
+          aria-label={`Ver lacres — ${lookups.getProductLabel(stock.productId)}`}
         >
-          Ver lacres
+          <Tags
+            className={`${tableActionIconClass} text-kyowa-gold`}
+            strokeWidth={1.75}
+          />
         </ActionButton>
       </div>
     ),

@@ -7,7 +7,7 @@ type TableElementProps = {
 
 export function TableElement({ children, className = "" }: TableElementProps) {
   return (
-    <table className={`min-w-full text-left text-sm ${className}`}>
+    <table className={`min-w-full text-left ${className}`}>
       {children}
     </table>
   );

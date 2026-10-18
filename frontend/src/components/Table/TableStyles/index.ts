@@ -1,5 +1,8 @@
 export {
   tableBodyClass,
+  tableActionIconClass,
+  tableActionIconLinkClass,
+  tableBodyTextClass,
   tableCellPadding,
   tableContainerClass,
   tableEmptyClass,
