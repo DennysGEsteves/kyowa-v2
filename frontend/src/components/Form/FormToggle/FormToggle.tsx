@@ -50,7 +50,7 @@ export function FormToggle<T extends Record<string, unknown>>({
           />
           <span
             aria-hidden
-            className="absolute inset-0 rounded-full border border-kyowa-border bg-kyowa-surface transition-colors peer-checked:border-kyowa-maroon peer-checked:bg-kyowa-maroon peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-kyowa-maroon peer-disabled:cursor-not-allowed"
+            className="absolute inset-0 rounded-full border border-kyowa-border bg-kyowa-surface transition-colors peer-checked:border-kyowa-maroon peer-checked:bg-kyowa-maroon peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-kyowa-maroon peer-disabled:cursor-not-allowed"
           />
           <span
             aria-hidden
