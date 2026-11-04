@@ -10,7 +10,6 @@ import {
   FormSection,
   FormSelect,
   FormTextarea,
-  FormToggle,
   formFieldGrid2,
 } from "@/components/Form";
 import { isSaleClosed, type Sale } from "@entities";
@@ -18,6 +17,7 @@ import { FormikProvider } from "formik";
 import { FileText } from "lucide-react";
 import { openSaleReceipt } from "../../../SaleReceipt";
 import { SaleCheckoutSection } from "./SaleCheckoutSection";
+import { SalesPaidField } from "./SalesPaidField";
 import { useUpsertSalesLogic } from "../../UpsertSale.logic";
 import type { SalesFormSchema } from "../../UpsertSale.schema";
 
@@ -71,6 +71,13 @@ export function UpsertSalesForm({
           noValidate
         >
           <FormBody className="flex flex-col gap-5 sm:gap-6">
+            <FormSection
+              title="Pagamento"
+              className="border-l-4 border-l-kyowa-maroon text-center"
+            >
+              <SalesPaidField />
+            </FormSection>
+
             <FormSection title="Dados da venda">
               <div className={formFieldGrid2}>
                 <FormSelect
@@ -111,14 +118,6 @@ export function UpsertSalesForm({
                   className="sm:col-span-2"
                 />
               </div>
-            </FormSection>
-
-            <FormSection title="Pagamento">
-              <FormToggle<SalesFormSchema>
-                name="isPaid"
-                label="Pago"
-                id="sales-is-paid"
-              />
             </FormSection>
 
             <FormSection title="Observações">
