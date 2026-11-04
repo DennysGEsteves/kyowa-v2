@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -21,4 +22,8 @@ export class SearchProductsByNameQueryDto {
   @Min(1)
   @Max(25)
   limit?: number;
+
+  @IsOptional()
+  @IsMongoId()
+  categoryId?: string;
 }

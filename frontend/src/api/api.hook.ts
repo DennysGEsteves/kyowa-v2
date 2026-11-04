@@ -5,6 +5,7 @@ import { ClientsApi } from "./Clients";
 import { ProductLookupsApi } from "./ProductLookups";
 import { ProductsApi } from "./Products";
 import { ProvidersApi } from "./Providers";
+import { SalesApi } from "./Sales";
 import { SealsApi } from "./Seals";
 import { StockApi } from "./Stock";
 import { StoresApi } from "./Stores";
@@ -19,6 +20,7 @@ export function useApi() {
     productLookupsApi: ProductLookupsApi(),
     productsApi: ProductsApi(),
     providersApi: ProvidersApi(),
+    salesApi: SalesApi(),
     sealsApi: SealsApi(),
     stockApi: StockApi(),
     storesApi: StoresApi(),

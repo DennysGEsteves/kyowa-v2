@@ -1,5 +1,6 @@
 export * from "./Architects";
 export * from "./Budgets";
+export * from "./Sales";
 export * from "./Clients";
 export * from "./ProductLookups";
 export * from "./Products";

@@ -13,6 +13,7 @@ type FormCurrencyInputProps = {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  inputClassName?: string;
 };
 
 export function FormCurrencyInput({
@@ -22,6 +23,7 @@ export function FormCurrencyInput({
   placeholder = "0,00",
   className,
   disabled = false,
+  inputClassName,
 }: FormCurrencyInputProps) {
   const { values, errors, touched, handleBlur, setFieldValue } =
     useFormikContext();
@@ -52,7 +54,7 @@ export function FormCurrencyInput({
         }
         onBlur={handleBlur}
         disabled={disabled}
-        className={getFieldClassName(Boolean(fieldError))}
+        className={getFieldClassName(Boolean(fieldError), inputClassName)}
       />
     </FormField>
   );

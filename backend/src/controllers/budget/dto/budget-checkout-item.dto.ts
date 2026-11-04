@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsInt,
-  IsMongoId,
-  IsNumber,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsInt, IsMongoId, IsNumber, IsString, Min } from 'class-validator';
 
 export class BudgetCheckoutItemDto {
   @Type(() => Number)

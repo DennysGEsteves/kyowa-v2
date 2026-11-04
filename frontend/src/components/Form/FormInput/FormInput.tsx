@@ -18,6 +18,7 @@ type FormInputProps = {
   disabled?: boolean;
   /** Somente leitura (ex.: preenchido pelo CEP), com aparência de campo travado */
   locked?: boolean;
+  inputClassName?: string;
 };
 
 export function FormInput({
@@ -31,6 +32,7 @@ export function FormInput({
   parseValue,
   disabled = false,
   locked = false,
+  inputClassName,
 }: FormInputProps) {
   const {
     values,
@@ -77,7 +79,7 @@ export function FormInput({
         readOnly={locked}
         aria-readonly={locked || undefined}
         title={locked ? "Preenchido automaticamente pelo CEP" : undefined}
-        className={getFieldClassName(Boolean(fieldError), undefined, {
+        className={getFieldClassName(Boolean(fieldError), inputClassName, {
           locked,
         })}
       />

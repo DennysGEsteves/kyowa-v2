@@ -33,7 +33,11 @@ export interface IProductRepository {
     filters: ProductUpdatePricesListFilters,
     adjustmentPercent: number,
   ): Promise<number>;
-  searchByName(name: string, limit: number): Promise<ProductEntity[]>;
+  searchByName(
+    name: string,
+    limit: number,
+    categoryId?: string,
+  ): Promise<ProductEntity[]>;
   findById(id: string): Promise<ProductEntity | null>;
   update(id: string, data: ProductEntity): Promise<ProductEntity | null>;
   delete(id: string): Promise<boolean>;

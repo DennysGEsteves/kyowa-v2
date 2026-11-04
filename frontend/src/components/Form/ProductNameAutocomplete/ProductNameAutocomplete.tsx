@@ -22,6 +22,8 @@ type ProductNameAutocompleteProps = {
   placeholder?: string;
   className?: string;
   error?: string;
+  /** Restringe sugestões à categoria (obrigatório para habilitar busca quando informado). */
+  categoryId?: string;
 };
 
 export function formatProductSuggestionLabel(
@@ -42,6 +44,7 @@ export function ProductNameAutocomplete({
   placeholder = "Buscar por nome",
   className = "",
   error,
+  categoryId,
 }: ProductNameAutocompleteProps) {
   const generatedId = useId();
   const inputId = idProp ?? generatedId;
@@ -67,10 +70,15 @@ export function ProductNameAutocomplete({
   const { data: suggestions = [], isFetching } = useProductNameSuggestionsQuery(
     debouncedTerm,
     SUGGESTION_LIMIT,
+    categoryId,
   );
 
+  const categorySelected = Boolean(categoryId?.trim());
   const showList =
-    isOpen && debouncedTerm.length > 0 && (isFetching || suggestions.length > 0);
+    categorySelected &&
+    isOpen &&
+    debouncedTerm.length > 0 &&
+    (isFetching || suggestions.length > 0);
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -113,9 +121,18 @@ export function ProductNameAutocomplete({
           onChange(next);
           setIsOpen(true);
         }}
-        onFocus={() => setIsOpen(true)}
-        placeholder={placeholder}
-        className={`${formInputClass} ${error ? formInputErrorClass : ""}`.trim()}
+        onFocus={() => {
+          if (categorySelected) {
+            setIsOpen(true);
+          }
+        }}
+        placeholder={
+          categorySelected
+            ? placeholder
+            : "Selecione uma categoria antes"
+        }
+        disabled={!categorySelected}
+        className={`${formInputClass} ${error ? formInputErrorClass : ""} ${!categorySelected ? "cursor-not-allowed opacity-60" : ""}`.trim()}
         autoComplete="off"
         aria-invalid={Boolean(error)}
       />

@@ -11,8 +11,8 @@ export const productsQueryKeys = {
     [...productsQueryKeys.all, "paginated", params] as const,
   updatePrices: (params: ListUpdatePricesProductsParams) =>
     [...productsQueryKeys.all, "update-prices", params] as const,
-  searchByName: (name: string, limit: number) =>
-    [...productsQueryKeys.all, "search-by-name", name, limit] as const,
+  searchByName: (name: string, limit: number, categoryId?: string) =>
+    [...productsQueryKeys.all, "search-by-name", name, limit, categoryId ?? ""] as const,
 };
 
 export function useProductsQuery() {
@@ -33,14 +33,20 @@ export function useProductsPaginatedQuery(params: ListProductsParams) {
   });
 }
 
-export function useProductNameSuggestionsQuery(name: string, limit = 10) {
+export function useProductNameSuggestionsQuery(
+  name: string,
+  limit = 10,
+  categoryId?: string,
+) {
   const { productsApi } = useApi();
   const trimmed = name.trim();
+  const categoryKey = categoryId?.trim() ?? "";
 
   return useQuery({
-    queryKey: productsQueryKeys.searchByName(trimmed, limit),
-    queryFn: () => productsApi.searchByName(trimmed, limit),
-    enabled: trimmed.length > 0,
+    queryKey: productsQueryKeys.searchByName(trimmed, limit, categoryKey),
+    queryFn: () =>
+      productsApi.searchByName(trimmed, limit, categoryKey || undefined),
+    enabled: trimmed.length > 0 && Boolean(categoryKey),
   });
 }
 

@@ -8,7 +8,9 @@ export type ModuleId =
   | "users"
   | "products"
   | "stock"
-  | "budgets";
+  | "budgets"
+  | "consignment"
+  | "sales";
 
 export type UserPermissionModules = {
   CADASTROS?: ModuleId[];
@@ -23,15 +25,15 @@ export const userPermissionModules: Record<
   admin: {
     CADASTROS: ["users", "stores", "providers", "architects", "clients"],
     PRODUTOS: ["products", "stock"],
-    COMERCIAL_VENDAS: ["budgets"],
+    COMERCIAL_VENDAS: ["budgets", "consignment", "sales"],
   },
   manager: {
     CADASTROS: ["users", "stores", "providers", "architects", "clients"],
     PRODUTOS: ["products", "stock"],
-    COMERCIAL_VENDAS: ["budgets"],
+    COMERCIAL_VENDAS: ["budgets", "consignment", "sales"],
   },
   sales: {
-    COMERCIAL_VENDAS: ["budgets"],
+    COMERCIAL_VENDAS: ["budgets", "consignment", "sales"],
   },
   operational: {},
   finance: {},
@@ -46,6 +48,8 @@ const MODULE_PATH_PREFIXES: readonly { module: ModuleId; prefix: string }[] = [
   { module: "products", prefix: "/admin/produtos" },
   { module: "stock", prefix: "/admin/estoque" },
   { module: "budgets", prefix: "/admin/orcamentos" },
+  { module: "consignment", prefix: "/admin/consignacao" },
+  { module: "sales", prefix: "/admin/vendas" },
 ];
 
 export type AdminRouteRequirement = ModuleId | "dashboard" | "sealLookup";

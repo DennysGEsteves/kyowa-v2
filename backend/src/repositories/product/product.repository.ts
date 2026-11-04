@@ -144,16 +144,26 @@ export class ProductRepository implements IProductRepository {
     return result.modifiedCount;
   }
 
-  async searchByName(name: string, limit: number): Promise<ProductEntity[]> {
+  async searchByName(
+    name: string,
+    limit: number,
+    categoryId?: string,
+  ): Promise<ProductEntity[]> {
     const normalizedName = toNameFilter(name);
     if (!normalizedName) {
       return [];
     }
 
+    const query: FilterQuery<ProductDocument> = {
+      nameFilter: { $regex: escapeRegExp(normalizedName) },
+    };
+
+    if (categoryId?.trim()) {
+      query.categoryId = new Types.ObjectId(categoryId.trim());
+    }
+
     const products = await this.productModel
-      .find({
-        nameFilter: { $regex: escapeRegExp(normalizedName) },
-      })
+      .find(query)
       .sort({ name: 1 })
       .limit(limit)
       .exec();

@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  clearClientSession,
+  clearAuthToken,
   getSessionUser,
   syncAuthTokenCookieFromSession,
   type SessionUser,
@@ -38,12 +38,12 @@ export function AdminAuthProvider({ children }: AdminAuthProviderProps) {
 
     const session = getSessionUser();
     if (!session) {
+      clearAuthToken();
       router.replace("/login");
       return;
     }
-    setTimeout(() => {
-      setUser(session);
-    }, 0);
+
+    setUser(session);
   }, [router]);
 
   if (!user) {

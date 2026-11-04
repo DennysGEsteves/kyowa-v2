@@ -23,9 +23,36 @@ function clearAuthTokenCookie(): void {
   document.cookie = `${AUTH_TOKEN_COOKIE_NAME}=; Path=/; Max-Age=0; SameSite=Lax`;
 }
 
+function readAuthTokenFromCookie(): string | null {
+  if (typeof document === "undefined") return null;
+
+  const prefix = `${AUTH_TOKEN_COOKIE_NAME}=`;
+  for (const part of document.cookie.split(";")) {
+    const trimmed = part.trim();
+    if (!trimmed.startsWith(prefix)) continue;
+
+    const raw = trimmed.slice(prefix.length);
+    try {
+      return decodeURIComponent(raw);
+    } catch {
+      return raw;
+    }
+  }
+
+  return null;
+}
+
 export function getAuthToken(): string | null {
   if (typeof window === "undefined") return null;
-  return window.sessionStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+
+  const fromSession = window.sessionStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+  if (fromSession) return fromSession;
+
+  const fromCookie = readAuthTokenFromCookie();
+  if (!fromCookie) return null;
+
+  window.sessionStorage.setItem(AUTH_TOKEN_STORAGE_KEY, fromCookie);
+  return fromCookie;
 }
 
 export function setAuthToken(token: string): void {
@@ -38,7 +65,7 @@ export function clearAuthToken(): void {
   clearAuthTokenCookie();
 }
 
-/** Garante cookie para o middleware quando só há token no sessionStorage. */
+/** Garante cookie alinhado ao token da sessão (incl. restaurado do cookie). */
 export function syncAuthTokenCookieFromSession(): void {
   const token = getAuthToken();
   if (token) {

@@ -9,10 +9,12 @@ import {
   Truck,
   UserRound,
   Users,
+  PackageCheck,
   Package,
   Receipt,
   Stamp,
   Warehouse,
+  CircleDollarSign,
 } from "lucide-react";
 import type { AdminNavItem } from "@/app/(layout)/navigation";
 
@@ -94,6 +96,21 @@ export const routes = {
     new: "/admin/orcamentos/novo",
     edit: (id: string) => `/admin/orcamentos/${id}`,
     receipt: (id: string) => `/imprimir/orcamento/${id}`,
+  },
+  consignment: {
+    href: "/admin/consignacao",
+    label: "Consignação",
+    icon: PackageCheck,
+    new: "/admin/consignacao/novo",
+    edit: (id: string) => `/admin/consignacao/${id}`,
+  },
+  sales: {
+    href: "/admin/vendas",
+    label: "Vendas",
+    icon: CircleDollarSign,
+    new: "/admin/vendas/novo",
+    edit: (id: string) => `/admin/vendas/${id}`,
+    receipt: (id: string) => `/imprimir/venda/${id}`,
   },
 } as const;
 

@@ -18,6 +18,11 @@ export class SearchProductsByNameUseCase {
   async execute(query: SearchProductsByNameQueryDto): Promise<ProductEntity[]> {
     const name = query.name.trim();
     const limit = query.limit ?? DEFAULT_LIMIT;
-    return this.productRepository.searchByName(name, limit);
+    const categoryId = query.categoryId?.trim();
+    return this.productRepository.searchByName(
+      name,
+      limit,
+      categoryId || undefined,
+    );
   }
 }

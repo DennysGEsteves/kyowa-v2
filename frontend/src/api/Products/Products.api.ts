@@ -37,10 +37,17 @@ export const ProductsApi = () => {
   async function searchByName(
     name: string,
     limit = 10,
+    categoryId?: string,
   ): Promise<ProductNameSuggestion[]> {
     const response = await Fetch.get<ProductNameSuggestion[]>({
       url: `${path}/search-by-name`,
-      config: { params: { name, limit } },
+      config: {
+        params: {
+          name,
+          limit,
+          ...(categoryId ? { categoryId } : {}),
+        },
+      },
     });
 
     return response.data;

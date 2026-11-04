@@ -50,9 +50,7 @@ export async function buildSealHistoryView(
   resolveStoreName: ResolveStoreName,
   resolveProductName: ResolveProductName,
 ): Promise<SealHistoryViewItem[]> {
-  const hasCreation = seal.history.some((entry) =>
-    isCreationEvent(entry.data),
-  );
+  const hasCreation = seal.history.some((entry) => isCreationEvent(entry.data));
 
   const entries = [...seal.history];
 

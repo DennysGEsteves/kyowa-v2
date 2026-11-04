@@ -2,6 +2,7 @@ export { AdminFormLoading, AdminFormNotFound } from "./AdminFormPage";
 export { FormActions } from "./FormActions";
 export { FormBody } from "./FormBody";
 export { FormCheckbox } from "./FormCheckbox";
+export { FormToggle } from "./FormToggle";
 export { FormField } from "./FormField";
 export { FormFieldError } from "./FormFieldError";
 export { FormImagePicker } from "./FormImagePicker";
