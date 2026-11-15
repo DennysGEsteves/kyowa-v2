@@ -3,6 +3,9 @@ import { useInvalidateSalesQuery } from "@/api/Sales/sales.query";
 import { useProductLookupQuery } from "@/api/ProductLookups/product-lookups.query";
 import { useProductsQuery } from "@/api/Products/products.query";
 import { useClientStoreArchitectLookups } from "@/hooks/useClientStoreArchitectLookups";
+import { buildSaleHistoryItems } from "@/components/SaleHistoryTimeline";
+import { productDisplayName } from "@/utils/saleCheckoutDisplay";
+import { buildConsignmentLookups } from "../Consignment.lookups";
 import { useUsersQuery } from "@/api/Users/users.query";
 import { routes } from "@routes";
 import type { Sale } from "@entities";
@@ -49,7 +52,8 @@ export function useUpsertConsignmentLogic({
   const invalidateSales = useInvalidateSalesQuery();
   const router = useRouter();
   const [isClosingSale, setIsClosingSale] = useState(false);
-  const { clients, stores, architects } = useClientStoreArchitectLookups();
+  const { clients, stores, architects, lookups: baseLookups } =
+    useClientStoreArchitectLookups();
   const { data: users = [] } = useUsersQuery();
   const { data: categories = [] } = useProductLookupQuery("categories");
   const { data: products = [] } = useProductsQuery();
@@ -86,6 +90,25 @@ export function useUpsertConsignmentLogic({
       ""
     );
   }, [sale, architects]);
+
+  const historyLookups = useMemo(() => {
+    const productById = new Map(products.map((product) => [product.id, product]));
+    return {
+      ...buildConsignmentLookups(baseLookups, users),
+      getProductName: (id: string | undefined) => {
+        if (!id) {
+          return "—";
+        }
+        const product = productById.get(id);
+        return product ? productDisplayName(product) : "—";
+      },
+    };
+  }, [baseLookups, users, products]);
+
+  const historyItems = useMemo(
+    () => buildSaleHistoryItems(sale, users),
+    [sale, users],
+  );
 
   const categoryOptions = useMemo(
     () =>
@@ -169,6 +192,8 @@ export function useUpsertConsignmentLogic({
     architectDisplayValue,
     categoryOptions,
     products,
+    historyItems,
+    historyLookups,
     navigateBack,
     closeConsignmentAsSale,
     isClosingSale,

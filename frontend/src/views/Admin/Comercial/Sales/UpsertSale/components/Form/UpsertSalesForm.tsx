@@ -16,6 +16,7 @@ import { isSaleClosed, type Sale } from "@entities";
 import { FormikProvider } from "formik";
 import { FileText } from "lucide-react";
 import { openSaleReceipt } from "../../../SaleReceipt";
+import { SaleHistoryTimeline } from "@/components/SaleHistoryTimeline";
 import { SaleCheckoutSection } from "./SaleCheckoutSection";
 import { SalesPaidField } from "./SalesPaidField";
 import { useUpsertSalesLogic } from "../../UpsertSale.logic";
@@ -38,6 +39,8 @@ export function UpsertSalesForm({
     architectDisplayValue,
     categoryOptions,
     products,
+    historyItems,
+    historyLookups,
     navigateBack,
     title,
     backLabel,
@@ -78,68 +81,92 @@ export function UpsertSalesForm({
               <SalesPaidField />
             </FormSection>
 
-            <FormSection title="Dados da venda">
-              <div className={formFieldGrid2}>
-                <FormSelect
-                  name="storeId"
-                  label="Loja"
-                  id="sales-store"
-                  options={storeOptions}
-                />
-                <FormSelect
-                  name="sellerId"
-                  label="Vendedor"
-                  id="sales-seller"
-                  options={sellerOptions}
-                />
-                <FormClientAutocomplete
-                  name="clientId"
-                  label="Cliente"
-                  id="sales-client"
-                  placeholder="Buscar cliente por nome"
-                  initialDisplayValue={clientDisplayValue}
-                />
-              </div>
-            </FormSection>
+            <div
+              className={
+                sale ? "grid gap-6 lg:grid-cols-2 lg:items-start" : undefined
+              }
+            >
+              <div className="flex flex-col gap-5 sm:gap-6">
+                <FormSection title="Dados da venda" className={sale ? "min-w-0" : undefined}>
+                  <div className={formFieldGrid2}>
+                    <FormSelect
+                      name="storeId"
+                      label="Loja"
+                      id="sales-store"
+                      options={storeOptions}
+                    />
+                    <FormSelect
+                      name="sellerId"
+                      label="Vendedor"
+                      id="sales-seller"
+                      options={sellerOptions}
+                    />
+                    <FormClientAutocomplete
+                      name="clientId"
+                      label="Cliente"
+                      id="sales-client"
+                      placeholder="Buscar cliente por nome"
+                      initialDisplayValue={clientDisplayValue}
+                    />
+                  </div>
+                </FormSection>
 
-            <FormSection title="Arquiteto e participação">
-              <div className={formFieldGrid2}>
-                <FormArchitectAutocomplete
-                  name="architectId"
-                  label="Arquiteto"
-                  id="sales-architect"
-                  placeholder="Buscar arquiteto por nome"
-                  initialDisplayValue={architectDisplayValue}
-                />
-                <FormCheckbox<SalesFormSchema>
-                  name="architectParticipation"
-                  label="Participação na venda"
-                  id="sales-architect-participation"
-                  className="sm:col-span-2"
-                />
-              </div>
-            </FormSection>
+                <FormSection
+                  title="Arquiteto e participação"
+                  className={sale ? "min-w-0" : undefined}
+                >
+                  <div className={formFieldGrid2}>
+                    <FormArchitectAutocomplete
+                      name="architectId"
+                      label="Arquiteto"
+                      id="sales-architect"
+                      placeholder="Buscar arquiteto por nome"
+                      initialDisplayValue={architectDisplayValue}
+                    />
+                    <FormCheckbox<SalesFormSchema>
+                      name="architectParticipation"
+                      label="Participação na venda"
+                      id="sales-architect-participation"
+                      className="sm:col-span-2"
+                    />
+                  </div>
+                </FormSection>
 
-            <FormSection title="Observações">
-              <div className={formFieldGrid2}>
-                <FormTextarea
-                  name="obsReceipt"
-                  label="Obs. recibo"
-                  id="sales-obs-receipt"
-                  rows={4}
-                />
-                <FormTextarea
-                  name="obsInternal"
-                  label="Obs. interna"
-                  id="sales-obs-internal"
-                  rows={4}
-                />
+                <FormSection title="Observações" className={sale ? "min-w-0" : undefined}>
+                  <div className={formFieldGrid2}>
+                    <FormTextarea
+                      name="obsReceipt"
+                      label="Obs. recibo"
+                      id="sales-obs-receipt"
+                      rows={4}
+                    />
+                    <FormTextarea
+                      name="obsInternal"
+                      label="Obs. interna"
+                      id="sales-obs-internal"
+                      rows={4}
+                    />
+                  </div>
+                </FormSection>
               </div>
-            </FormSection>
+
+              {sale ? (
+                <div className="min-w-0">
+                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-kyowa-muted sm:mb-4">
+                    Histórico
+                  </h3>
+                  <SaleHistoryTimeline
+                    items={historyItems}
+                    lookups={historyLookups}
+                  />
+                </div>
+              ) : null}
+            </div>
 
             <SaleCheckoutSection
               categoryOptions={categoryOptions}
               products={products}
+              isEdit={Boolean(sale)}
             />
           </FormBody>
 

@@ -14,6 +14,7 @@ import {
 } from "@/components/Form";
 import type { Sale } from "@entities";
 import { FormikProvider } from "formik";
+import { SaleHistoryTimeline } from "@/components/SaleHistoryTimeline";
 import { SaleCheckoutSection } from "./SaleCheckoutSection";
 import { useUpsertConsignmentLogic } from "../../UpsertConsignment.logic";
 import type { ConsignmentFormSchema } from "../../UpsertConsignment.schema";
@@ -35,6 +36,8 @@ export function UpsertConsignmentForm({
     architectDisplayValue,
     categoryOptions,
     products,
+    historyItems,
+    historyLookups,
     navigateBack,
     title,
     backLabel,
@@ -59,68 +62,95 @@ export function UpsertConsignmentForm({
           noValidate
         >
           <FormBody className="flex flex-col gap-5 sm:gap-6">
-            <FormSection title="Dados da consignação">
-              <div className={formFieldGrid2}>
-                <FormSelect
-                  name="storeId"
-                  label="Loja"
-                  id="consignment-store"
-                  options={storeOptions}
-                />
-                <FormSelect
-                  name="sellerId"
-                  label="Vendedor"
-                  id="consignment-seller"
-                  options={sellerOptions}
-                />
-                <FormClientAutocomplete
-                  name="clientId"
-                  label="Cliente"
-                  id="consignment-client"
-                  placeholder="Buscar cliente por nome"
-                  initialDisplayValue={clientDisplayValue}
-                />
-              </div>
-            </FormSection>
+            <div
+              className={
+                sale ? "grid gap-6 lg:grid-cols-2 lg:items-start" : undefined
+              }
+            >
+              <div className="flex flex-col gap-5 sm:gap-6">
+                <FormSection
+                  title="Dados da consignação"
+                  className={sale ? "min-w-0" : undefined}
+                >
+                  <div className={formFieldGrid2}>
+                    <FormSelect
+                      name="storeId"
+                      label="Loja"
+                      id="consignment-store"
+                      options={storeOptions}
+                    />
+                    <FormSelect
+                      name="sellerId"
+                      label="Vendedor"
+                      id="consignment-seller"
+                      options={sellerOptions}
+                    />
+                    <FormClientAutocomplete
+                      name="clientId"
+                      label="Cliente"
+                      id="consignment-client"
+                      placeholder="Buscar cliente por nome"
+                      initialDisplayValue={clientDisplayValue}
+                    />
+                  </div>
+                </FormSection>
 
-            <FormSection title="Arquiteto e participação">
-              <div className={formFieldGrid2}>
-                <FormArchitectAutocomplete
-                  name="architectId"
-                  label="Arquiteto"
-                  id="consignment-architect"
-                  placeholder="Buscar arquiteto por nome"
-                  initialDisplayValue={architectDisplayValue}
-                />
-                <FormCheckbox<ConsignmentFormSchema>
-                  name="architectParticipation"
-                  label="Participação na venda"
-                  id="consignment-architect-participation"
-                  className="sm:col-span-2"
-                />
-              </div>
-            </FormSection>
+                <FormSection
+                  title="Arquiteto e participação"
+                  className={sale ? "min-w-0" : undefined}
+                >
+                  <div className={formFieldGrid2}>
+                    <FormArchitectAutocomplete
+                      name="architectId"
+                      label="Arquiteto"
+                      id="consignment-architect"
+                      placeholder="Buscar arquiteto por nome"
+                      initialDisplayValue={architectDisplayValue}
+                    />
+                    <FormCheckbox<ConsignmentFormSchema>
+                      name="architectParticipation"
+                      label="Participação na venda"
+                      id="consignment-architect-participation"
+                      className="sm:col-span-2"
+                    />
+                  </div>
+                </FormSection>
 
-            <FormSection title="Observações">
-              <div className={formFieldGrid2}>
-                <FormTextarea
-                  name="obsReceipt"
-                  label="Obs. recibo"
-                  id="consignment-obs-receipt"
-                  rows={4}
-                />
-                <FormTextarea
-                  name="obsInternal"
-                  label="Obs. interna"
-                  id="consignment-obs-internal"
-                  rows={4}
-                />
+                <FormSection title="Observações" className={sale ? "min-w-0" : undefined}>
+                  <div className={formFieldGrid2}>
+                    <FormTextarea
+                      name="obsReceipt"
+                      label="Obs. recibo"
+                      id="consignment-obs-receipt"
+                      rows={4}
+                    />
+                    <FormTextarea
+                      name="obsInternal"
+                      label="Obs. interna"
+                      id="consignment-obs-internal"
+                      rows={4}
+                    />
+                  </div>
+                </FormSection>
               </div>
-            </FormSection>
+
+              {sale ? (
+                <div className="min-w-0">
+                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-kyowa-muted sm:mb-4">
+                    Histórico
+                  </h3>
+                  <SaleHistoryTimeline
+                    items={historyItems}
+                    lookups={historyLookups}
+                  />
+                </div>
+              ) : null}
+            </div>
 
             <SaleCheckoutSection
               categoryOptions={categoryOptions}
               products={products}
+              isEdit={Boolean(sale)}
             />
           </FormBody>
 

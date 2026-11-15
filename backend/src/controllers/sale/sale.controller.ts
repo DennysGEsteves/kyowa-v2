@@ -6,7 +6,10 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { RequestContext } from '../../http/middlewares/request/request-context';
 import { SaleEntity } from '../../entities/sale';
 import { PaginatedResult } from '../../shared/types/pagination';
 import { CreateSaleUseCase } from '../../usecases/sale/create-sale.usecase';
@@ -16,6 +19,10 @@ import { UpdateSaleUseCase } from '../../usecases/sale/update-sale.usecase';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { ListSalesPaginatedQueryDto } from './dto/list-sales-query.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
+
+type AuthenticatedRequest = {
+  user?: RequestContext;
+};
 
 @Controller('sales')
 export class SaleController {
@@ -27,8 +34,16 @@ export class SaleController {
   ) {}
 
   @Post()
-  create(@Body() dto: CreateSaleDto): Promise<SaleEntity> {
-    return this.createSaleUseCase.execute(dto);
+  create(
+    @Body() dto: CreateSaleDto,
+    @Req() request: AuthenticatedRequest,
+  ): Promise<SaleEntity> {
+    const userId = request.user?.user.id;
+    if (!userId) {
+      throw new UnauthorizedException('Usuário não autenticado.');
+    }
+
+    return this.createSaleUseCase.execute(dto, userId);
   }
 
   @Get()
@@ -47,7 +62,13 @@ export class SaleController {
   update(
     @Param('id') id: string,
     @Body() dto: UpdateSaleDto,
+    @Req() request: AuthenticatedRequest,
   ): Promise<SaleEntity> {
-    return this.updateSaleUseCase.execute(id, dto);
+    const userId = request.user?.user.id;
+    if (!userId) {
+      throw new UnauthorizedException('Usuário não autenticado.');
+    }
+
+    return this.updateSaleUseCase.execute(id, dto, userId);
   }
 }

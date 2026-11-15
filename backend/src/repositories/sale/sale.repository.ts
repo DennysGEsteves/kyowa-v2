@@ -7,6 +7,7 @@ import {
 } from '../../shared/util/date/date-only-range';
 import { SaleEntity } from '../../entities/sale';
 import type { SaleCheckoutItem } from '../../entities/sale/types/sale-checkout-item';
+import type { SaleHistoryItem } from '../../entities/sale/types/sale-history-item';
 import { PaginatedResult } from '../../shared/types/pagination';
 import {
   ISaleRepository,
@@ -72,6 +73,11 @@ export class SaleRepository implements ISaleRepository {
       paymentMethod: data.paymentMethod,
       paidAt: data.paidAt,
       checkout: mapCheckoutToDocument(data.checkout),
+      history: data.history.map((entry) => ({
+        userId: new Types.ObjectId(entry.userId),
+        createdAt: entry.createdAt,
+        data: entry.data,
+      })),
     });
 
     return SaleEntity.fromPersistData(created);
@@ -82,29 +88,41 @@ export class SaleRepository implements ISaleRepository {
     return sale ? SaleEntity.fromPersistData(sale) : null;
   }
 
-  async update(id: string, data: SaleEntity): Promise<SaleEntity | null> {
-    const sale = await this.saleModel
-      .findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            clientId: new Types.ObjectId(data.clientId),
-            sellerId: new Types.ObjectId(data.sellerId),
-            storeId: new Types.ObjectId(data.storeId),
-            architectId: toObjectIdOrNull(data.architectId),
-            architectParticipation: data.architectParticipation,
-            obsReceipt: data.obsReceipt,
-            obsInternal: data.obsInternal,
-            type: data.type,
-            changeCredit: data.changeCredit,
-            plots: data.plots,
-            paymentMethod: data.paymentMethod,
-            paidAt: data.paidAt,
-            checkout: mapCheckoutToDocument(data.checkout),
-          },
+  async update(
+    id: string,
+    data: SaleEntity,
+    historyEntry?: SaleHistoryItem,
+  ): Promise<SaleEntity | null> {
+    const updateQuery: Record<string, unknown> = {
+      $set: {
+        clientId: new Types.ObjectId(data.clientId),
+        sellerId: new Types.ObjectId(data.sellerId),
+        storeId: new Types.ObjectId(data.storeId),
+        architectId: toObjectIdOrNull(data.architectId),
+        architectParticipation: data.architectParticipation,
+        obsReceipt: data.obsReceipt,
+        obsInternal: data.obsInternal,
+        type: data.type,
+        changeCredit: data.changeCredit,
+        plots: data.plots,
+        paymentMethod: data.paymentMethod,
+        paidAt: data.paidAt,
+        checkout: mapCheckoutToDocument(data.checkout),
+      },
+    };
+
+    if (historyEntry) {
+      updateQuery.$push = {
+        history: {
+          userId: new Types.ObjectId(historyEntry.userId),
+          createdAt: historyEntry.createdAt,
+          data: historyEntry.data,
         },
-        { new: true, runValidators: true },
-      )
+      };
+    }
+
+    const sale = await this.saleModel
+      .findByIdAndUpdate(id, updateQuery, { new: true, runValidators: true })
       .exec();
 
     return sale ? SaleEntity.fromPersistData(sale) : null;

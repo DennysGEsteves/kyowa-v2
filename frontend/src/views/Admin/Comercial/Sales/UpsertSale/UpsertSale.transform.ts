@@ -112,7 +112,7 @@ function checkoutItemToFormValues(
         ? formatSealLinkedProductLabel(
             item.productId,
             product?.name ?? "",
-            product?.sellPrice ?? null,
+            item.value ?? product?.sellPrice ?? null,
             products,
           )
         : "",

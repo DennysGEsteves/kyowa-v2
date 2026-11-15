@@ -2,8 +2,12 @@ import { CreateSaleDto } from '../../controllers/sale/dto/create-sale.dto';
 import { UpdateSaleDto } from '../../controllers/sale/dto/update-sale.dto';
 import { SaleDocument } from '../../repositories/sale/schemas/sale.schema';
 import type { SaleCheckoutItem } from './types/sale-checkout-item';
+import type { SaleHistoryItem } from './types/sale-history-item';
 import { SalePaymentMethod } from './types/sale-payment-method';
 import { SaleType } from './types/sale-type';
+
+export const SALE_HISTORY_EVENT_CREATED = 'created';
+export const SALE_HISTORY_EVENT_CLOSED_AS_SALE = 'closed_as_sale';
 
 function mapCheckoutFromDto(
   items: CreateSaleDto['checkout'] | UpdateSaleDto['checkout'],
@@ -36,6 +40,7 @@ export interface ISaleConstructorParams {
   paymentMethod?: SalePaymentMethod | null;
   paidAt?: Date | null;
   checkout: SaleCheckoutItem[];
+  history?: SaleHistoryItem[];
 }
 
 export class SaleEntity {
@@ -55,8 +60,12 @@ export class SaleEntity {
   public paymentMethod: SalePaymentMethod | null;
   public paidAt: Date | null;
   public checkout: SaleCheckoutItem[];
+  public history: SaleHistoryItem[];
 
-  static fromCreateSaleDto(dto: CreateSaleDto): SaleEntity {
+  static fromCreateSaleDto(
+    dto: CreateSaleDto,
+    actorUserId: string,
+  ): SaleEntity {
     const checkout = mapCheckoutFromDto(dto.checkout);
     const createdAt = dto.createdAt ?? new Date();
 
@@ -75,6 +84,20 @@ export class SaleEntity {
       paymentMethod: dto.paymentMethod ?? null,
       paidAt: dto.paidAt ?? null,
       checkout,
+      history: [
+        {
+          userId: actorUserId,
+          createdAt,
+          data: {
+            event: SALE_HISTORY_EVENT_CREATED,
+            type: dto.type,
+            storeId: dto.storeId,
+            clientId: dto.clientId,
+            sellerId: dto.sellerId,
+            architectId: dto.architectId ?? null,
+          },
+        },
+      ],
     });
   }
 
@@ -114,6 +137,7 @@ export class SaleEntity {
           : current.paymentMethod,
       paidAt: dto.paidAt !== undefined ? dto.paidAt : current.paidAt,
       checkout,
+      history: current.history,
     });
   }
 
@@ -134,6 +158,7 @@ export class SaleEntity {
     this.paymentMethod = params.paymentMethod ?? null;
     this.paidAt = params.paidAt ?? null;
     this.checkout = params.checkout;
+    this.history = params.history ?? [];
   }
 
   static fromPersistData(document: SaleDocument): SaleEntity {
@@ -161,6 +186,11 @@ export class SaleEntity {
         quantity: item.quantity ?? null,
         description: item.description ?? null,
         orderId: item.orderId?.toString() ?? null,
+      })),
+      history: (document.history ?? []).map((entry) => ({
+        userId: entry.userId.toString(),
+        createdAt: entry.createdAt,
+        data: entry.data ?? {},
       })),
     });
   }

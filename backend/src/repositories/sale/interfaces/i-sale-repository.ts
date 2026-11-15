@@ -1,4 +1,5 @@
 import { SaleEntity } from '../../../entities/sale';
+import type { SaleHistoryItem } from '../../../entities/sale/types/sale-history-item';
 import { SaleType } from '../../../entities/sale/types/sale-type';
 import { PaginatedResult } from '../../../shared/types/pagination';
 
@@ -27,5 +28,9 @@ export interface ISaleRepository {
     filters: SaleListFilters,
     pagination: SalePaginationParams,
   ): Promise<PaginatedResult<SaleEntity>>;
-  update(id: string, data: SaleEntity): Promise<SaleEntity | null>;
+  update(
+    id: string,
+    data: SaleEntity,
+    historyEntry?: SaleHistoryItem,
+  ): Promise<SaleEntity | null>;
 }

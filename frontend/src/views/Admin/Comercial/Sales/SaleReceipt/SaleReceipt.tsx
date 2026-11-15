@@ -9,6 +9,10 @@ import type { Client, Product, SaleCheckoutItem, User } from "@entities";
 import { isSaleClosed } from "@entities";
 import { buildReceiptNumber } from "@/utils/receipt";
 import { routes } from "@routes";
+import {
+  productDisplayName,
+  resolveSaleCheckoutItemDescription,
+} from "@/utils/saleCheckoutDisplay";
 
 type ReceiptLine = {
   quantity: number;
@@ -16,38 +20,22 @@ type ReceiptLine = {
   price: number;
 };
 
-function productLabel(product: Product): string {
-  if (product.fantasyName && product.fantasyName !== product.name) {
-    return `${product.name} (${product.fantasyName})`;
-  }
-  return product.name;
-}
-
 export function saleCheckoutToReceiptLines(
   checkout: SaleCheckoutItem[],
   products: Product[],
 ): ReceiptLine[] {
+  const getProductName = (productId: string | undefined) => {
+    if (!productId) {
+      return "—";
+    }
+    const product = products.find((entry) => entry.id === productId);
+    return product ? productDisplayName(product) : "—";
+  };
+
   return checkout.map((item) => {
-    const product = item.productId
-      ? products.find((entry) => entry.id === item.productId)
-      : undefined;
     const quantity = item.quantity ?? 1;
     const price = item.value ?? 0;
-
-    let description = item.description?.trim() ?? "";
-    if (!description && product) {
-      description = productLabel(product);
-    }
-    if (!description && item.orderId) {
-      description = "Pedido vinculado";
-    }
-    if (!description && item.hasSeal && item.sealId != null) {
-      description = `Lacre nº ${item.sealId}`;
-    }
-    if (!description) {
-      description = "Item";
-    }
-
+    const description = resolveSaleCheckoutItemDescription(item, getProductName);
     return { quantity, description, price };
   });
 }

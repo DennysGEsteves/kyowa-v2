@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { SealEntity } from '../../entities/seal';
+import { SealStatus } from '../../entities/seal/types/seal-status';
 import { ISealRepository } from './interfaces/i-seal-repository';
 import { Seal, SealDocument } from './schemas/seal.schema';
 
@@ -56,6 +57,20 @@ export class SealRepository implements ISealRepository {
     return seals.map((seal) => SealEntity.fromPersistData(seal));
   }
 
+  async findByStoreIdAndNumber(
+    storeId: string,
+    number: number,
+  ): Promise<SealEntity | null> {
+    const seal = await this.sealModel
+      .findOne({
+        storeId: new Types.ObjectId(storeId),
+        number,
+      })
+      .exec();
+
+    return seal ? SealEntity.fromPersistData(seal) : null;
+  }
+
   async update(
     id: string,
     data: {
@@ -73,6 +88,38 @@ export class SealRepository implements ISealRepository {
             number: data.number,
             storeId: new Types.ObjectId(data.storeId),
             productId: new Types.ObjectId(data.productId),
+          },
+          $push: {
+            history: {
+              status: historyEntry.status,
+              userId: new Types.ObjectId(historyEntry.userId),
+              data: historyEntry.data,
+              createdAt: historyEntry.createdAt,
+            },
+          },
+        },
+        { new: true, runValidators: true },
+      )
+      .exec();
+
+    return seal ? SealEntity.fromPersistData(seal) : null;
+  }
+
+  async updateCheckoutAssignment(
+    id: string,
+    data: {
+      status: SealStatus;
+      saleId: string | null;
+    },
+    historyEntry: SealEntity['history'][number],
+  ): Promise<SealEntity | null> {
+    const seal = await this.sealModel
+      .findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            status: data.status,
+            saleId: data.saleId ? new Types.ObjectId(data.saleId) : null,
           },
           $push: {
             history: {

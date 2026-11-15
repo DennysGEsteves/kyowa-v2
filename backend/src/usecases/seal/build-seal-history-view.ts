@@ -1,10 +1,20 @@
 import { SealEntity } from '../../entities/seal';
 import { SealHistoryViewItem } from '../../entities/seal/types/seal-detail';
-import { SEAL_HISTORY_EVENT_CREATED } from '../../entities/seal/types/seal-history-item';
+import {
+  SEAL_HISTORY_EVENT_ASSIGNED_TO_SALE_CHECKOUT,
+  SEAL_HISTORY_EVENT_CONSIGNMENT_CONVERTED_TO_SALE,
+  SEAL_HISTORY_EVENT_CREATED,
+  SEAL_HISTORY_EVENT_RETURNED_TO_STOCK,
+} from '../../entities/seal/types/seal-history-item';
+import { SaleType } from '../../entities/sale/types/sale-type';
 
 type ResolveUserName = (userId: string) => Promise<string>;
 type ResolveStoreName = (storeId: string) => Promise<string>;
 type ResolveProductName = (productId: string) => Promise<string>;
+type ResolveSaleCheckoutRef = (saleId: string) => Promise<{
+  type: SaleType;
+  sequentialId: number | null;
+} | null>;
 
 function isCreationEvent(data: Record<string, unknown>): boolean {
   return data.event === SEAL_HISTORY_EVENT_CREATED;
@@ -44,11 +54,54 @@ async function enrichCreationData(
   return enriched;
 }
 
+function isSaleCheckoutHistoryEvent(data: Record<string, unknown>): boolean {
+  const event = data.event;
+  return (
+    event === SEAL_HISTORY_EVENT_ASSIGNED_TO_SALE_CHECKOUT ||
+    event === SEAL_HISTORY_EVENT_RETURNED_TO_STOCK ||
+    event === SEAL_HISTORY_EVENT_CONSIGNMENT_CONVERTED_TO_SALE
+  );
+}
+
+async function enrichSaleCheckoutHistoryData(
+  data: Record<string, unknown>,
+  resolveSaleCheckoutRef: ResolveSaleCheckoutRef,
+): Promise<Record<string, unknown>> {
+  if (!isSaleCheckoutHistoryEvent(data)) {
+    return data;
+  }
+
+  const saleId = data.saleId;
+  if (typeof saleId !== 'string' || !saleId.trim()) {
+    return data;
+  }
+
+  const enriched = { ...data };
+
+  if (
+    typeof enriched.saleType !== 'string' ||
+    enriched.saleSequentialId === undefined
+  ) {
+    const sale = await resolveSaleCheckoutRef(saleId);
+    if (sale) {
+      if (typeof enriched.saleType !== 'string') {
+        enriched.saleType = sale.type;
+      }
+      if (enriched.saleSequentialId === undefined) {
+        enriched.saleSequentialId = sale.sequentialId;
+      }
+    }
+  }
+
+  return enriched;
+}
+
 export async function buildSealHistoryView(
   seal: SealEntity,
   resolveUserName: ResolveUserName,
   resolveStoreName: ResolveStoreName,
   resolveProductName: ResolveProductName,
+  resolveSaleCheckoutRef: ResolveSaleCheckoutRef,
 ): Promise<SealHistoryViewItem[]> {
   const hasCreation = seal.history.some((entry) => isCreationEvent(entry.data));
 
@@ -98,6 +151,8 @@ export async function buildSealHistoryView(
           resolveStoreName,
           resolveProductName,
         );
+      } else if (isSaleCheckoutHistoryEvent(data)) {
+        data = await enrichSaleCheckoutHistoryData(data, resolveSaleCheckoutRef);
       } else {
         const previousStoreId = data.previousStoreId;
         const storeId = data.storeId;

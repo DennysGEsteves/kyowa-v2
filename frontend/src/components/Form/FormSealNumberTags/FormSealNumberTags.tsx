@@ -5,7 +5,7 @@ import { FormField } from "../FormField";
 import { getFieldClassName } from "../FieldStyles";
 import { useFormikContext } from "formik";
 import { X } from "lucide-react";
-import { sealNumberTagClass } from "@entities";
+import { SealNumberTag } from "@/components/SealNumberTag";
 import { useCallback, useMemo, useState, type KeyboardEvent } from "react";
 
 function parseSealToken(raw: string): number | null {
@@ -109,7 +109,7 @@ export function FormSealNumberTags({
         )}
       >
         {tags.map((tag) => (
-          <span key={tag} className={`${sealNumberTagClass} gap-1`}>
+          <SealNumberTag key={tag} className="gap-1">
             {tag}
             <button
               type="button"
@@ -119,7 +119,7 @@ export function FormSealNumberTags({
             >
               <X className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
-          </span>
+          </SealNumberTag>
         ))}
         <input
           id={fieldId}

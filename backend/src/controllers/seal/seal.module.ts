@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
+import { SaleModule } from '../sale/sale.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from '../product/product.module';
 import { StoreModule } from '../store/store.module';
@@ -17,6 +18,7 @@ import { SealController } from './seal.controller';
     ProductModule,
     StoreModule,
     UserModule,
+    forwardRef(() => SaleModule),
   ],
   controllers: [SealController],
   providers: [

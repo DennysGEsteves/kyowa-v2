@@ -2,12 +2,9 @@
 
 import { useStockDetailQuery } from "@/api/Stock/stock.query";
 import { Modal } from "@/components/Modal";
-import {
-  sealNumberTagClass,
-  sealStatusBadgeClass,
-  sealStatusLabels,
-  type Stock,
-} from "@entities";
+import { SealNumberTag } from "@/components/SealNumberTag";
+import { SealStatusBadge } from "@/components/SealStatusBadge";
+import type { Stock } from "@entities";
 
 type StockSealsDialogProps = {
   open: boolean;
@@ -52,10 +49,8 @@ export function StockSealsDialog({
               key={seal.id}
               className="flex items-center justify-between gap-3 px-3 py-2.5"
             >
-              <span className={sealNumberTagClass}>{seal.number}</span>
-              <span className={sealStatusBadgeClass[seal.status]}>
-                {sealStatusLabels[seal.status]}
-              </span>
+              <SealNumberTag number={seal.number} />
+              <SealStatusBadge status={seal.status} />
             </li>
           ))}
         </ul>

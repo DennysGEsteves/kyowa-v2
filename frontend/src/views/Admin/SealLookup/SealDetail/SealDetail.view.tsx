@@ -2,7 +2,7 @@
 
 import { AdminFormLayout } from "@/app/(layout)/AdminFormLayout";
 import { routes } from "@routes";
-import { sealNumberTagClass } from "@entities";
+import { SealNumberTag } from "@/components/SealNumberTag";
 import { SealDetailEditForm } from "./SealDetail.form";
 import { SealHistoryTimeline } from "./SealDetail.timeline";
 import { useSealDetailLogic } from "./SealDetail.logic";
@@ -52,7 +52,7 @@ export function SealDetailView({ sealId }: SealDetailViewProps) {
           <h2 className="font-serif text-xl text-kyowa-ink sm:text-2xl">
             Lacre
           </h2>
-          <span className={sealNumberTagClass}>{seal.number}</span>
+          <SealNumberTag number={seal.number} />
         </div>
       </div>
 

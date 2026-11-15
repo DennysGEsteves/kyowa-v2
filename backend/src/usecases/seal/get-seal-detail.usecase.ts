@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { SealDetail } from '../../entities/seal';
+import { SaleType } from '../../entities/sale/types/sale-type';
 import {
   IProductRepository,
   PRODUCT_REPOSITORY,
@@ -12,6 +13,10 @@ import {
   IStoreRepository,
   STORE_REPOSITORY,
 } from '../../repositories/store/interfaces/i-store-repository';
+import {
+  ISaleRepository,
+  SALE_REPOSITORY,
+} from '../../repositories/sale/interfaces/i-sale-repository';
 import {
   IUserRepository,
   USER_REPOSITORY,
@@ -29,6 +34,8 @@ export class GetSealDetailUseCase {
     private readonly storeRepository: IStoreRepository,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
+    @Inject(SALE_REPOSITORY)
+    private readonly saleRepository: ISaleRepository,
   ) {}
 
   async execute(id: string): Promise<SealDetail> {
@@ -79,11 +86,29 @@ export class GetSealDetailUseCase {
       return name;
     };
 
+    const saleRefs = new Map<
+      string,
+      { type: SaleType; sequentialId: number | null } | null
+    >();
+    const resolveSaleCheckoutRef = async (saleId: string) => {
+      if (!saleRefs.has(saleId)) {
+        const sale = await this.saleRepository.findById(saleId);
+        saleRefs.set(
+          saleId,
+          sale
+            ? { type: sale.type, sequentialId: sale.sequentialId ?? null }
+            : null,
+        );
+      }
+      return saleRefs.get(saleId) ?? null;
+    };
+
     const history = await buildSealHistoryView(
       seal,
       resolveUserName,
       resolveStoreName,
       resolveProductName,
+      resolveSaleCheckoutRef,
     );
 
     return {

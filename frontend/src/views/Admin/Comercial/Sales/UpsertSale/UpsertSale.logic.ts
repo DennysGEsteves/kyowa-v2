@@ -3,6 +3,9 @@ import { useInvalidateSalesQuery } from "@/api/Sales/sales.query";
 import { useProductLookupQuery } from "@/api/ProductLookups/product-lookups.query";
 import { useProductsQuery } from "@/api/Products/products.query";
 import { useClientStoreArchitectLookups } from "@/hooks/useClientStoreArchitectLookups";
+import { buildSaleHistoryItems } from "@/components/SaleHistoryTimeline";
+import { productDisplayName } from "@/utils/saleCheckoutDisplay";
+import { buildSalesLookups } from "../Sales.lookups";
 import { useUsersQuery } from "@/api/Users/users.query";
 import { routes } from "@routes";
 import type { Sale } from "@entities";
@@ -33,7 +36,8 @@ export function useUpsertSalesLogic({
   const { salesApi } = useApi();
   const invalidateSales = useInvalidateSalesQuery();
   const router = useRouter();
-  const { clients, stores, architects } = useClientStoreArchitectLookups();
+  const { clients, stores, architects, lookups: baseLookups } =
+    useClientStoreArchitectLookups();
   const { data: users = [] } = useUsersQuery();
   const { data: categories = [] } = useProductLookupQuery("categories");
   const { data: products = [] } = useProductsQuery();
@@ -70,6 +74,25 @@ export function useUpsertSalesLogic({
       ""
     );
   }, [sale, architects]);
+
+  const historyLookups = useMemo(() => {
+    const productById = new Map(products.map((product) => [product.id, product]));
+    return {
+      ...buildSalesLookups(baseLookups, users),
+      getProductName: (id: string | undefined) => {
+        if (!id) {
+          return "—";
+        }
+        const product = productById.get(id);
+        return product ? productDisplayName(product) : "—";
+      },
+    };
+  }, [baseLookups, users, products]);
+
+  const historyItems = useMemo(
+    () => buildSaleHistoryItems(sale, users),
+    [sale, users],
+  );
 
   const categoryOptions = useMemo(
     () =>
@@ -126,6 +149,8 @@ export function useUpsertSalesLogic({
     architectDisplayValue,
     categoryOptions,
     products,
+    historyItems,
+    historyLookups,
     navigateBack,
     listHref,
     title: sale ? "Editar venda" : "Nova venda",

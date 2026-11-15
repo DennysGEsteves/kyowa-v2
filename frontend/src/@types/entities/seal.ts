@@ -1,4 +1,11 @@
-export type SealStatus = "stock" | "sale" | "consignment" | "budget";
+export type SealStatus = "stock" | "sale";
+
+/** Valores legados no banco exibidos como venda. */
+const LEGACY_SALE_STATUSES = new Set(["sale", "consignment", "budget"]);
+
+export function normalizeSealStatus(status: string): SealStatus {
+  return LEGACY_SALE_STATUSES.has(status) ? "sale" : "stock";
+}
 
 export type StockSealItem = {
   id: string;
@@ -43,20 +50,4 @@ export type SealDetail = {
 export const sealStatusLabels: Record<SealStatus, string> = {
   stock: "Estoque",
   sale: "Venda",
-  consignment: "Consignação",
-  budget: "Orçamento",
-};
-
-export const sealNumberTagClass =
-  "inline-flex items-center rounded-sm border border-kyowa-border bg-kyowa-surface px-2 py-1 text-sm font-medium text-kyowa-ink";
-
-export const sealStatusBadgeClass: Record<SealStatus, string> = {
-  stock:
-    "inline-flex rounded-sm border border-kyowa-border bg-kyowa-surface px-2 py-0.5 text-sm font-semibold text-kyowa-muted",
-  sale:
-    "inline-flex rounded-sm border border-sky-200 bg-sky-50 px-2 py-0.5 text-sm font-semibold text-sky-800",
-  consignment:
-    "inline-flex rounded-sm border border-orange-200 bg-orange-50 px-2 py-0.5 text-sm font-semibold text-orange-900",
-  budget:
-    "inline-flex rounded-sm border border-fuchsia-200 bg-fuchsia-50 px-2 py-0.5 text-sm font-semibold text-fuchsia-900",
 };

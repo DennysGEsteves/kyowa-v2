@@ -1,22 +1,130 @@
-import {
-  sealStatusBadgeClass,
-  sealStatusLabels,
-  type SealHistoryViewItem,
-} from "@entities";
+import Link from "next/link";
+import { SealStatusBadge } from "@/components/SealStatusBadge";
+import type { SealHistoryViewItem } from "@entities";
 import { formatDateTimeShort } from "@/utils/date";
+import { routes } from "@routes";
+import type { ReactNode } from "react";
 
 type SealHistoryTimelineProps = {
   items: SealHistoryViewItem[];
 };
 
 const SEAL_HISTORY_EVENT_CREATED = "created";
+const SEAL_HISTORY_EVENT_ASSIGNED = "assigned_to_sale_checkout";
+const SEAL_HISTORY_EVENT_RETURNED = "returned_to_stock";
+const SEAL_HISTORY_EVENT_CONVERTED = "consignment_converted_to_sale";
 
-function formatHistoryDetails(data: Record<string, unknown>): string[] {
+const saleRecordLinkClass =
+  "font-medium text-kyowa-maroon underline underline-offset-2 hover:text-kyowa-maroon/80";
+
+function saleKindLabel(saleType: unknown): string {
+  return saleType === "consignment" ? "Consignação" : "Venda";
+}
+
+function saleRecordTitle(saleType: unknown, sequentialId: unknown): string {
+  const kind = saleKindLabel(saleType);
+  if (typeof sequentialId === "number") {
+    return `${kind} #${sequentialId}`;
+  }
+  return kind;
+}
+
+function saleEditHref(saleId: string, saleType: unknown): string {
+  return saleType === "consignment"
+    ? routes.consignment.edit(saleId)
+    : routes.sales.edit(saleId);
+}
+
+function SaleCheckoutHistoryLink({
+  data,
+  action,
+}: {
+  data: Record<string, unknown>;
+  action: "linked" | "unlinked";
+}) {
+  const saleId = typeof data.saleId === "string" ? data.saleId : "";
+  if (!saleId) {
+    return (
+      <p className="text-sm text-kyowa-muted">
+        {action === "linked"
+          ? "Vinculado a um registro comercial"
+          : "Retornado ao estoque"}
+      </p>
+    );
+  }
+
+  const title = saleRecordTitle(data.saleType, data.saleSequentialId);
+  const href = saleEditHref(saleId, data.saleType);
+  const prefix =
+    action === "linked"
+      ? "Vinculado à"
+      : "Removido do checkout e devolvido ao estoque (era ";
+
+  if (action === "linked") {
+    return (
+      <p className="text-sm text-kyowa-muted">
+        {prefix}{" "}
+        <Link href={href} className={saleRecordLinkClass}>
+          {title}
+        </Link>
+      </p>
+    );
+  }
+
+  return (
+    <p className="text-sm text-kyowa-muted">
+      {prefix}
+      <Link href={href} className={saleRecordLinkClass}>
+        {title}
+      </Link>
+      )
+    </p>
+  );
+}
+
+function formatHistoryDetails(data: Record<string, unknown>): ReactNode[] {
   if (data.event === SEAL_HISTORY_EVENT_CREATED) {
     return ["Lacre criado"];
   }
 
-  const lines: string[] = [];
+  if (data.event === SEAL_HISTORY_EVENT_ASSIGNED) {
+    return [
+      <SaleCheckoutHistoryLink
+        key="sale-linked"
+        data={data}
+        action="linked"
+      />,
+    ];
+  }
+
+  if (data.event === SEAL_HISTORY_EVENT_RETURNED) {
+    return [
+      <SaleCheckoutHistoryLink
+        key="sale-unlinked"
+        data={data}
+        action="unlinked"
+      />,
+    ];
+  }
+
+  if (data.event === SEAL_HISTORY_EVENT_CONVERTED) {
+    const saleId = typeof data.saleId === "string" ? data.saleId : "";
+    if (!saleId) {
+      return ["Consignação convertida em venda"];
+    }
+    const title = saleRecordTitle("sale", data.saleSequentialId);
+    const href = routes.sales.edit(saleId);
+    return [
+      <p key="converted" className="text-sm text-kyowa-muted">
+        Consignação convertida em{" "}
+        <Link href={href} className={saleRecordLinkClass}>
+          {title}
+        </Link>
+      </p>,
+    ];
+  }
+
+  const lines: ReactNode[] = [];
 
   const previousNumber = data.previousNumber;
   const number = data.number;
@@ -78,15 +186,13 @@ export function SealHistoryTimeline({ items }: SealHistoryTimelineProps) {
               {formatDateTimeShort(item.createdAt)}
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-2">
-              <span className={sealStatusBadgeClass[item.status]}>
-                {sealStatusLabels[item.status]}
-              </span>
+              <SealStatusBadge status={item.status} />
               <span className="text-sm text-kyowa-ink">{item.userName}</span>
             </div>
             {details.length > 0 ? (
               <ul className="mt-1 space-y-0.5 text-sm text-kyowa-muted">
-                {details.map((line) => (
-                  <li key={line}>{line}</li>
+                {details.map((line, detailIndex) => (
+                  <li key={detailIndex}>{line}</li>
                 ))}
               </ul>
             ) : (

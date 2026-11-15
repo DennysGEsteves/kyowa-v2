@@ -11,11 +11,11 @@ import {
 import { getFormikFieldError } from "@/components/Form/formikField";
 import { formInputClass, formLabelClass } from "@/components/Form/FieldStyles";
 import { FormFieldError } from "@/components/Form/FormFieldError";
-import type { Product } from "@entities";
+import { normalizeSealStatus, type Product } from "@entities";
 import { formatCurrencyBRLFromNumber } from "@/utils/masks";
 import { useFormikContext } from "formik";
 import { Plus, Trash2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ConsignmentFormSchema } from "../../UpsertConsignment.schema";
 import { emptyCheckoutItem } from "../../UpsertConsignment.schema";
 import { formatSealLinkedProductLabel } from "../../UpsertConsignment.transform";
@@ -23,7 +23,16 @@ import { formatSealLinkedProductLabel } from "../../UpsertConsignment.transform"
 type SaleCheckoutSectionProps = {
   categoryOptions: FormSelectOption[];
   products: Product[];
+  isEdit?: boolean;
 };
+
+function isSealSelectableOnCheckout(status: string, isEdit: boolean): boolean {
+  const normalized = normalizeSealStatus(status);
+  if (normalized === "stock") {
+    return true;
+  }
+  return isEdit && normalized === "sale";
+}
 
 const checkoutFieldClass = "min-w-0";
 const checkoutInputClass = "bg-white";
@@ -46,9 +55,11 @@ function formatProductOptionLabel(product: Product): string {
 function CheckoutSealFields({
   index,
   products,
+  isEdit,
 }: {
   index: number;
   products: Product[];
+  isEdit: boolean;
 }) {
   const { values, errors, touched, submitCount, setFieldValue } =
     useFormikContext<ConsignmentFormSchema>();
@@ -65,12 +76,29 @@ function CheckoutSealFields({
   const line = values.checkout[index];
   const sealNumberRaw = String(line?.sealId ?? "").trim();
   const storeId = values.storeId;
+  const loadedSealNumberRef = useRef<string | null>(null);
+  if (
+    isEdit &&
+    loadedSealNumberRef.current === null &&
+    sealNumberRaw &&
+    line?.productId?.trim()
+  ) {
+    loadedSealNumberRef.current = sealNumberRaw;
+  }
 
   useEffect(() => {
     const parsed = Number(sealNumberRaw);
     if (!sealNumberRaw || !Number.isInteger(parsed) || parsed < 1) {
       setLookupHint(null);
       setIsLookingUp(false);
+      return;
+    }
+
+    if (
+      isEdit &&
+      loadedSealNumberRef.current === sealNumberRaw &&
+      line?.productId?.trim()
+    ) {
       return;
     }
 
@@ -84,11 +112,17 @@ function CheckoutSealFields({
         .then((results) => {
           if (cancelled) return;
 
-          const inStock = results.filter((item) => item.status === "stock");
+          const eligible = results.filter((item) =>
+            isSealSelectableOnCheckout(item.status, isEdit),
+          );
           const match =
-            inStock.find((item) => item.storeId === storeId) ?? inStock[0];
+            eligible.find((item) => item.storeId === storeId) ?? eligible[0];
 
           if (!match) {
+            if (isEdit && line?.productId?.trim()) {
+              setLookupHint(null);
+              return;
+            }
             void setFieldValue(`checkout.${index}.sealProductName`, "");
             void setFieldValue(`checkout.${index}.productId`, "");
             void setFieldValue(`checkout.${index}.value`, "");
@@ -110,7 +144,8 @@ function CheckoutSealFields({
             match.sellPrice ??
             products.find((entry) => entry.id === match.productId)?.sellPrice ??
             null;
-          if (sellPrice != null) {
+          const existingValue = line?.value?.trim() ?? "";
+          if (!existingValue && sellPrice != null) {
             void setFieldValue(
               `checkout.${index}.value`,
               formatCurrencyBRLFromNumber(sellPrice),
@@ -136,7 +171,7 @@ function CheckoutSealFields({
       cancelled = true;
       window.clearTimeout(timeout);
     };
-  }, [index, products, sealNumberRaw, setFieldValue, storeId]);
+  }, [index, isEdit, line?.productId, line?.value, products, sealNumberRaw, setFieldValue, storeId]);
 
   return (
     <div className="space-y-3">
@@ -299,6 +334,7 @@ function CheckoutCategoryField({
 export function SaleCheckoutSection({
   categoryOptions,
   products,
+  isEdit = false,
 }: SaleCheckoutSectionProps) {
   const { values, errors, touched, submitCount, setFieldValue } =
     useFormikContext<ConsignmentFormSchema>();
@@ -430,7 +466,11 @@ export function SaleCheckoutSection({
                     </div>
 
                     {line.hasSeal ? (
-                      <CheckoutSealFields index={index} products={products} />
+                      <CheckoutSealFields
+                        index={index}
+                        products={products}
+                        isEdit={isEdit}
+                      />
                     ) : (
                       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                         <CheckoutCategoryField

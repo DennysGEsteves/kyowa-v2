@@ -1,0 +1,1 @@
+export { SalePaidBadge, SalePaidBadgeForSale } from "./SalePaidBadge";

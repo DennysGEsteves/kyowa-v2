@@ -1,5 +1,12 @@
 export type SaleType = "sale" | "consignment";
 
+export type SaleHistoryItem = {
+  userId: string;
+  createdAt: string;
+  userName: string;
+  data: Record<string, unknown>;
+};
+
 export type SalePaymentMethod =
   | "money"
   | "debit"
@@ -38,6 +45,12 @@ export type Sale = {
   paymentMethod: SalePaymentMethod | null;
   paidAt: string | null;
   checkout: SaleCheckoutItem[];
+  history: SaleHistoryItem[];
+};
+
+export const saleTypeLabels: Record<SaleType, string> = {
+  sale: "Venda",
+  consignment: "Consignação",
 };
 
 export const salePaymentMethodLabels: Record<SalePaymentMethod, string> = {
@@ -67,12 +80,6 @@ export const salePaymentMethods: SalePaymentMethod[] = [
 export function isSaleClosed(sale: Pick<Sale, "paidAt">): boolean {
   return sale.paidAt != null && sale.paidAt !== "";
 }
-
-export const saleOpenBadgeClass =
-  "inline-flex rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-sm font-semibold text-sky-800";
-
-export const saleClosedBadgeClass =
-  "inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-sm font-semibold text-emerald-800";
 
 export function sumSaleCheckoutTotal(checkout: SaleCheckoutItem[]): number {
   return checkout.reduce((sum, item) => sum + (item.value ?? 0), 0);

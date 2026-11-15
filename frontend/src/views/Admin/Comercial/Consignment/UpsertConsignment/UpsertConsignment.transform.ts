@@ -81,7 +81,7 @@ export function saleToFormValues(
             ? formatSealLinkedProductLabel(
                 item.productId,
                 product?.name ?? "",
-                product?.sellPrice ?? null,
+                item.value ?? product?.sellPrice ?? null,
                 products,
               )
             : "",

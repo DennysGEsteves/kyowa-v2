@@ -1,13 +1,9 @@
 import { ActionButton } from "@/components/Form/ActionButton";
+import { SealNumberTag } from "@/components/SealNumberTag";
+import { SealStatusBadge } from "@/components/SealStatusBadge";
 import type { TableColumn } from "@/components/Table";
 import { currencyFieldLabel } from "@/utils/masks";
-import {
-  formatProductPrice,
-  sealNumberTagClass,
-  sealStatusBadgeClass,
-  sealStatusLabels,
-  type SealSearchItem,
-} from "@entities";
+import { formatProductPrice, type SealSearchItem } from "@entities";
 
 export type SealLookupTableColumn = TableColumn<SealSearchItem>;
 
@@ -19,9 +15,7 @@ export const getSealLookupTableColumns = (
     header: "Número",
     accessorKey: "number",
     mobile: { role: "title" },
-    render: (item) => (
-      <span className={sealNumberTagClass}>{item.number}</span>
-    ),
+    render: (item) => <SealNumberTag number={item.number} />,
   },
   {
     id: "product",
@@ -46,11 +40,7 @@ export const getSealLookupTableColumns = (
     id: "status",
     header: "Status",
     mobile: { role: "field", label: "Status" },
-    render: (item) => (
-      <span className={sealStatusBadgeClass[item.status]}>
-        {sealStatusLabels[item.status]}
-      </span>
-    ),
+    render: (item) => <SealStatusBadge status={item.status} />,
   },
   {
     id: "actions",

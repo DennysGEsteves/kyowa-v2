@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 import {
   SALE_PAYMENT_METHODS,
   SalePaymentMethod,
@@ -32,6 +32,22 @@ export class SaleCheckoutEntryDocument {
 
 export const SaleCheckoutEntrySchema = SchemaFactory.createForClass(
   SaleCheckoutEntryDocument,
+);
+
+@Schema({ _id: false })
+export class SaleHistoryEntryDocument {
+  @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
+  userId!: Types.ObjectId;
+
+  @Prop({ required: true, type: Date })
+  createdAt!: Date;
+
+  @Prop({ type: MongooseSchema.Types.Mixed, default: {} })
+  data!: Record<string, unknown>;
+}
+
+export const SaleHistoryEntrySchema = SchemaFactory.createForClass(
+  SaleHistoryEntryDocument,
 );
 
 export type SaleDocument = HydratedDocument<Sale>;
@@ -82,6 +98,9 @@ export class Sale {
 
   @Prop({ type: [SaleCheckoutEntrySchema], default: [] })
   checkout!: SaleCheckoutEntryDocument[];
+
+  @Prop({ type: [SaleHistoryEntrySchema], default: [] })
+  history!: SaleHistoryEntryDocument[];
 
   @Prop({ required: true, type: Date })
   createdAt!: Date;
