@@ -12,8 +12,7 @@ type SealStatusBadgeProps = {
 const statusBadgeClass: Record<SealStatus, string> = {
   stock:
     "inline-flex rounded-sm border border-kyowa-border bg-kyowa-surface px-2 py-0.5 text-sm font-semibold text-kyowa-muted",
-  sale:
-    "inline-flex rounded-sm border border-sky-200 bg-sky-50 px-2 py-0.5 text-sm font-semibold text-sky-800",
+  sale: "inline-flex rounded-sm border border-sky-200 bg-sky-50 px-2 py-0.5 text-sm font-semibold text-sky-800",
 };
 
 export function SealStatusBadge({
@@ -24,7 +23,7 @@ export function SealStatusBadge({
 
   return (
     <span
-      className={`${statusBadgeClass[normalized]}${compact ? " !px-2 !py-0.5" : ""}`}
+      className={`${statusBadgeClass[normalized]}${compact ? " px-2! py-0.5!" : ""}`}
     >
       {sealStatusLabels[normalized]}
     </span>
